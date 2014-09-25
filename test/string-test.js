@@ -96,6 +96,36 @@ describe( "format()" , function() {
 
 
 
+describe( "inspect()" , function() {
+	
+	var inspect = string.inspect ;
+	
+	var object = {
+		a: 'A' ,
+		b: 2
+	} ;
+	
+	Object.defineProperties( object , {
+		c: { value: '3' }
+	} ) ;
+	
+	/*
+	it( "should" , function() {
+		console.log( 'inspect: ' , inspect( true ) ) ;
+		console.log( 'inspect: ' , inspect( { color: true } , true ) ) ;
+		console.log( 'inspect: ' , inspect( { html: true } , true ) ) ;
+	} ) ;
+	*/
+	
+	it( "should" , function() {
+		console.log( 'inspect: ' , inspect( object ) ) ;
+		console.log( 'inspect: ' , inspect( { color: true } , object ) ) ;
+		//console.log( 'inspect: ' , inspect( { html: true } , object ) ) ;
+	} ) ;
+} ) ;
+
+
+
 describe( "Escape" , function() {
 	it( "escape.regExp" ) ;
 	it( "escape.shellArg" ) ;
