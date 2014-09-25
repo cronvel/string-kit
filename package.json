@@ -1,0 +1,31 @@
+{
+  "name": "string-kit",
+  "version": "0.0.1",
+  "description": "A string manipulation toolbox.",
+  "main": "lib/string.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "expect.js": "~0.3.1",
+    "jshint": "^2.5.6",
+    "mocha": "^1.21.4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cronvel/string-kit.git"
+  },
+  "keywords": [
+    "string",
+    "manipulation"
+  ],
+  "author": "Cédric Ronvel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cronvel/string-kit/issues"
+  }
+}
