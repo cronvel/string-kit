@@ -106,7 +106,11 @@ describe( "inspect()" , function() {
 	} ;
 	
 	Object.defineProperties( object , {
-		c: { value: '3' }
+		c: { value: '3' } ,
+		d: {
+			get: function() { return 'Dee' ; } ,
+			set: function( value ) {}
+		}
 	} ) ;
 	
 	/*
