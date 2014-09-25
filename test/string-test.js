@@ -43,6 +43,14 @@ describe( "format()" , function() {
 	
 	var format = string.format ;
 	
+	it( "should perform basic examples" , function() {
+		
+		expect( format( 'Hello world' ) ).to.be( 'Hello world' ) ;
+		expect( format( 'Hello %s' , 'world' ) ).to.be( 'Hello world' ) ;
+		expect( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ).to.be( 'Hello Joe Doe, how are you?' ) ;
+		expect( format( 'I have %i cookies.' , 3 ) ).to.be( 'I have 3 cookies.' ) ;
+	} ) ;
+	
 	it( "%u should format unsigned integer" , function() {
 		
 		expect( format( '%u' , 123 ) ).to.be( '123' ) ;
@@ -59,11 +67,11 @@ describe( "format()" , function() {
 		expect( format( '%U' ) ).to.be( '1' ) ;
 	} ) ;
 	
-	it( "should" , function() {
+	it( "should perform well the argument's number feature" , function() {
 		
-		expect( format( 'ABC: %s%s%s' , 'A' , 'B' , 'C' ) ) ;
-		expect( format( 'BAC: %+1s%-1s%s' , 'A' , 'B' , 'C' ) ) ;
-		expect( format( 'CBC: %3s%s' , 'A' , 'B' , 'C' ) ) ;
+		expect( format( '%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'ABC' ) ;
+		expect( format( '%+1s%-1s%s' , 'A' , 'B' , 'C' ) ).to.be( 'BAC' ) ;
+		expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
 	} ) ;
 	
 	it( "format.count() should count the number of arguments found" , function() {
@@ -85,5 +93,14 @@ describe( "format()" , function() {
 		expect( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
 	} ) ;
 } ) ;
+
+
+
+describe( "Escape" , function() {
+	it( "escape.regExp" ) ;
+	it( "escape.shellArg" ) ;
+} ) ;
+	
+
 
 
