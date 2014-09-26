@@ -104,11 +104,14 @@ describe( "inspect()" , function() {
 		a: 'A' ,
 		b: 2 ,
 		sub: {
-			e: 'ee' ,
-			f: 6
+			u: undefined ,
+			n: null ,
+			t: true ,
+			f: false
 		} ,
 		empty: {} ,
-		list: [ 'one','two','three' ]
+		list: [ 'one','two','three' ] ,
+		emptyList: []
 	} ;
 	
 	object.sub.circular = object ;
@@ -133,9 +136,8 @@ describe( "inspect()" , function() {
 	
 	//*
 	it( "should" , function() {
-		//console.log( 'inspect: ' , inspect( object ) ) ;
-		console.log( 'inspect: ' , inspect( { color: true, proto: true, depth: 10 } , object ) ) ;
-		//console.log( 'inspect: ' , inspect( { html: true } , object ) ) ;
+		console.log( 'inspect: ' , inspect( { proto: true, depth: 3 } , object ) ) ;
+		console.log( 'inspect: ' , inspect( { style: 'color', proto: true, depth: 3 } , object ) ) ;
 	} ) ;
 	//*/
 } ) ;
