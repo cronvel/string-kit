@@ -102,9 +102,18 @@ describe( "inspect()" , function() {
 	
 	var object = {
 		a: 'A' ,
-		b: 2
+		b: 2 ,
+		sub: {
+			e: 'ee' ,
+			f: 6
+		} ,
+		empty: {} ,
+		list: [ 'one','two','three' ]
 	} ;
 	
+	object.sub.circular = object ;
+	
+	/*
 	Object.defineProperties( object , {
 		c: { value: '3' } ,
 		d: {
@@ -112,20 +121,23 @@ describe( "inspect()" , function() {
 			set: function( value ) {}
 		}
 	} ) ;
+	//*/
 	
 	/*
 	it( "should" , function() {
 		console.log( 'inspect: ' , inspect( true ) ) ;
 		console.log( 'inspect: ' , inspect( { color: true } , true ) ) ;
-		console.log( 'inspect: ' , inspect( { html: true } , true ) ) ;
+		//console.log( 'inspect: ' , inspect( { html: true } , true ) ) ;
 	} ) ;
-	*/
+	//*/
 	
+	//*
 	it( "should" , function() {
-		console.log( 'inspect: ' , inspect( object ) ) ;
-		console.log( 'inspect: ' , inspect( { color: true } , object ) ) ;
+		//console.log( 'inspect: ' , inspect( object ) ) ;
+		console.log( 'inspect: ' , inspect( { color: true, proto: true, depth: 10 } , object ) ) ;
 		//console.log( 'inspect: ' , inspect( { html: true } , object ) ) ;
 	} ) ;
+	//*/
 } ) ;
 
 
