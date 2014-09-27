@@ -96,6 +96,23 @@ describe( "format()" , function() {
 
 
 
+describe( "Escape" , function() {
+	
+	it( "escape.literal() should escape controle characters accordingly" , function() {
+		expect( string.escape.literal( 'Hello\n\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
+		expect( string.escape.literal( 'Hello\\n\\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
+		expect( string.escape.literal( 'Hello\\\n\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
+		expect( string.escape.literal( 'Hello\\\\n\\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
+		
+		expect( string.escape.literal( 'Nasty\x00chars\x1bhere' ) ).to.be( 'Nasty\\x00chars\\x1bhere' ) ;
+	} ) ;
+	
+	it( "escape.regExp()" ) ;
+	it( "escape.shellArg()" ) ;
+} ) ;
+
+
+
 describe( "inspect()" , function() {
 	
 	var inspect = string.inspect ;
@@ -147,11 +164,10 @@ describe( "inspect()" , function() {
 
 
 
-describe( "Escape" , function() {
 	it( "escape.regExp" ) ;
 	it( "escape.shellArg" ) ;
-} ) ;
 	
 
 
 
+ 
