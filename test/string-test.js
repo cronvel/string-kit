@@ -103,6 +103,7 @@ describe( "inspect()" , function() {
 	var object = {
 		a: 'A' ,
 		b: 2 ,
+		str: 'Woot\nWoot\rWoot\tWoot' ,
 		sub: {
 			u: undefined ,
 			n: null ,
@@ -111,16 +112,18 @@ describe( "inspect()" , function() {
 		} ,
 		empty: {} ,
 		list: [ 'one','two','three' ] ,
-		emptyList: []
+		emptyList: [] ,
+		hello: function hello() { console.log( 'Hello!' ) ; } ,
+		anonymous: function() { console.log( 'anonymous...' ) ; }
 	} ;
 	
 	object.sub.circular = object ;
 	
-	/*
+	//*
 	Object.defineProperties( object , {
 		c: { value: '3' } ,
 		d: {
-			get: function() { return 'Dee' ; } ,
+			get: function() { throw new Error( 'Should not be called by the test' ) ; return 'Dee' ; } ,
 			set: function( value ) {}
 		}
 	} ) ;
@@ -136,8 +139,8 @@ describe( "inspect()" , function() {
 	
 	//*
 	it( "should" , function() {
-		console.log( 'inspect: ' , inspect( { proto: true, depth: 3 } , object ) ) ;
-		console.log( 'inspect: ' , inspect( { style: 'color', proto: true, depth: 3 } , object ) ) ;
+		console.log( 'inspect: ' , inspect( { proto: true, depth: 5 } , object ) ) ;
+		console.log( 'inspect: ' , inspect( { style: 'color', proto: true, depth: 5 } , object ) ) ;
 	} ) ;
 	//*/
 } ) ;
