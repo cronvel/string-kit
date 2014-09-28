@@ -82,12 +82,25 @@ escape.shellArg() should escape a string so that it will be suitable as a shell 
 expect( string.escape.shellArg( "Here's my shell's argument" ) ).to.be( "'Here'\\''s my shell'\\''s argument'" ) ;
 ```
 
-escape.regExp() should escape a string so that it will be suitable as a literal string into a regular expression.
+escape.regExp() should escape a string so that it will be suitable as a literal string into a regular expression pattern.
 
 ```js
 //console.log( 'String in RegExp:' , string.escape.regExp( "(This) {is} [my] ^$tring^... +doesn't+ *it*? |yes| \\no\\ /maybe/" ) ) ;
 expect( string.escape.regExp( "(This) {is} [my] ^$tring^... +doesn't+ *it*? |yes| \\no\\ /maybe/" ) )
 	.to.be( "\\(This\\) \\{is\\} \\[my\\] \\^\\$tring\\^\\.\\.\\. \\+doesn't\\+ \\*it\\*\\? \\|yes\\| \\\\no\\\\ \\/maybe\\/" ) ;
+```
+
+escape.regExpReplacement() should escape a string so that it will be suitable as a literal string into a regular expression replacement.
+
+```js
+expect( string.escape.regExpReplacement( "$he love$ dollar$ $$$" ) ).to.be( "$$he love$$ dollar$$ $$$$$$" ) ;
+
+expect(
+	'$he love$ dollar$ $$$'.replace(
+		new RegExp( string.escape.regExp( '$' ) , 'g' ) ,
+		string.escape.regExpReplacement( '$1' )
+	) 
+).to.be( "$1he love$1 dollar$1 $1$1$1" ) ;
 ```
 
 escape.html() should escape a string so that it will be suitable as HTML content.
@@ -97,7 +110,7 @@ escape.html() should escape a string so that it will be suitable as HTML content
 expect( string.escape.html( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn't \"R&amp;D\"" ) ;
 ```
 
-escape.htmlAttr() should escape a string so that it will be suitable as an HTML tag attribute.
+escape.htmlAttr() should escape a string so that it will be suitable as an HTML tag attribute's value.
 
 ```js
 //console.log( string.escape.htmlAttr( "<This> isn't \"R&D\"" ) ) ;

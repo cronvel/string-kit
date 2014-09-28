@@ -2,10 +2,11 @@
 
 # String Kit
 
-A string manipulation toolbox.
+A string manipulation toolbox, featuring a string formater (inspired by printf), a variable inspector
+(output featuring ANSI color and HTML) and various escape function (shell argument, regexp, html, etc).
 
 * License: MIT
-* Current status: early alpha
+* Current status: beta
 * Platform: Node.js only (browser support is planned)
 
 
@@ -15,6 +16,81 @@ A string manipulation toolbox.
 Use Node Package Manager:
 
     npm install string-kit
+
+
+
+# Escape functions collection
+
+## .escape.shellArg( str )
+
+* str `String` the string to filter
+
+It escapes the string so that it will be suitable as a shell command's argument.
+
+
+
+## .escape.regExp( str ) , .escape.regExpPattern( str ) 
+
+* str `String` the string to filter
+
+It escapes the string so that it will be suitable to inject it in a regular expression's pattern as a literal string.
+
+Example of a search and replace from a user's input:
+```js
+var result = data.replace(
+	new RegExp( stringKit.escape.regExp( userInputSearch ) , 'g' ) ,
+	stringKit.escape.regExpReplacement( userInputReplace )
+) ;
+```
+
+
+
+## .escape.regExpReplacement( str )
+
+* str `String` the string to filter
+
+It escapes the string so that it will be suitable as a literal string for a regular expression's replacement.
+
+
+
+## .escape.html( str )
+
+* str `String` the string to filter
+
+It escapes the string so that it will be suitable as HTML content.
+
+Only  `< > &` are replaced by HTML entities.
+
+
+
+## .escape.htmlAttr( str )
+
+* str `String` the string to filter
+
+It escapes the string so that it will be suitable as an HTML tag attribute's value.
+
+Only  `< > & "` are replaced by HTML entities.
+
+It assumes valid HTML: the attribute's value should be into double quote, not in single quote.
+
+
+
+## .escape.htmlSpecialChars( str )
+
+* str `String` the string to filter
+
+It escapes all HTML special characters, `< > & " '` are replaced by HTML entities.
+
+
+
+## .escape.control( str )
+
+* str `String` the string to filter
+
+It escapes all ASCII control characters (code lesser than or equals to 0x1F, or *backspace*).
+
+*Carriage return*, *newline* and *tabulation* are respectively replaced by `\r`, `\n` and `\t`.
+Other characters are replaced by the unicode notation, e.g. `NUL` is replaced by `\x00`.
 
 
 

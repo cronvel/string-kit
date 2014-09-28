@@ -112,10 +112,21 @@ describe( "Escape collection" , function() {
 		expect( string.escape.shellArg( "Here's my shell's argument" ) ).to.be( "'Here'\\''s my shell'\\''s argument'" ) ;
 	} ) ;
 	
-	it( "escape.regExp() should escape a string so that it will be suitable as a literal string into a regular expression" , function() {
+	it( "escape.regExp() should escape a string so that it will be suitable as a literal string into a regular expression pattern" , function() {
 		//console.log( 'String in RegExp:' , string.escape.regExp( "(This) {is} [my] ^$tring^... +doesn't+ *it*? |yes| \\no\\ /maybe/" ) ) ;
 		expect( string.escape.regExp( "(This) {is} [my] ^$tring^... +doesn't+ *it*? |yes| \\no\\ /maybe/" ) )
 			.to.be( "\\(This\\) \\{is\\} \\[my\\] \\^\\$tring\\^\\.\\.\\. \\+doesn't\\+ \\*it\\*\\? \\|yes\\| \\\\no\\\\ \\/maybe\\/" ) ;
+	} ) ;
+	
+	it( "escape.regExpReplacement() should escape a string so that it will be suitable as a literal string into a regular expression replacement" , function() {
+		expect( string.escape.regExpReplacement( "$he love$ dollar$ $$$" ) ).to.be( "$$he love$$ dollar$$ $$$$$$" ) ;
+		
+		expect(
+			'$he love$ dollar$ $$$'.replace(
+				new RegExp( string.escape.regExp( '$' ) , 'g' ) ,
+				string.escape.regExpReplacement( '$1' )
+			) 
+		).to.be( "$1he love$1 dollar$1 $1$1$1" ) ;
 	} ) ;
 	
 	it( "escape.html() should escape a string so that it will be suitable as HTML content" , function() {
@@ -123,7 +134,7 @@ describe( "Escape collection" , function() {
 		expect( string.escape.html( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn't \"R&amp;D\"" ) ;
 	} ) ;
 	
-	it( "escape.htmlAttr() should escape a string so that it will be suitable as an HTML tag attribute" , function() {
+	it( "escape.htmlAttr() should escape a string so that it will be suitable as an HTML tag attribute's value" , function() {
 		//console.log( string.escape.htmlAttr( "<This> isn't \"R&D\"" ) ) ;
 		expect( string.escape.htmlAttr( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn't &quot;R&amp;D&quot;" ) ;
 	} ) ;
