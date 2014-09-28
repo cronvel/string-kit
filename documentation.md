@@ -19,9 +19,24 @@ Use Node Package Manager:
 
 
 
-# Escape functions collection
+# Reference
 
-## .escape.shellArg( str )
+* [.escape.shellArg()](#ref.escape.shellArg)
+* [.escape.regExp()](#ref.escape.regExp)
+* [.escape.regExpPattern()](#ref.escape.regExp)
+* [.escape.regExpReplacement()](#ref.escape.regExpReplacement)
+* [.escape.html()](#ref.escape.html)
+* [.escape.htmlAttr()](#ref.escape.htmlAttr)
+* [.escape.htmlSpecialChars()](#ref.escape.htmlSpecialChars)
+* [.escape.control()](#ref.escape.control)
+
+
+
+## Escape functions collection
+
+
+<a name="ref.escape.shellArg"></a>
+### .escape.shellArg( str )
 
 * str `String` the string to filter
 
@@ -29,7 +44,8 @@ It escapes the string so that it will be suitable as a shell command's argument.
 
 
 
-## .escape.regExp( str ) , .escape.regExpPattern( str ) 
+<a name="ref.escape.regExp"></a>
+### .escape.regExp( str ) , .escape.regExpPattern( str ) 
 
 * str `String` the string to filter
 
@@ -45,7 +61,8 @@ var result = data.replace(
 
 
 
-## .escape.regExpReplacement( str )
+<a name="ref.escape.regExpReplacement"></a>
+### .escape.regExpReplacement( str )
 
 * str `String` the string to filter
 
@@ -53,7 +70,8 @@ It escapes the string so that it will be suitable as a literal string for a regu
 
 
 
-## .escape.html( str )
+<a name="ref.escape.html"></a>
+### .escape.html( str )
 
 * str `String` the string to filter
 
@@ -63,7 +81,8 @@ Only  `< > &` are replaced by HTML entities.
 
 
 
-## .escape.htmlAttr( str )
+<a name="ref.escape.htmlAttr"></a>
+### .escape.htmlAttr( str )
 
 * str `String` the string to filter
 
@@ -75,7 +94,8 @@ It assumes valid HTML: the attribute's value should be into double quote, not in
 
 
 
-## .escape.htmlSpecialChars( str )
+<a name="ref.escape.htmlSpecialChars"></a>
+### .escape.htmlSpecialChars( str )
 
 * str `String` the string to filter
 
@@ -83,7 +103,8 @@ It escapes all HTML special characters, `< > & " '` are replaced by HTML entitie
 
 
 
-## .escape.control( str )
+<a name="ref.escape.control"></a>
+### .escape.control( str )
 
 * str `String` the string to filter
 
