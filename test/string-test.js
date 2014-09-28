@@ -96,7 +96,7 @@ describe( "format()" , function() {
 
 
 
-describe( "Escape" , function() {
+describe( "Escape collection" , function() {
 	
 	it( "escape.control() should escape control characters" , function() {
 		expect( string.escape.control( 'Hello\n\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
@@ -107,69 +107,88 @@ describe( "Escape" , function() {
 		expect( string.escape.control( 'Nasty\x00chars\x1bhere\x7f!' ) ).to.be( 'Nasty\\x00chars\\x1bhere\\x7f!' ) ;
 	} ) ;
 	
-	it( "escape.regExp()" ) ;
-	it( "escape.shellArg()" ) ;
+	it( "escape.shellArg() should escape a string so that it will be suitable as a shell command's argument" , function() {
+		//console.log( 'Shell arg:' , string.escape.shellArg( "Here's my shell's argument" ) ) ;
+		expect( string.escape.shellArg( "Here's my shell's argument" ) ).to.be( "'Here'\\''s my shell'\\''s argument'" ) ;
+	} ) ;
+	
+	it( "escape.regExp() should escape a string so that it will be suitable as a literal string into a regular expression" , function() {
+		//console.log( 'String in RegExp:' , string.escape.regExp( "(This) {is} [my] ^$tring^... +doesn't+ *it*? |yes| \\no\\ /maybe/" ) ) ;
+		expect( string.escape.regExp( "(This) {is} [my] ^$tring^... +doesn't+ *it*? |yes| \\no\\ /maybe/" ) )
+			.to.be( "\\(This\\) \\{is\\} \\[my\\] \\^\\$tring\\^\\.\\.\\. \\+doesn't\\+ \\*it\\*\\? \\|yes\\| \\\\no\\\\ \\/maybe\\/" ) ;
+	} ) ;
+	
+	it( "escape.html() should escape a string so that it will be suitable as HTML content" , function() {
+		//console.log( string.escape.html( "<This> isn't \"R&D\"" ) ) ;
+		expect( string.escape.html( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn't \"R&amp;D\"" ) ;
+	} ) ;
+	
+	it( "escape.htmlAttr() should escape a string so that it will be suitable as an HTML tag attribute" , function() {
+		//console.log( string.escape.htmlAttr( "<This> isn't \"R&D\"" ) ) ;
+		expect( string.escape.htmlAttr( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn't &quot;R&amp;D&quot;" ) ;
+	} ) ;
+	
+	it( "escape.htmlSpecialChars() should escape all HTML special characters" , function() {
+		//console.log( string.escape.htmlSpecialChars( "<This> isn't \"R&D\"" ) ) ;
+		expect( string.escape.htmlSpecialChars( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn&#039;t &quot;R&amp;D&quot;" ) ;
+	} ) ;
 } ) ;
 
 
 
 describe( "inspect()" , function() {
 	
-	var inspect = string.inspect ;
-	
-	var MyClass = function MyClass() {
-		this.variable = 1 ;
-	} ;
-	
-	MyClass.prototype.report = function report() { console.log( 'Variable value:' , this.variable ) ; }
-	MyClass.staticFunc = function staticFunc() { console.log( 'Static function.' ) ; }
-	
-	var object = {
-		a: 'A' ,
-		b: 2 ,
-		str: 'Woot\nWoot\rWoot\tWoot' ,
-		sub: {
-			u: undefined ,
-			n: null ,
-			t: true ,
-			f: false
-		} ,
-		empty: {} ,
-		list: [ 'one','two','three' ] ,
-		emptyList: [] ,
-		hello: function hello() { console.log( 'Hello!' ) ; } ,
-		anonymous: function() { console.log( 'anonymous...' ) ; } ,
-		class: MyClass ,
-		instance: new MyClass() ,
-		buf: new Buffer( 'This is a buffer!' )
-	} ;
-	
-	object.sub.circular = object ;
-	
-	//*
-	Object.defineProperties( object , {
-		c: { value: '3' } ,
-		d: {
-			get: function() { throw new Error( 'Should not be called by the test' ) ; return 'Dee' ; } ,
-			set: function( value ) {}
-		}
+	it( "should inspect a variable with default options accordingly" , function() {
+		
+		var MyClass = function MyClass() {
+			this.variable = 1 ;
+		} ;
+		
+		MyClass.prototype.report = function report() { console.log( 'Variable value:' , this.variable ) ; } ;
+		MyClass.staticFunc = function staticFunc() { console.log( 'Static function.' ) ; } ;
+		
+		var sparseArray = [] ;
+		sparseArray[ 3 ] = 'three' ;
+		sparseArray[ 10 ] = 'ten' ;
+		sparseArray[ 20 ] = 'twenty' ;
+		sparseArray.customProperty = 'customProperty' ;
+		
+		var object = {
+			a: 'A' ,
+			b: 2 ,
+			str: 'Woot\nWoot\rWoot\tWoot' ,
+			sub: {
+				u: undefined ,
+				n: null ,
+				t: true ,
+				f: false
+			} ,
+			emptyString: '' ,
+			emptyObject: {} ,
+			list: [ 'one','two','three' ] ,
+			emptyList: [] ,
+			sparseArray: sparseArray ,
+			hello: function hello() { console.log( 'Hello!' ) ; } ,
+			anonymous: function() { console.log( 'anonymous...' ) ; } ,
+			class: MyClass ,
+			instance: new MyClass() ,
+			buf: new Buffer( 'This is a buffer!' )
+		} ;
+		
+		object.sub.circular = object ;
+		
+		Object.defineProperties( object , {
+			c: { value: '3' } ,
+			d: {
+				get: function() { throw new Error( 'Should not be called by the test' ) ; } ,
+				set: function( value ) {}
+			}
+		} ) ;
+		
+		//console.log( '>>>>>' , string.escape.control( string.inspect( object ) ) ) ;
+		//console.log( string.inspect( { style: 'color' } , object ) ) ;
+		expect( string.inspect( object ) ).to.be( '<Object> <object> {\n    a: "A" <string>(1)\n    b: 2 <number>\n    str: "Woot\\nWoot\\rWoot\\tWoot" <string>(19)\n    sub: <Object> <object> {\n        u: undefined\n        n: null\n        t: true\n        f: false\n        circular: <Object> <object> [circular]\n    }\n    emptyString: "" <string>(0)\n    emptyObject: <Object> <object> {}\n    list: <Array>(3) <object> {\n        [0] "one" <string>(3)\n        [1] "two" <string>(3)\n        [2] "three" <string>(5)\n        length: 3 <number> <-conf -enum>\n    }\n    emptyList: <Array>(0) <object> {\n        length: 0 <number> <-conf -enum>\n    }\n    sparseArray: <Array>(21) <object> {\n        [3] "three" <string>(5)\n        [10] "ten" <string>(3)\n        [20] "twenty" <string>(6)\n        length: 21 <number> <-conf -enum>\n        customProperty: "customProperty" <string>(14)\n    }\n    hello: <Function> hello(0) <function>\n    anonymous: <Function> (anonymous)(0) <function>\n    class: <Function> MyClass(0) <function>\n    instance: <MyClass> <object> {\n        variable: 1 <number>\n    }\n    buf: <Buffer 54 68 69 73 20 69 73 20 61 20 62 75 66 66 65 72 21> <Buffer>(17)\n    c: "3" <string>(1) <-conf -enum -w>\n    d: <getter/setter> {\n        get: <Function> (anonymous)(0) <function>\n        set: <Function> (anonymous)(1) <function>\n    }\n}\n' ) ;
 	} ) ;
-	//*/
-	
-	/*
-	it( "should" , function() {
-		console.log( 'inspect: ' , inspect( true ) ) ;
-		console.log( 'inspect: ' , inspect( { color: true } , true ) ) ;
-		//console.log( 'inspect: ' , inspect( { html: true } , true ) ) ;
-	} ) ;
-	//*/
-	
-	//*
-	it( "should" , function() {
-		console.log( 'inspect: ' , inspect( { proto: true, depth: 5 } , object ) ) ;
-		console.log( 'inspect: ' , inspect( { style: 'color', proto: true, depth: 5 } , object ) ) ;
-	} ) ;
-	//*/
 } ) ;
 	
 
