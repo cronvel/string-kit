@@ -98,13 +98,13 @@ describe( "format()" , function() {
 
 describe( "Escape" , function() {
 	
-	it( "escape.literal() should escape controle characters accordingly" , function() {
-		expect( string.escape.literal( 'Hello\n\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
-		expect( string.escape.literal( 'Hello\\n\\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
-		expect( string.escape.literal( 'Hello\\\n\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
-		expect( string.escape.literal( 'Hello\\\\n\\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
+	it( "escape.control() should escape control characters" , function() {
+		expect( string.escape.control( 'Hello\n\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
+		expect( string.escape.control( 'Hello\\n\\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
+		expect( string.escape.control( 'Hello\\\n\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
+		expect( string.escape.control( 'Hello\\\\n\\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
 		
-		expect( string.escape.literal( 'Nasty\x00chars\x1bhere' ) ).to.be( 'Nasty\\x00chars\\x1bhere' ) ;
+		expect( string.escape.control( 'Nasty\x00chars\x1bhere\x7f!' ) ).to.be( 'Nasty\\x00chars\\x1bhere\\x7f!' ) ;
 	} ) ;
 	
 	it( "escape.regExp()" ) ;
@@ -116,6 +116,13 @@ describe( "Escape" , function() {
 describe( "inspect()" , function() {
 	
 	var inspect = string.inspect ;
+	
+	var MyClass = function MyClass() {
+		this.variable = 1 ;
+	} ;
+	
+	MyClass.prototype.report = function report() { console.log( 'Variable value:' , this.variable ) ; }
+	MyClass.staticFunc = function staticFunc() { console.log( 'Static function.' ) ; }
 	
 	var object = {
 		a: 'A' ,
@@ -131,7 +138,10 @@ describe( "inspect()" , function() {
 		list: [ 'one','two','three' ] ,
 		emptyList: [] ,
 		hello: function hello() { console.log( 'Hello!' ) ; } ,
-		anonymous: function() { console.log( 'anonymous...' ) ; }
+		anonymous: function() { console.log( 'anonymous...' ) ; } ,
+		class: MyClass ,
+		instance: new MyClass() ,
+		buf: new Buffer( 'This is a buffer!' )
 	} ;
 	
 	object.sub.circular = object ;
@@ -161,11 +171,6 @@ describe( "inspect()" , function() {
 	} ) ;
 	//*/
 } ) ;
-
-
-
-	it( "escape.regExp" ) ;
-	it( "escape.shellArg" ) ;
 	
 
 
