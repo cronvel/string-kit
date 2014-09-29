@@ -21,18 +21,134 @@ Use Node Package Manager:
 
 # Reference
 
-* [.escape.shellArg()](#ref.escape.shellArg)
-* [.escape.regExp()](#ref.escape.regExp)
-* [.escape.regExpPattern()](#ref.escape.regExp)
-* [.escape.regExpReplacement()](#ref.escape.regExpReplacement)
-* [.escape.html()](#ref.escape.html)
-* [.escape.htmlAttr()](#ref.escape.htmlAttr)
-* [.escape.htmlSpecialChars()](#ref.escape.htmlSpecialChars)
-* [.escape.control()](#ref.escape.control)
+* [.format()](#ref.format)
+* [.format.count()](#ref.format.count)
+* [.inspect()](#ref.inspect)
+* Escape functions collection
+	* [.escape.shellArg()](#ref.escape.shellArg)
+	* [.escape.regExp()](#ref.escape.regExp)
+	* [.escape.regExpPattern()](#ref.escape.regExp)
+	* [.escape.regExpReplacement()](#ref.escape.regExpReplacement)
+	* [.escape.html()](#ref.escape.html)
+	* [.escape.htmlAttr()](#ref.escape.htmlAttr)
+	* [.escape.htmlSpecialChars()](#ref.escape.htmlSpecialChars)
+	* [.escape.control()](#ref.escape.control)
+
+
+
+<a name="ref.format"></a>
+### .format( formatString , ... )
+
+* formatString `String` a string containing some `sprintf()`-like formating
+* ... `mixed` a variable list of arguments to insert into the formatString
+
+This function is inspired by the `C`'s `sprintf()` function.
+
+Basicly, if `formatString` includes *format specifiers* (subsequences beginning with %), the additional arguments
+following `formatString` are formatted and inserted in the resulting string replacing their respective specifiers.
+
+Also it diverges from `C` in quite a few places.
+
+Basic usage:
+```js
+var format = require( 'string-kit' ).format ;
+console.log( stringKit.format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ) ;
+// Output: 'Hello Joe Doe, how are you?'
+```
+
+Specifiers:
+* %% write a single %
+* %s string
+* %f float
+* %d *or* %i integer
+* %u unsigned integer
+* %U unsigned positive integer (>0)
+* %h unsigned hexadecimal
+* %x unsigned hexadecimal, force pair of symbols (e.g. 'f' -> '0f')
+* %o unsigned octal
+* %b unsigned binary
+* %J JSON.stringify()
+* %D drop, the argument does not produce anything but is eaten anyway
+* %[ filter function existing in the *this* context, e.g. %[filter:%a%a]
+* %a argument for a filter function
+
+Few examples:
+```js
+var format = require( 'string-kit' ).format ;
+
+console.log( format( 'This company regains %d%% of market share.' , 36 ) ) ;
+// Output: 'This company regains 36% of market share.'
+
+console.log( format( '11/8=%f' , 11/8 ) ) ;
+// Output: '11/8=1.375'
+
+console.log( format( 'Hexa %h %x' , 11 , 11 ) ) ;
+// Output: 'Hexa b 0b'
+```
+
+We can insert a number between the *%* sign and the letter of the specifier, this way, rather than using the next
+argument, it uses the *Nth* argument, this is the absolute position:
+```js
+console.log( format( '%2s%1s%3s' , 'A' , 'B' , 'C' ) ) ; // 'BAC'
+```
+
+Also, the internal pointer is moved anyway, so the *Nth* format specifier still use the *Nth* argument if it doesn't
+specify any position:
+```js
+console.log( format( '%2s%s%s' , 'A' , 'B' , 'C' ) ) ; // 'BBC'
+```
+
+If the number is preceded by a *plus* or a *minus* sign to use a relative position rather than an absolute position.
+```js
+console.log( format( '%+1s%-1s%s' , 'A' , 'B' , 'C' ) ) ; // 'BAC'
+```
+
+Use case: language.
+```js
+var hello = {
+	en: 'Hello %s %s!' ,
+	jp: 'Konnichiwa %2s %1s!'
+} ;
+
+console.log( format( hello[ lang ] , firstName , lastName ) ) ;
+// Output the appropriate greeting in a language.
+// In japanese the last name will come before the first name, but the argument list doesn't need to be changed.
+```
+
+The mysterious `%[` format specifier is used when you want to use a custom formatter.
+Firstly we need to build an object containing one or many functions.
+Then, `format()` should be used with `call()`, to pass the functions collection as the *this* context.
+
+The `%[` is followed by the function's name, followed by a `:`, followed by a variable list of arguments using `%a`.
+It is still possible to use relative and absolute argument's position.
+The whole *format specifier* finish when a `]` is encountered.
+
+Example:
+```js
+var filters = {
+	fxy: function( a , b ) { return '' + ( a * a + b ) ; }
+} ;
+
+console.log( format.call( filters , '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ) ;
+// Output: 'f(x,y)=28'
+
+console.log( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ) ;
+// Output: 'f(x,y)=14'
+```
+
+
+
+<a name="ref.format.count"></a>
+### .format.count( formatString )
+
+* formatString `String` a string containing some `sprintf()`-like formating
+
+It just counts the number of *format specifier* in the `formatString`.
 
 
 
 ## Escape functions collection
+
 
 
 <a name="ref.escape.shellArg"></a>
