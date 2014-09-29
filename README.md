@@ -2,8 +2,8 @@
 
 # String Kit
 
-A string manipulation toolbox, featuring a string formater (inspired by printf), a variable inspector
-(output featuring ANSI color and HTML) and various escape function (shell argument, regexp, html, etc).
+A string manipulation toolbox, featuring a string formatter (inspired by printf), a variable inspector
+(output featuring ANSI colors and HTML) and various escape functions (shell argument, regexp, html, etc).
 
 * License: MIT
 * Current status: beta
