@@ -52,7 +52,7 @@ Also it diverges from `C` in quite a few places.
 Basic usage:
 ```js
 var format = require( 'string-kit' ).format ;
-console.log( stringKit.format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ) ;
+console.log( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ) ;
 // Output: 'Hello Joe Doe, how are you?'
 ```
 
@@ -98,7 +98,7 @@ specify any position:
 console.log( format( '%2s%s%s' , 'A' , 'B' , 'C' ) ) ; // 'BBC'
 ```
 
-If the number is preceded by a *plus* or a *minus* sign to use a relative position rather than an absolute position.
+If the number is preceded by a *plus* or a *minus* sign, the relative position is used rather than the absolute position.
 ```js
 console.log( format( '%+1s%-1s%s' , 'A' , 'B' , 'C' ) ) ; // 'BAC'
 ```
@@ -112,16 +112,17 @@ var hello = {
 
 console.log( format( hello[ lang ] , firstName , lastName ) ) ;
 // Output the appropriate greeting in a language.
-// In japanese the last name will come before the first name, but the argument list doesn't need to be changed.
+// In japanese the last name will come before the first name,
+// but the argument list doesn't need to be changed.
 ```
 
-The mysterious `%[` format specifier is used when you want to use a custom formatter.
+The mysterious `%[` format specifier is used when we want custom formatter.
 Firstly we need to build an object containing one or many functions.
 Then, `format()` should be used with `call()`, to pass the functions collection as the *this* context.
 
 The `%[` is followed by the function's name, followed by a `:`, followed by a variable list of arguments using `%a`.
-It is still possible to use relative and absolute argument's position.
-The whole *format specifier* finish when a `]` is encountered.
+It is still possible to use relative and absolute positionning.
+The whole *format specifier* is finished when a `]` is encountered.
 
 Example:
 ```js
