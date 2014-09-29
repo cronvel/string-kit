@@ -148,6 +148,33 @@ It just counts the number of *format specifier* in the `formatString`.
 
 
 
+<a name="ref.inspect"></a>
+### .inspect( [options] , variable )
+
+* options `Object` display options, the following key are possible:
+	* style `String` this is the style to use, the value can be:
+		* 'none': (default) normal output suitable for console.log() or writing into a file
+		* 'color': colorful output suitable for terminal
+		* 'html': html output
+	* depth: depth limit, default: 3
+	* nofunc: do not display functions
+	* funcDetails: display function's details
+	* proto: display object's prototype
+* variable `mixed` anything we want to inspect/debug
+
+It inspect a variable, and return a string ready to be displayed with console.log(), or even as HTML output.
+
+It produces a slightly better output than node's `util.inspect()`, with more options to control what should be displayed.
+
+Since `options` come first, it is possible to use `bind()` to create some custom variable inspector.
+
+For example:
+```js
+var colorInspect = require( 'string-kit' ).inspect.bind( undefined , { style: 'color' } ) ;
+```
+
+
+
 ## Escape functions collection
 
 
