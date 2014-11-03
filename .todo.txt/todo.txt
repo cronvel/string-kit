@@ -1,0 +1,1 @@
+(A) extend() deep:true bug with function, there are copied as undefined @bug
