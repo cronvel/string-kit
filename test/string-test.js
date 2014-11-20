@@ -94,6 +94,7 @@ describe( "format()" , function() {
 			fxy: function( a , b ) { return '' + ( a * a + b ) ; }
 		} ;
 		
+		expect( format.call( filters , '%[fixed]' ) ).to.be( 'F' ) ;
 		expect( format.call( filters , '%[fixed]%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'FABC' ) ;
 		expect( format.call( filters , '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
 		expect( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
