@@ -51,7 +51,20 @@ format.count() should count the number of arguments found.
 
 ```js
 expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
+expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
 expect( format.count( '%i %s' ) ).to.be( 2 ) ;
+expect( format.count( '%[unexistant]' ) ).to.be( 0 ) ;
+expect( format.count( '%[unexistant:%a%a]' ) ).to.be( 2 ) ;
+```
+
+format.hasFormatting() should return true if the string has formatting and thus need to be interpreted, or false otherwise.
+
+```js
+expect( format.hasFormatting( 'blah blih blah' ) ).to.be( false ) ;
+expect( format.hasFormatting( 'blah blih %% blah' ) ).to.be( true ) ;
+expect( format.hasFormatting( '%i %s' ) ).to.be( true ) ;
+expect( format.hasFormatting( '%[unexistant]' ) ).to.be( true ) ;
+expect( format.hasFormatting( '%[unexistant:%a%a]' ) ).to.be( true ) ;
 ```
 
 when using a filter object as the *this* context, the %[functionName] format should use a custom function to format the input.
@@ -63,9 +76,11 @@ var filters = {
 	fxy: function( a , b ) { return '' + ( a * a + b ) ; }
 } ;
 
+expect( format.call( filters , '%[fixed]' ) ).to.be( 'F' ) ;
 expect( format.call( filters , '%[fixed]%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'FABC' ) ;
 expect( format.call( filters , '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
 expect( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
+expect( format.call( filters , '%[unexistant]' ) ).to.be( '' ) ;
 ```
 
 <a name="escape-collection"></a>

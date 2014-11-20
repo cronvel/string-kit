@@ -83,7 +83,19 @@ describe( "format()" , function() {
 	it( "format.count() should count the number of arguments found" , function() {
 		
 		expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
+		expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
 		expect( format.count( '%i %s' ) ).to.be( 2 ) ;
+		expect( format.count( '%[unexistant]' ) ).to.be( 0 ) ;
+		expect( format.count( '%[unexistant:%a%a]' ) ).to.be( 2 ) ;
+	} ) ;
+	
+	it( "format.hasFormatting() should return true if the string has formatting and thus need to be interpreted, or false otherwise" , function() {
+		
+		expect( format.hasFormatting( 'blah blih blah' ) ).to.be( false ) ;
+		expect( format.hasFormatting( 'blah blih %% blah' ) ).to.be( true ) ;
+		expect( format.hasFormatting( '%i %s' ) ).to.be( true ) ;
+		expect( format.hasFormatting( '%[unexistant]' ) ).to.be( true ) ;
+		expect( format.hasFormatting( '%[unexistant:%a%a]' ) ).to.be( true ) ;
 	} ) ;
 	
 	it( "when using a filter object as the *this* context, the %[functionName] format should use a custom function to format the input" , function() {
