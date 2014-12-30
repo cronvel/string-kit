@@ -80,14 +80,21 @@ describe( "format()" , function() {
 		expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
 	} ) ;
 	
-	it( "should perform well the mode arguments feature" , function() {
+	it( "zzz should perform well the mode arguments feature" , function() {
 		
-		expect( format( '%/P0/f' , 1/3 ) ).to.be( '0' ) ;
-		expect( format( '%/P1/f' , 1/3 ) ).to.be( '0.3' ) ;
-		expect( format( '%/P2/f' , 1/3 ) ).to.be( '0.33' ) ;
-		expect( format( '%/F0/f' , 0.1 ) ).to.be( '0' ) ;
-		expect( format( '%/F1/f' , 0.1 ) ).to.be( '0.1' ) ;
-		expect( format( '%/F2/f' , 0.1 ) ).to.be( '0.10' ) ;
+		/*
+		3.		always 3 numbers before the decimal point, leading 0 are added for the left-padding
+		.3		always 3 numbers after the decimal point, right padding with 0
+		.M3		at most 3 numbers after the decimal point
+		*/
+		
+		expect( format( '%/p1./f' , 12 ) ).to.be( '12' ) ;
+		expect( format( '%/p3./f' , 12 ) ).to.be( '012' ) ;
+		expect( format( '%/p5./f' , 12 ) ).to.be( '00012' ) ;
+		
+		expect( format( '%/.p1/f' , 0.12 ) ).to.be( '0.12' ) ;
+		expect( format( '%/.p3/f' , 0.12 ) ).to.be( '0.120' ) ;
+		expect( format( '%/.p5/f' , 0.12 ) ).to.be( '0.12000' ) ;
 	} ) ;
 	
 	it( "format.count() should count the number of arguments found" , function() {
