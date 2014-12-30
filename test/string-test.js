@@ -92,9 +92,14 @@ describe( "format()" , function() {
 		expect( format( '%/p3./f' , 12 ) ).to.be( '012' ) ;
 		expect( format( '%/p5./f' , 12 ) ).to.be( '00012' ) ;
 		
+		expect( format( '%/r1./f' , 12 ) ).to.be( '10' ) ;
+		
 		expect( format( '%/.p1/f' , 0.12 ) ).to.be( '0.12' ) ;
 		expect( format( '%/.p3/f' , 0.12 ) ).to.be( '0.120' ) ;
 		expect( format( '%/.p5/f' , 0.12 ) ).to.be( '0.12000' ) ;
+		
+		expect( format( '%/.r1/f' , 0.12 ) ).to.be( '0.1' ) ;
+		expect( format( '%/.pr3/f' , 0.12 ) ).to.be( '0.120' ) ;
 	} ) ;
 	
 	it( "format.count() should count the number of arguments found" , function() {
