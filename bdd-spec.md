@@ -39,12 +39,23 @@ expect( format( '%U' , -123 ) ).to.be( '1' ) ;
 expect( format( '%U' ) ).to.be( '1' ) ;
 ```
 
-should perform well the argument's number feature.
+should perform well the argument's index feature.
 
 ```js
 expect( format( '%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'ABC' ) ;
 expect( format( '%+1s%-1s%s' , 'A' , 'B' , 'C' ) ).to.be( 'BAC' ) ;
 expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
+```
+
+should perform well the mode arguments feature.
+
+```js
+expect( format( '%/P0/f' , 1/3 ) ).to.be( '0' ) ;
+expect( format( '%/P1/f' , 1/3 ) ).to.be( '0.3' ) ;
+expect( format( '%/P2/f' , 1/3 ) ).to.be( '0.33' ) ;
+expect( format( '%/F0/f' , 0.1 ) ).to.be( '0' ) ;
+expect( format( '%/F1/f' , 0.1 ) ).to.be( '0.1' ) ;
+expect( format( '%/F2/f' , 0.1 ) ).to.be( '0.10' ) ;
 ```
 
 format.count() should count the number of arguments found.
