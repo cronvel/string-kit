@@ -1,8 +1,12 @@
 
-v0.1.1
-------
+v0.1.1 - v0.1.2
+---------------
 
-Upgraded dependencies.
+* .inspect() should handle exception when dealing with native object that raise exceptions when accessing properties.
+e.g.: "Uncaught SecurityError: Failed to read the 'cookie' property from 'Document': Access is denied for this document."
+raised by Chromium.
+
+* Upgraded dependencies.
 
 
 v0.1.0
