@@ -1,4 +1,11 @@
 
+v0.1.3
+------
+
+* .inspect(): fixed a bug displaying false circular references when dealing with arrays (because of .concat() unexpected behaviour)
+
+
+
 v0.1.1 - v0.1.2
 ---------------
 

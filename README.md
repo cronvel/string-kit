@@ -478,3 +478,10 @@ expect( string.inspect( object ) ).to.be( '<Object> <object> {\n    a: "A" <stri
 //console.log( string.inspect( { style: 'color' } , object ) ) ;
 ```
 
+should pass the Array circular references bug.
+
+```js
+var array = [ [ 1 ] ] ;
+expect( string.inspect( array ) ).to.be( '<Array>(1) <object> {\n    [0] <Array>(1) <object> {\n        [0] 1 <number>\n        length: 1 <number> <-conf -enum>\n    }\n    length: 1 <number> <-conf -enum>\n}\n' ) ;
+```
+
