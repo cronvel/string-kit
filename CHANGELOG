@@ -1,4 +1,11 @@
 
+v0.1.4
+------
+
+* NEW! .ansi contains an object with ansi code, e.g. .ansi.red is the ansi code for red, etc.
+
+
+
 v0.1.3
 ------
 
