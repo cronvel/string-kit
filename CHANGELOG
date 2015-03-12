@@ -1,4 +1,11 @@
 
+v0.1.5
+------
+
+* Bugfix: .format.count() now works correctly when indexed formating are in use.
+
+
+
 v0.1.4
 ------
 
