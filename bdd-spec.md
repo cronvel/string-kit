@@ -64,6 +64,8 @@ format.count() should count the number of arguments found.
 expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
 expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
 expect( format.count( '%i %s' ) ).to.be( 2 ) ;
+expect( format.count( '%1i %1s' ) ).to.be( 1 ) ;
+expect( format.count( '%5i' ) ).to.be( 5 ) ;
 expect( format.count( '%[unexistant]' ) ).to.be( 0 ) ;
 expect( format.count( '%[unexistant:%a%a]' ) ).to.be( 2 ) ;
 ```
