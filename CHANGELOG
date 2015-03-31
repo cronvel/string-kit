@@ -1,4 +1,10 @@
 
+v0.1.8
+------
+
+.inspect() with 'proto' option now reports correctly prototype of empty objects.
+
+
 v0.1.7
 ------
 
@@ -8,7 +14,7 @@ Dependencies.
 v0.1.6
 ------
 
-* .ansi now contains code for dim and inverse
+* .ansi now contains code for dim and inverse.
 
 
 v0.1.5
