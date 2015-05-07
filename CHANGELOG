@@ -1,4 +1,10 @@
 
+v0.1.9
+------
+
+New submodule: 'regexp'. Still a work in progress, so no doc and no API contract for instance.
+
+
 v0.1.8
 ------
 
