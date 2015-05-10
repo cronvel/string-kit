@@ -1,4 +1,10 @@
 
+v0.1.10
+-------
+
+.inspect() displays empty keys between quotes.
+
+
 v0.1.9
 ------
 

@@ -35,7 +35,7 @@ clean: clean-all
 
 # Variables
 
-MOCHA=./node_modules/mocha/bin/mocha
+MOCHA=./node_modules/mocha/bin/mocha -c
 JSHINT=./node_modules/jshint/bin/jshint --verbose
 
 
