@@ -236,6 +236,9 @@ expect( string.unicode.length( 'a𝌆' ) ).to.be( 2 ) ;
 expect( string.unicode.length( 'a𝌆a𝌆a' ) ).to.be( 5 ) ;
 expect( string.unicode.length( 'é𝌆é𝌆é' ) ).to.be( 5 ) ;
 expect( string.unicode.length( '䷆䷆' ) ).to.be( 2 ) ;
+expect( string.unicode.length( '備' ) ).to.be( 1 ) ;
+expect( string.unicode.length( '備備' ) ).to.be( 2 ) ;
+expect( string.unicode.length( '備-備' ) ).to.be( 3 ) ;
 ```
 
 unicode.toArray() should produce an array of character.
@@ -250,5 +253,25 @@ expect( string.unicode.toArray( 'a𝌆' ) ).to.eql( [ 'a' , '𝌆' ] ) ;
 expect( string.unicode.toArray( 'a𝌆a𝌆a' ) ).to.eql( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
 expect( string.unicode.toArray( 'é𝌆é𝌆é' ) ).to.eql( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
 expect( string.unicode.toArray( '䷆䷆' ) ).to.eql( [ '䷆' , '䷆' ] ) ;
+expect( string.unicode.toArray( '備' ) ).to.eql( [ '備' ] ) ;
+expect( string.unicode.toArray( '備備' ) ).to.eql( [ '備' , '備' ] ) ;
+expect( string.unicode.toArray( '備-備' ) ).to.eql( [ '備' , '-' , '備' ] ) ;
+```
+
+unicode.surrogatePair() should return 0 for single char, 1 for leading surrogate, -1 for trailing surrogate.
+
+```js
+expect( string.unicode.surrogatePair( 'a' ) ).to.be( 0 ) ;
+expect( '𝌆'.length ).to.be( 2 ) ;
+expect( string.unicode.surrogatePair( '𝌆'[0] ) ).to.be( 1 ) ;
+expect( string.unicode.surrogatePair( '𝌆'[1] ) ).to.be( -1 ) ;
+expect( '備'.length ).to.be( 2 ) ;
+expect( string.unicode.surrogatePair( '備'[0] ) ).to.be( 1 ) ;
+expect( string.unicode.surrogatePair( '備'[1] ) ).to.be( -1 ) ;
+
+// Can be wide or not, but expressed in only 1 code unit
+expect( '䷆'.length ).to.be( 1 ) ;
+expect( string.unicode.surrogatePair( '䷆'[0] ) ).to.be( 0 ) ;
+expect( string.unicode.surrogatePair( '䷆'[1] ) ).to.be( undefined ) ;
 ```
 
