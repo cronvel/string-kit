@@ -1,4 +1,10 @@
 
+v0.1.11
+--------
+
+New submodule: 'unicode'. Still a work in progress, so no doc and no API contract for instance.
+
+
 v0.1.10
 -------
 
