@@ -179,6 +179,18 @@ describe( "Escape collection" , function() {
 
 
 
+describe( "Camel case" , function() {
+	
+	it( ".toCamelCase() should transform a string composed of alphanum - minus - underscore to a camelCase string" , function() {
+		expect( string.toCamelCase( 'one-two-three' ) ).to.be( 'oneTwoThree' ) ;
+		expect( string.toCamelCase( 'one_two_three' ) ).to.be( 'oneTwoThree' ) ;
+		expect( string.toCamelCase( 'OnE-tWo_tHree' ) ).to.be( 'oneTwoThree' ) ;
+		expect( string.toCamelCase( 'ONE-TWO-THREE' ) ).to.be( 'oneTwoThree' ) ;
+	} ) ;
+} ) ;
+	
+
+
 describe( "inspect()" , function() {
 	
 	it( "should inspect a variable with default options accordingly" , function() {

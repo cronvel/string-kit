@@ -1,4 +1,17 @@
 
+
+v0.1.15
+--------
+
+Introducing the .toCamelCase() method.
+
+
+v0.1.13 - v0.1.14
+-----------------
+
+Adding few MDN polyfill for the native String object.
+
+
 v0.1.12
 --------
 
