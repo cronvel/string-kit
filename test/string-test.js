@@ -186,6 +186,9 @@ describe( "Camel case" , function() {
 		expect( string.toCamelCase( 'one_two_three' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'OnE-tWo_tHree' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'ONE-TWO-THREE' ) ).to.be( 'oneTwoThree' ) ;
+		
+		expect( string.toCamelCase( '' ) ).to.be( '' ) ;
+		expect( string.toCamelCase() ).to.be( '' ) ;
 	} ) ;
 } ) ;
 	
