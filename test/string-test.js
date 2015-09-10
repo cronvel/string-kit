@@ -186,9 +186,16 @@ describe( "Camel case" , function() {
 		expect( string.toCamelCase( 'one_two_three' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'OnE-tWo_tHree' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'ONE-TWO-THREE' ) ).to.be( 'oneTwoThree' ) ;
-		
+	} ) ;
+	
+	it( ".toCamelCase() edge cases" , function() {
 		expect( string.toCamelCase( '' ) ).to.be( '' ) ;
 		expect( string.toCamelCase() ).to.be( '' ) ;
+		expect( string.toCamelCase( 'u' ) ).to.be( 'u' ) ;
+		expect( string.toCamelCase( 'U' ) ).to.be( 'u' ) ;
+		expect( string.toCamelCase( 'U-b' ) ).to.be( 'uB' ) ;
+		expect( string.toCamelCase( 'U-' ) ).to.be( 'u' ) ;
+		expect( string.toCamelCase( '-U' ) ).to.be( 'u' ) ;
 	} ) ;
 } ) ;
 	
