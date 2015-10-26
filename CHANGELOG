@@ -1,5 +1,17 @@
 
 
+v0.1.19
+-------
+
+Option %I for format(): call inspect on the argument.
+
+
+v0.1.18
+-------
+
+Dependencies.
+
+
 v0.1.15 - v0.1.17
 -----------------
 

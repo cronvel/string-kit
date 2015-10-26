@@ -67,6 +67,7 @@ Specifiers:
 * %x unsigned hexadecimal, force pair of symbols (e.g. 'f' -> '0f')
 * %o unsigned octal
 * %b unsigned binary
+* %I call string-kit's inspect()
 * %J JSON.stringify()
 * %D drop, the argument does not produce anything but is eaten anyway
 * %[ filter function existing in the *this* context, e.g. %[filter:%a%a]
@@ -287,6 +288,7 @@ expect( format( 'Binary %b %b' , 11 , 123 ) ).to.be( 'Binary 1011 1111011' ) ;
 expect( format( 'Octal %o %o' , 11 , 123 ) ).to.be( 'Octal 13 173' ) ;
 expect( format( 'Hexa %h %x %x' , 11 , 11 , 123 ) ).to.be( 'Hexa b 0b 7b' ) ;
 expect( format( 'JSON %J' , {hello:'world',here:'is',my:{wonderful:'object'}} ) ).to.be( 'JSON {"hello":"world","here":"is","my":{"wonderful":"object"}}' ) ;
+expect( format( 'Inspect %I' , {hello:'world',here:'is',my:{wonderful:'object'}} ) ).to.be( 'Inspect <Object> <object> {\n    hello: "world" <string>(5)\n    here: "is" <string>(2)\n    my: <Object> <object> {\n        wonderful: "object" <string>(6)\n    }\n}\n' ) ;
 ```
 
 %u should format unsigned integer.
@@ -435,6 +437,18 @@ expect( string.toCamelCase( 'one-two-three' ) ).to.be( 'oneTwoThree' ) ;
 expect( string.toCamelCase( 'one_two_three' ) ).to.be( 'oneTwoThree' ) ;
 expect( string.toCamelCase( 'OnE-tWo_tHree' ) ).to.be( 'oneTwoThree' ) ;
 expect( string.toCamelCase( 'ONE-TWO-THREE' ) ).to.be( 'oneTwoThree' ) ;
+```
+
+.toCamelCase() edge cases.
+
+```js
+expect( string.toCamelCase( '' ) ).to.be( '' ) ;
+expect( string.toCamelCase() ).to.be( '' ) ;
+expect( string.toCamelCase( 'u' ) ).to.be( 'u' ) ;
+expect( string.toCamelCase( 'U' ) ).to.be( 'u' ) ;
+expect( string.toCamelCase( 'U-b' ) ).to.be( 'uB' ) ;
+expect( string.toCamelCase( 'U-' ) ).to.be( 'u' ) ;
+expect( string.toCamelCase( '-U' ) ).to.be( 'u' ) ;
 ```
 
 <a name="inspect"></a>
