@@ -1,5 +1,11 @@
 
 
+v0.1.21
+-------
+
+Option %E for format(): call inspectError() on the argument.
+
+
 v0.1.20
 -------
 
@@ -9,7 +15,7 @@ New method: inspectError().
 v0.1.19
 -------
 
-Option %I for format(): call inspect on the argument.
+Option %I for format(): call inspect() on the argument.
 
 
 v0.1.18

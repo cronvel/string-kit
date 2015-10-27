@@ -68,6 +68,7 @@ Specifiers:
 * %o unsigned octal
 * %b unsigned binary
 * %I call string-kit's inspect()
+* %E call string-kit's inspectError()
 * %J JSON.stringify()
 * %D drop, the argument does not produce anything but is eaten anyway
 * %[ filter function existing in the *this* context, e.g. %[filter:%a%a]
