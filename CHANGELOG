@@ -1,5 +1,12 @@
 
 
+v0.2.3 - v0.2.6
+---------------
+
+.inspectError() improvement and bugfixes.
+.inspectStack() that just inspect a stack string.
+
+
 v0.2.0 - v0.2.2
 ---------------
 
