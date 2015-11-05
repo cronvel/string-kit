@@ -189,6 +189,7 @@ describe( "Camel case" , function() {
 		expect( string.toCamelCase( 'one_two_three' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'OnE-tWo_tHree' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'ONE-TWO-THREE' ) ).to.be( 'oneTwoThree' ) ;
+		expect( string.toCamelCase( 'a-b-c' ) ).to.be( 'aBC' ) ;
 	} ) ;
 	
 	it( ".toCamelCase() edge cases" , function() {
@@ -200,6 +201,14 @@ describe( "Camel case" , function() {
 		expect( string.toCamelCase( 'U-' ) ).to.be( 'u' ) ;
 		expect( string.toCamelCase( '-U' ) ).to.be( 'u' ) ;
 	} ) ;
+	
+	it( ".camelCaseToDashed() should transform a string composed of alphanum - minus - underscore to a camelCase string" , function() {
+		expect( string.camelCaseToDashed( 'oneTwoThree' ) ).to.be( 'one-two-three' ) ;
+		expect( string.camelCaseToDashed( 'OneTwoThree' ) ).to.be( 'one-two-three' ) ;
+		expect( string.camelCaseToDashed( 'aBC' ) ).to.be( 'a-b-c' ) ;
+	} ) ;
+	
+	//it( ".camelCaseToDashed() edge cases" , function() {} ) ;
 } ) ;
 	
 

@@ -1,5 +1,11 @@
 
 
+v0.2.10
+-------
+
+New method: .camelCaseToDashed().
+
+
 v0.2.3 - v0.2.9
 ---------------
 
