@@ -1,4 +1,10 @@
 
+v0.3.0
+------
+
+Breaking compatibilities: format() now accepts markup with caret ^ sign
+
+
 
 v0.2.10
 -------

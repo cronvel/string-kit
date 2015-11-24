@@ -22,6 +22,7 @@ expect( format( 'Octal %o %o' , 11 , 123 ) ).to.be( 'Octal 13 173' ) ;
 expect( format( 'Hexa %h %x %x' , 11 , 11 , 123 ) ).to.be( 'Hexa b 0b 7b' ) ;
 expect( format( 'JSON %J' , {hello:'world',here:'is',my:{wonderful:'object'}} ) ).to.be( 'JSON {"hello":"world","here":"is","my":{"wonderful":"object"}}' ) ;
 expect( format( 'Inspect %I' , {hello:'world',here:'is',my:{wonderful:'object'}} ) ).to.be( 'Inspect <Object> <object> {\n    hello: "world" <string>(5)\n    here: "is" <string>(2)\n    my: <Object> <object> {\n        wonderful: "object" <string>(6)\n    }\n}\n' ) ;
+//expect( format( 'Inspect %E' , new Error( 'Some error' ) ) ).to.be( '' ) ;
 ```
 
 %u should format unsigned integer.
@@ -86,17 +87,36 @@ expect( format.hasFormatting( '%[unexistant:%a%a]' ) ).to.be( true ) ;
 when using a filter object as the *this* context, the %[functionName] format should use a custom function to format the input.
 
 ```js
-var filters = {
-	fixed: function() { return 'F' ; } ,
-	double: function( str ) { return '' + str + str ; } ,
-	fxy: function( a , b ) { return '' + ( a * a + b ) ; }
+var formatter = {
+	format: formatMethod ,
+	fn: {
+		fixed: function() { return 'F' ; } ,
+		double: function( str ) { return '' + str + str ; } ,
+		fxy: function( a , b ) { return '' + ( a * a + b ) ; }
+	}
 } ;
 
-expect( format.call( filters , '%[fixed]' ) ).to.be( 'F' ) ;
-expect( format.call( filters , '%[fixed]%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'FABC' ) ;
-expect( format.call( filters , '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
-expect( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
-expect( format.call( filters , '%[unexistant]' ) ).to.be( '' ) ;
+expect( formatter.format( '%[fixed]' ) ).to.be( 'F' ) ;
+expect( formatter.format( '%[fixed]%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'FABC' ) ;
+expect( formatter.format( '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
+expect( formatter.format( '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
+expect( formatter.format( '%[unexistant]' ) ).to.be( '' ) ;
+```
+
+'^' should add markup, defaulting to ansi markup.
+
+```js
+expect( format( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
+expect( format( 'this is ^_underlined^: this is not' ) )
+	.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
+expect( format( 'this is ^_underlined^ this is not' ) )
+	.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
+expect( format( 'this is ^_underlined^:this is not' ) )
+	.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + 'this is not' + ansi.reset ) ;
+expect( format( 'this is ^Bblue^: this is not' ) )
+	.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
+expect( format( 'this is ^Bblue^ this is not' ) )
+	.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
 ```
 
 <a name="escape-collection"></a>
@@ -170,6 +190,7 @@ expect( string.toCamelCase( 'one-two-three' ) ).to.be( 'oneTwoThree' ) ;
 expect( string.toCamelCase( 'one_two_three' ) ).to.be( 'oneTwoThree' ) ;
 expect( string.toCamelCase( 'OnE-tWo_tHree' ) ).to.be( 'oneTwoThree' ) ;
 expect( string.toCamelCase( 'ONE-TWO-THREE' ) ).to.be( 'oneTwoThree' ) ;
+expect( string.toCamelCase( 'a-b-c' ) ).to.be( 'aBC' ) ;
 ```
 
 .toCamelCase() edge cases.
@@ -182,6 +203,14 @@ expect( string.toCamelCase( 'U' ) ).to.be( 'u' ) ;
 expect( string.toCamelCase( 'U-b' ) ).to.be( 'uB' ) ;
 expect( string.toCamelCase( 'U-' ) ).to.be( 'u' ) ;
 expect( string.toCamelCase( '-U' ) ).to.be( 'u' ) ;
+```
+
+.camelCaseToDashed() should transform a string composed of alphanum - minus - underscore to a camelCase string.
+
+```js
+expect( string.camelCaseToDashed( 'oneTwoThree' ) ).to.be( 'one-two-three' ) ;
+expect( string.camelCaseToDashed( 'OneTwoThree' ) ).to.be( 'one-two-three' ) ;
+expect( string.camelCaseToDashed( 'aBC' ) ).to.be( 'a-b-c' ) ;
 ```
 
 <a name="inspect"></a>

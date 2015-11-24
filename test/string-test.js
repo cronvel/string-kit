@@ -41,6 +41,7 @@ var expect = require( 'expect.js' ) ;
 
 describe( "format()" , function() {
 	
+	var ansi = string.ansi ;
 	var format = string.format ;
 	var formatMethod = string.formatMethod ;
 	
@@ -115,17 +116,35 @@ describe( "format()" , function() {
 	
 	it( "when using a filter object as the *this* context, the %[functionName] format should use a custom function to format the input" , function() {
 		
-		var filters = {
-			fixed: function() { return 'F' ; } ,
-			double: function( str ) { return '' + str + str ; } ,
-			fxy: function( a , b ) { return '' + ( a * a + b ) ; }
+		var formatter = {
+			format: formatMethod ,
+			fn: {
+				fixed: function() { return 'F' ; } ,
+				double: function( str ) { return '' + str + str ; } ,
+				fxy: function( a , b ) { return '' + ( a * a + b ) ; }
+			}
 		} ;
 		
-		expect( formatMethod.call( filters , '%[fixed]' ) ).to.be( 'F' ) ;
-		expect( formatMethod.call( filters , '%[fixed]%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'FABC' ) ;
-		expect( formatMethod.call( filters , '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
-		expect( formatMethod.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
-		expect( formatMethod.call( filters , '%[unexistant]' ) ).to.be( '' ) ;
+		expect( formatter.format( '%[fixed]' ) ).to.be( 'F' ) ;
+		expect( formatter.format( '%[fixed]%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'FABC' ) ;
+		expect( formatter.format( '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
+		expect( formatter.format( '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
+		expect( formatter.format( '%[unexistant]' ) ).to.be( '' ) ;
+	} ) ;
+	
+	it( "'^' should add markup, defaulting to ansi markup" , function() {
+		
+		expect( format( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
+		expect( format( 'this is ^_underlined^: this is not' ) )
+			.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
+		expect( format( 'this is ^_underlined^ this is not' ) )
+			.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
+		expect( format( 'this is ^_underlined^:this is not' ) )
+			.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + 'this is not' + ansi.reset ) ;
+		expect( format( 'this is ^Bblue^: this is not' ) )
+			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
+		expect( format( 'this is ^Bblue^ this is not' ) )
+			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
 	} ) ;
 } ) ;
 
