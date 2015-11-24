@@ -1,4 +1,10 @@
 
+v0.3.1
+------
+
+.format(): fixing when no markup exists in the object
+
+
 v0.3.0
 ------
 
