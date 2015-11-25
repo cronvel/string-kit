@@ -49,6 +49,9 @@ following `formatString` are formatted and inserted in the resulting string repl
 
 Also it diverges from `C` in quite a few places.
 
+**New:** Since *v0.3.x* you can add styles markup (color, bold, italic, and so on...) using the `^` caret.
+See [the format markup documentation](#ref.format.markup).
+
 Basic usage:
 ```js
 var format = require( 'string-kit' ).format ;
@@ -57,22 +60,22 @@ console.log( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ) ;
 ```
 
 Specifiers:
-* %% write a single %
-* %s string
-* %f float
-* %d *or* %i integer
-* %u unsigned integer
-* %U unsigned positive integer (>0)
-* %h unsigned hexadecimal
-* %x unsigned hexadecimal, force pair of symbols (e.g. 'f' -> '0f')
-* %o unsigned octal
-* %b unsigned binary
-* %I call string-kit's inspect()
-* %E call string-kit's inspectError()
-* %J JSON.stringify()
-* %D drop, the argument does not produce anything but is eaten anyway
-* %[ filter function existing in the *this* context, e.g. %[filter:%a%a]
-* %a argument for a filter function
+* `%%` write a single %
+* `%s` string
+* `%f` float
+* `%d` *or* %i integer
+* `%u` unsigned integer
+* `%U` unsigned positive integer (>0)
+* `%h` unsigned hexadecimal
+* `%x` unsigned hexadecimal, force pair of symbols (e.g. 'f' -> '0f')
+* `%o` unsigned octal
+* `%b` unsigned binary
+* `%I` call string-kit's inspect()
+* `%E` call string-kit's inspectError()
+* `%J` JSON.stringify()
+* `%D` drop, the argument does not produce anything but is eaten anyway
+* `%[` filter function existing in the *this* context, e.g. %[filter:%a%a]
+* `%a` argument for a filter function
 
 Few examples:
 ```js
@@ -138,6 +141,40 @@ console.log( format.call( filters , '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ) ;
 console.log( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ) ;
 // Output: 'f(x,y)=14'
 ```
+
+<a name="ref.format.markup"></a>
+Since *v0.3.x* you can add styles (color, bold, italic, and so on...) using the `^` caret:
+```js
+var format = require( 'string-kit' ).format ;
+console.log( format( 'This is ^rred^ and ^bblue^:!' , 'Joe' , 'Doe' ) ) ;
+// Output: 'This is red and blue!' with 'red' written in red and 'blue' written in blue.
+```
+
+Style markup:
+* `^^` write a single caret `^`
+* `^b` switch to blue
+* `^B` switch to bright blue
+* `^c` switch to cyan
+* `^C` switch to bright cyan
+* `^g` switch to green
+* `^G` switch to bright green
+* `^k` switch to black
+* `^K` switch to bright black
+* `^m` switch to magenta
+* `^M` switch to bright magenta
+* `^r` switch to red
+* `^R` switch to bright red
+* `^w` switch to white
+* `^W` switch to bright white
+* `^y` switch to yellow (i.e. brown or orange)
+* `^Y` switch to bright yellow (i.e. yellow)
+* `^_` switch to underline
+* `^/` switch to italic
+* `^!` switch to inverse (inverse background and foreground color)
+* `^+` switch to bold
+* `^-` switch to dim
+* `^:` reset the style
+* `^ ` (caret and space) reset the style and write a single space
 
 
 
