@@ -143,6 +143,8 @@ console.log( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ) 
 ```
 
 <a name="ref.format.markup"></a>
+##### Style markup reference
+
 Since *v0.3.x* we can add styles (color, bold, italic, and so on...) using the `^` caret:
 ```js
 var format = require( 'string-kit' ).format ;
