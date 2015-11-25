@@ -176,6 +176,8 @@ Style markup:
 * `^:` reset the style
 * `^ ` (caret followed by a space) reset the style and write a single space
 
+**Note:** as soon as the format string has **one** style markup, a style reset will be added at the end of the string.
+
 
 
 <a name="ref.format.count"></a>
