@@ -49,7 +49,7 @@ following `formatString` are formatted and inserted in the resulting string repl
 
 Also it diverges from `C` in quite a few places.
 
-**New:** Since *v0.3.x* you can add styles markup (color, bold, italic, and so on...) using the `^` caret.
+**New:** Since *v0.3.x* we can add styles markup (color, bold, italic, and so on...) using the `^` caret.
 See [the format markup documentation](#ref.format.markup).
 
 Basic usage:
@@ -143,7 +143,7 @@ console.log( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ) 
 ```
 
 <a name="ref.format.markup"></a>
-Since *v0.3.x* you can add styles (color, bold, italic, and so on...) using the `^` caret:
+Since *v0.3.x* we can add styles (color, bold, italic, and so on...) using the `^` caret:
 ```js
 var format = require( 'string-kit' ).format ;
 console.log( format( 'This is ^rred^ and ^bblue^:!' , 'Joe' , 'Doe' ) ) ;
@@ -174,7 +174,7 @@ Style markup:
 * `^+` switch to bold
 * `^-` switch to dim
 * `^:` reset the style
-* `^ ` (caret and space) reset the style and write a single space
+* `^ ` (caret followed by a space) reset the style and write a single space
 
 
 

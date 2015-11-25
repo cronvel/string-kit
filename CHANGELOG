@@ -1,20 +1,26 @@
 
+v0.3.3
+------
+
+Documentation on the new caret ^ feature (style markup) for the .format() method.
+
+
 v0.3.2
 ------
 
-Expose the default formatter.
+Expose the default formatter option.
 
 
 v0.3.1
 ------
 
-.format(): fixing when no markup exists in the object
+.format(): fixing a bug when no markup exists in the object.
 
 
 v0.3.0
 ------
 
-Breaking compatibilities: format() now accepts markup with caret ^ sign
+New [breaking compatibilities]: .format() now accepts style markup using the caret ^ sign.
 
 
 
