@@ -1,4 +1,10 @@
 
+v0.3.8
+------
+
+string.unicode.surrogatePair(): it does not check input anymore, to gain perfs
+
+
 v0.3.7
 ------
 

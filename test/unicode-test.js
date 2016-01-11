@@ -86,7 +86,7 @@ describe( "Unicode" , function() {
 		// Can be wide or not, but expressed in only 1 code unit
 		expect( '䷆'.length ).to.be( 1 ) ;
 		expect( string.unicode.surrogatePair( '䷆'[0] ) ).to.be( 0 ) ;
-		expect( string.unicode.surrogatePair( '䷆'[1] ) ).to.be( undefined ) ;
+//		expect( string.unicode.surrogatePair( '䷆'[1] ) ).to.be( undefined ) ;
 	} ) ;
 } ) ;
 	
