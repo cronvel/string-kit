@@ -1,4 +1,10 @@
 
+v0.3.7
+------
+
+string.unicode.toFullWidth(): convert normal ASCII chars to their full-width counterpart
+
+
 v0.3.6
 ------
 
