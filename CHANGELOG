@@ -1,4 +1,10 @@
 
+v0.3.9
+------
+
+string.unicode.isFullWidth(): check if the given char is a full-width char or not
+
+
 v0.3.8
 ------
 

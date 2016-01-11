@@ -88,6 +88,15 @@ describe( "Unicode" , function() {
 		expect( string.unicode.surrogatePair( '䷆'[0] ) ).to.be( 0 ) ;
 //		expect( string.unicode.surrogatePair( '䷆'[1] ) ).to.be( undefined ) ;
 	} ) ;
+	
+	it( "unicode.isFullWidth() should return true if the char is full-width" , function() {
+		
+		expect( string.unicode.isFullWidth( 'a' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '＠' ) ).to.be( true ) ;
+		expect( string.unicode.isFullWidth( '𝌆' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '備' ) ).to.be( true ) ;
+		expect( string.unicode.isFullWidth( '䷆' ) ).to.be( false ) ;
+	} ) ;
 } ) ;
 	
 
