@@ -291,6 +291,8 @@ describe( "inspect()" , function() {
 		var array = [ [ 1 ] ] ;
 		expect( string.inspect( array ) ).to.be( '<Array>(1) <object> {\n    [0] <Array>(1) <object> {\n        [0] 1 <number>\n        length: 1 <number> <-conf -enum>\n    }\n    length: 1 <number> <-conf -enum>\n}\n' ) ;
 	} ) ;
+	
+	it( "special objects tests (ES6 Set & Map, MongoDB ObjectID)" ) ;
 } ) ;
 	
 

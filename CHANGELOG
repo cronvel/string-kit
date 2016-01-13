@@ -1,4 +1,10 @@
 
+v0.3.10
+-------
+
+inspect now process ES6 Set & Map, and MongoDB ObjectID
+
+
 v0.3.9
 ------
 
