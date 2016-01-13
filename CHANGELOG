@@ -1,4 +1,10 @@
 
+v0.3.11
+-------
+
+.inspect() now inspect Date instance
+
+
 v0.3.10
 -------
 
