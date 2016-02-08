@@ -1,6 +1,6 @@
 {
   "name": "string-kit",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "A string manipulation toolbox, featuring a string formatter (inspired by sprintf), a variable inspector (output featuring ANSI colors and HTML) and various escape functions (shell argument, regexp, html, etc).",
   "main": "lib/string.js",
   "directories": {
