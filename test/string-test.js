@@ -113,8 +113,8 @@ describe( "format()" , function() {
 		expect( format.count( '%i %s' ) ).to.be( 2 ) ;
 		expect( format.count( '%1i %1s' ) ).to.be( 1 ) ;
 		expect( format.count( '%5i' ) ).to.be( 5 ) ;
-		expect( format.count( '%[unexistant]' ) ).to.be( 0 ) ;
-		expect( format.count( '%[unexistant:%a%a]' ) ).to.be( 2 ) ;
+		expect( format.count( '%[unexistant]F' ) ).to.be( 0 ) ;
+		expect( format.count( '%[unexistant:%a%a]F' ) ).to.be( 2 ) ;
 	} ) ;
 	
 	it( "format.hasFormatting() should return true if the string has formatting and thus need to be interpreted, or false otherwise" , function() {
@@ -122,11 +122,11 @@ describe( "format()" , function() {
 		expect( format.hasFormatting( 'blah blih blah' ) ).to.be( false ) ;
 		expect( format.hasFormatting( 'blah blih %% blah' ) ).to.be( true ) ;
 		expect( format.hasFormatting( '%i %s' ) ).to.be( true ) ;
-		expect( format.hasFormatting( '%[unexistant]' ) ).to.be( true ) ;
-		expect( format.hasFormatting( '%[unexistant:%a%a]' ) ).to.be( true ) ;
+		expect( format.hasFormatting( '%[unexistant]F' ) ).to.be( true ) ;
+		expect( format.hasFormatting( '%[unexistant:%a%a]F' ) ).to.be( true ) ;
 	} ) ;
 	
-	it( "when using a filter object as the *this* context, the %[functionName] format should use a custom function to format the input" , function() {
+	it( "when using a filter object as the *this* context, the %[functionName]F format should use a custom function to format the input" , function() {
 		
 		var formatter = {
 			format: formatMethod ,

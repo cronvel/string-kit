@@ -1,4 +1,10 @@
 
+v0.4.1
+------
+
+.format(): .format.count() and .format.hasFormatting() have had bugs with the new v0.4.0 format syntax
+
+
 v0.4.0
 ------
 

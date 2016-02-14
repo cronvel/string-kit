@@ -74,7 +74,7 @@ Specifiers:
 * `%E` call string-kit's inspectError()
 * `%J` JSON.stringify()
 * `%D` drop, the argument does not produce anything but is eaten anyway
-* `%[` filter function existing in the *this* context, e.g. %[filter:%a%a]
+* `%F` filter function existing in the *this* context, e.g. %[filter:%a%a]F
 * `%a` argument for a filter function
 
 Few examples:
@@ -121,13 +121,13 @@ console.log( format( hello[ lang ] , firstName , lastName ) ) ;
 // but the argument list doesn't need to be changed.
 ```
 
-The mysterious `%[` format specifier is used when we want custom formatter.
+The mysterious `%[]F` format specifier is used when we want custom formatter.
 Firstly we need to build an object containing one or many functions.
 Then, `format()` should be used with `call()`, to pass the functions collection as the *this* context.
 
 The `%[` is followed by the function's name, followed by a `:`, followed by a variable list of arguments using `%a`.
 It is still possible to use relative and absolute positionning.
-The whole *format specifier* is finished when a `]` is encountered.
+The whole *format specifier* is finished when a `]F` is encountered.
 
 Example:
 ```js
@@ -135,10 +135,10 @@ var filters = {
 	fxy: function( a , b ) { return '' + ( a * a + b ) ; }
 } ;
 
-console.log( format.call( filters , '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ) ;
+console.log( format.call( filters , '%s%[fxy:%a%a]F' , 'f(x,y)=' , 5 , 3 ) ) ;
 // Output: 'f(x,y)=28'
 
-console.log( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ) ;
+console.log( format.call( filters , '%s%[fxy:%+1a%-1a]F' , 'f(x,y)=' , 5 , 3 ) ) ;
 // Output: 'f(x,y)=14'
 ```
 
@@ -391,8 +391,8 @@ expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
 expect( format.count( '%i %s' ) ).to.be( 2 ) ;
 expect( format.count( '%1i %1s' ) ).to.be( 1 ) ;
 expect( format.count( '%5i' ) ).to.be( 5 ) ;
-expect( format.count( '%[unexistant]' ) ).to.be( 0 ) ;
-expect( format.count( '%[unexistant:%a%a]' ) ).to.be( 2 ) ;
+expect( format.count( '%[unexistant]F' ) ).to.be( 0 ) ;
+expect( format.count( '%[unexistant:%a%a]F' ) ).to.be( 2 ) ;
 ```
 
 format.hasFormatting() should return true if the string has formatting and thus need to be interpreted, or false otherwise.
@@ -401,11 +401,11 @@ format.hasFormatting() should return true if the string has formatting and thus 
 expect( format.hasFormatting( 'blah blih blah' ) ).to.be( false ) ;
 expect( format.hasFormatting( 'blah blih %% blah' ) ).to.be( true ) ;
 expect( format.hasFormatting( '%i %s' ) ).to.be( true ) ;
-expect( format.hasFormatting( '%[unexistant]' ) ).to.be( true ) ;
-expect( format.hasFormatting( '%[unexistant:%a%a]' ) ).to.be( true ) ;
+expect( format.hasFormatting( '%[unexistant]F' ) ).to.be( true ) ;
+expect( format.hasFormatting( '%[unexistant:%a%a]F' ) ).to.be( true ) ;
 ```
 
-when using a filter object as the *this* context, the %[functionName] format should use a custom function to format the input.
+when using a filter object as the *this* context, the %[functionName]F format should use a custom function to format the input.
 
 ```js
 var formatter = {

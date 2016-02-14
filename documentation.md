@@ -74,7 +74,7 @@ Specifiers:
 * `%E` call string-kit's inspectError()
 * `%J` JSON.stringify()
 * `%D` drop, the argument does not produce anything but is eaten anyway
-* `%[` filter function existing in the *this* context, e.g. %[filter:%a%a]
+* `%F` filter function existing in the *this* context, e.g. %[filter:%a%a]F
 * `%a` argument for a filter function
 
 Few examples:
@@ -121,13 +121,13 @@ console.log( format( hello[ lang ] , firstName , lastName ) ) ;
 // but the argument list doesn't need to be changed.
 ```
 
-The mysterious `%[` format specifier is used when we want custom formatter.
+The mysterious `%[]F` format specifier is used when we want custom formatter.
 Firstly we need to build an object containing one or many functions.
 Then, `format()` should be used with `call()`, to pass the functions collection as the *this* context.
 
 The `%[` is followed by the function's name, followed by a `:`, followed by a variable list of arguments using `%a`.
 It is still possible to use relative and absolute positionning.
-The whole *format specifier* is finished when a `]` is encountered.
+The whole *format specifier* is finished when a `]F` is encountered.
 
 Example:
 ```js
@@ -135,10 +135,10 @@ var filters = {
 	fxy: function( a , b ) { return '' + ( a * a + b ) ; }
 } ;
 
-console.log( format.call( filters , '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ) ;
+console.log( format.call( filters , '%s%[fxy:%a%a]F' , 'f(x,y)=' , 5 , 3 ) ) ;
 // Output: 'f(x,y)=28'
 
-console.log( format.call( filters , '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ) ;
+console.log( format.call( filters , '%s%[fxy:%+1a%-1a]F' , 'f(x,y)=' , 5 , 3 ) ) ;
 // Output: 'f(x,y)=14'
 ```
 
