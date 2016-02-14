@@ -1,4 +1,10 @@
 
+v0.3.14
+-------
+
+Breaking changes: format() now uses a generic %L and %[]L where L is any letter, so %[func:%a%a] is now %[func:%a%a]F and %/F1/f is now %[f1]f
+
+
 v0.3.13
 -------
 

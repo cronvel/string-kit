@@ -54,12 +54,24 @@ expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
 should perform well the mode arguments feature.
 
 ```js
-expect( format( '%/P0/f' , 1/3 ) ).to.be( '0' ) ;
-expect( format( '%/P1/f' , 1/3 ) ).to.be( '0.3' ) ;
-expect( format( '%/P2/f' , 1/3 ) ).to.be( '0.33' ) ;
-expect( format( '%/F0/f' , 0.1 ) ).to.be( '0' ) ;
-expect( format( '%/F1/f' , 0.1 ) ).to.be( '0.1' ) ;
-expect( format( '%/F2/f' , 0.1 ) ).to.be( '0.10' ) ;
+expect( format( '%[f0]f' , 1/3 ) ).to.be( '0' ) ;
+expect( format( '%[f1]f' , 1/3 ) ).to.be( '0.3' ) ;
+expect( format( '%[f2]f' , 1/3 ) ).to.be( '0.33' ) ;
+
+expect( format( '%[f0]f' , 0.1 ) ).to.be( '0' ) ;
+expect( format( '%[f1]f' , 0.1 ) ).to.be( '0.1' ) ;
+expect( format( '%[f2]f' , 0.1 ) ).to.be( '0.10' ) ;
+
+/*	p is not finished yet
+expect( format( '%[p1]f' , 123 ) ).to.be( '10000' ) ;
+expect( format( '%[p2]f' , 123 ) ).to.be( '12000' ) ;
+
+expect( format( '%[p1]f' , 1/3 ) ).to.be( '0.3' ) ;
+expect( format( '%[p2]f' , 1/3 ) ).to.be( '0.33' ) ;
+
+expect( format( '%[p1]f' , 0.1 ) ).to.be( '0.1' ) ;
+expect( format( '%[p2]f' , 0.1 ) ).to.be( '0.10' ) ;
+*/
 ```
 
 format.count() should count the number of arguments found.
@@ -90,17 +102,17 @@ when using a filter object as the *this* context, the %[functionName] format sho
 var formatter = {
 	format: formatMethod ,
 	fn: {
-		fixed: function() { return 'F' ; } ,
+		fixed: function() { return 'f' ; } ,
 		double: function( str ) { return '' + str + str ; } ,
 		fxy: function( a , b ) { return '' + ( a * a + b ) ; }
 	}
 } ;
 
-expect( formatter.format( '%[fixed]' ) ).to.be( 'F' ) ;
-expect( formatter.format( '%[fixed]%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'FABC' ) ;
-expect( formatter.format( '%s%[fxy:%a%a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
-expect( formatter.format( '%s%[fxy:%+1a%-1a]' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
-expect( formatter.format( '%[unexistant]' ) ).to.be( '' ) ;
+expect( formatter.format( '%[fixed]F' ) ).to.be( 'f' ) ;
+expect( formatter.format( '%[fixed]F%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'fABC' ) ;
+expect( formatter.format( '%s%[fxy:%a%a]F' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
+expect( formatter.format( '%s%[fxy:%+1a%-1a]F' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
+expect( formatter.format( '%[unexistant]F' ) ).to.be( '' ) ;
 ```
 
 '^' should add markup, defaulting to ansi markup.
