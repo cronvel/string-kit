@@ -1,13 +1,13 @@
 {
   "name": "string-kit",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A string manipulation toolbox, featuring a string formatter (inspired by sprintf), a variable inspector (output featuring ANSI colors and HTML) and various escape functions (shell argument, regexp, html, etc).",
   "main": "lib/string.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "tree-kit": "^0.5.6"
+    "tree-kit": "^0.5.13"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
