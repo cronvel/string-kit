@@ -247,6 +247,16 @@ describe( "Camel case" , function() {
 	
 
 
+describe( "Latinize" , function() {
+	
+	it( ".latinize() should transform to regular latin letters without any accent" , function() {
+		expect( string.latinize( 'éàèùâêîôûÂÊÎÔÛäëïöüÄËÏÖÜæÆŧøþßðđħł' ) )
+		                 .to.be( 'eaeuaeiouAEIOUaeiouAEIOUaeAEtothssdhdhl' ) ;
+	} ) ;
+} ) ;
+	
+
+
 describe( "inspect()" , function() {
 	
 	it( "should inspect a variable with default options accordingly" , function() {
