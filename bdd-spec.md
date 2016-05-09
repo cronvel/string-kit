@@ -2,6 +2,7 @@
    - [format()](#format)
    - [Escape collection](#escape-collection)
    - [Camel case](#camel-case)
+   - [Latinize](#latinize)
    - [inspect()](#inspect)
    - [Unicode](#unicode)
 <a name=""></a>
@@ -223,6 +224,15 @@ expect( string.toCamelCase( '-U' ) ).to.be( 'u' ) ;
 expect( string.camelCaseToDashed( 'oneTwoThree' ) ).to.be( 'one-two-three' ) ;
 expect( string.camelCaseToDashed( 'OneTwoThree' ) ).to.be( 'one-two-three' ) ;
 expect( string.camelCaseToDashed( 'aBC' ) ).to.be( 'a-b-c' ) ;
+```
+
+<a name="latinize"></a>
+# Latinize
+.latinize() should transform to regular latin letters without any accent.
+
+```js
+expect( string.latinize( 'éàèùâêîôûÂÊÎÔÛäëïöüÄËÏÖÜæÆŧøþßðđħł' ) )
+                 .to.be( 'eaeuaeiouAEIOUaeiouAEIOUaeAEtothssdhdhl' ) ;
 ```
 
 <a name="inspect"></a>
