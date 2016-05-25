@@ -1,32 +1,38 @@
 
+v0.5.2
+------
+
+.inspect(): 'sort' option that sort keys
+
+
 v0.5.1
 ------
 
-abort the home-made diff algorithm project
+Abort the home-made diff algorithm project in .inspect().
 
 
 v0.5.0
 ------
 
-Breaking changes: more options to inspect()
+Breaking changes: more options to .inspect().
 
 
 v0.4.4
 ------
 
-new function: latinize()
+New function: latinize().
 
 
 v0.4.3
 ------
 
-"use strict" everywhere
+"use strict" everywhere.
 
 
 v0.4.2
 ------
 
-"use strict" everywhere
+"use strict" everywhere.
 
 
 v0.4.1

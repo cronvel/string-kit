@@ -206,6 +206,7 @@ It just counts the number of *format specifier* in the `formatString`.
 	* enumOnly: only display enumerable properties
 	* funcDetails: display function's details
 	* proto: display object's prototype
+	* sort: sort the keys
 	* minimal: imply noFunc: true, noDescriptor: true, noType: true, enumOnly: true, proto: false and funcDetails: false.
 	  Display a minimal JSON-like output.
 * variable `mixed` anything we want to inspect/debug
