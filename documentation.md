@@ -200,9 +200,14 @@ It just counts the number of *format specifier* in the `formatString`.
 		* 'color': colorful output suitable for terminal
 		* 'html': html output
 	* depth: depth limit, default: 3
-	* nofunc: do not display functions
+	* noFunc: do not display functions
+	* noDescriptor: do not display descriptor information
+	* noType: do not display type and constructor
+	* enumOnly: only display enumerable properties
 	* funcDetails: display function's details
 	* proto: display object's prototype
+	* minimal: imply noFunc: true, noDescriptor: true, noType: true, enumOnly: true, proto: false and funcDetails: false.
+	  Display a minimal JSON-like output.
 * variable `mixed` anything we want to inspect/debug
 
 It inspect a variable, and return a string ready to be displayed with console.log(), or even as HTML output.
