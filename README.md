@@ -447,6 +447,70 @@ expect( format( 'this is ^Bblue^ this is not' ) )
 	.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
 ```
 
+should expose a stand-alone markup only method.
+
+```js
+expect( string.markup( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
+expect( string.markup( 'this is ^_underlined^: this is not' ) )
+	.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
+expect( string.markup( 'this is ^_underlined^ this is not' ) )
+	.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
+expect( string.markup( 'this is ^_underlined^:this is not' ) )
+	.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + 'this is not' + ansi.reset ) ;
+expect( string.markup( 'this is ^Bblue^: this is not' ) )
+	.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
+expect( string.markup( 'this is ^Bblue^ this is not' ) )
+	.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
+
+// format syntax should be ignored
+expect( string.markup( 'this is ^Bblue^ this is not %d' , 5 ) )
+	.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not %d' + ansi.reset ) ;
+```
+
+should expose a stand-alone markup only method.
+
+```js
+var wwwFormatter = {
+	endingMarkupReset: true ,
+	markupReset: function( markupStack ) {
+		var str = '</span>'.repeat( markupStack.length ) ;
+		markupStack.length = 0 ;
+		return str ;
+	} ,
+	markup: {
+		":": function( markupStack ) {
+			var str = '</span>'.repeat( markupStack.length ) ;
+			markupStack.length = 0 ;
+			return str ;
+		} ,
+		" ": function( markupStack ) {
+			var str = '</span>'.repeat( markupStack.length ) ;
+			markupStack.length = 0 ;
+			return str + ' ' ;
+		} ,
+		
+		"+": '<span style="font-weight:bold">' ,
+		"b": '<span style="color:blue">'
+	}
+} ;
+
+var markup = string.markupMethod.bind( wwwFormatter ) ;
+var format = string.formatMethod.bind( wwwFormatter ) ;
+
+expect( markup( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
+expect( markup( 'this is ^+bold^: this is not' ) )
+	.to.be( 'this is <span style="font-weight:bold">bold</span> this is not' ) ;
+expect( markup( 'this is ^+bold^ this is not' ) )
+	.to.be( 'this is <span style="font-weight:bold">bold</span> this is not' ) ;
+expect( markup( 'this is ^+bold^:this is not' ) )
+	.to.be( 'this is <span style="font-weight:bold">bold</span>this is not' ) ;
+expect( markup( 'this is ^b^+blue bold' ) )
+	.to.be( 'this is <span style="color:blue"><span style="font-weight:bold">blue bold</span></span>' ) ;
+
+expect( format( 'this is ^b^+blue bold' ) )
+	.to.be( 'this is <span style="color:blue"><span style="font-weight:bold">blue bold</span></span>' ) ;
+```
+
 <a name="escape-collection"></a>
 # Escape collection
 escape.control() should escape control characters.

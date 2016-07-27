@@ -1,4 +1,10 @@
 
+v0.5.9
+------
+
+New: string.markup(), a stand-alone version of the markup existing in string.format()
+
+
 v0.5.8
 ------
 
