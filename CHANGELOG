@@ -1,4 +1,10 @@
 
+v0.5.10
+-------
+
+Stack trace inspector fixed for anonymous function in V8
+
+
 v0.5.9
 ------
 
