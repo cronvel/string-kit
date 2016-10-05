@@ -1,4 +1,10 @@
 
+v0.5.11
+-------
+
+.format() now supports %Y, like %I but without non-enum, func, and descriptor
+
+
 v0.5.10
 -------
 
