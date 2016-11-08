@@ -71,6 +71,7 @@ Specifiers:
 * `%o` unsigned octal
 * `%b` unsigned binary
 * `%I` call string-kit's inspect()
+* `%Y` call string-kit's inspect(), but do not inspect non-enumerable
 * `%E` call string-kit's inspectError()
 * `%J` JSON.stringify()
 * `%D` drop, the argument does not produce anything but is eaten anyway
