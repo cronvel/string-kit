@@ -4,6 +4,7 @@
    - [Camel case](#camel-case)
    - [Latinize](#latinize)
    - [inspect()](#inspect)
+   - [Misc](#misc)
    - [Unicode](#unicode)
 <a name=""></a>
  
@@ -363,6 +364,16 @@ should pass the Array circular references bug.
 ```js
 var array = [ [ 1 ] ] ;
 expect( string.inspect( array ) ).to.be( '<Array>(1) <object> {\n    [0] <Array>(1) <object> {\n        [0] 1 <number>\n        length: 1 <number> <-conf -enum>\n    }\n    length: 1 <number> <-conf -enum>\n}\n' ) ;
+```
+
+<a name="misc"></a>
+# Misc
+.resize().
+
+```js
+expect( string.resize( 'bobby' , 3 ) ).to.be( 'bob' ) ;
+expect( string.resize( 'bobby' , 5 ) ).to.be( 'bobby' ) ;
+expect( string.resize( 'bobby' , 8 ) ).to.be( 'bobby   ' ) ;
 ```
 
 <a name="unicode"></a>

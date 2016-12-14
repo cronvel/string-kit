@@ -387,5 +387,14 @@ describe( "inspect()" , function() {
 	
 
 
+describe( "Misc" , function() {
+	
+	it( ".resize()" , function() {
+		expect( string.resize( 'bobby' , 3 ) ).to.be( 'bob' ) ;
+		expect( string.resize( 'bobby' , 5 ) ).to.be( 'bobby' ) ;
+		expect( string.resize( 'bobby' , 8 ) ).to.be( 'bobby   ' ) ;
+	} ) ;
+} ) ;
 
- 
+
+
