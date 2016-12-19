@@ -1,4 +1,10 @@
 
+v0.5.14
+-------
+
+New: escape.jsSingleQuote() and escape.jsDoubleQuote()
+
+
 v0.5.13
 -------
 

@@ -533,6 +533,20 @@ escape.shellArg() should escape a string so that it will be suitable as a shell 
 expect( string.escape.shellArg( "Here's my shell's argument" ) ).to.be( "'Here'\\''s my shell'\\''s argument'" ) ;
 ```
 
+escape.jsSingleQuote() should escape a string so that it will be suitable as a JS string code.
+
+```js
+expect( string.escape.jsSingleQuote( "A string with 'single' quotes" ) ).to.be( "A string with \\'single\\' quotes" ) ;
+expect( string.escape.jsSingleQuote( "A string with 'single' quotes\nand new\nlines" ) ).to.be( "A string with \\'single\\' quotes\\nand new\\nlines" ) ;
+```
+
+escape.jsDoubleQuote() should escape a string so that it will be suitable as a JS string code.
+
+```js
+expect( string.escape.jsDoubleQuote( 'A string with "double" quotes' ) ).to.be( 'A string with \\"double\\" quotes' ) ;
+expect( string.escape.jsDoubleQuote( 'A string with "double" quotes\nand new\nlines' ) ).to.be( 'A string with \\"double\\" quotes\\nand new\\nlines' ) ;
+```
+
 escape.regExp() should escape a string so that it will be suitable as a literal string into a regular expression pattern.
 
 ```js
