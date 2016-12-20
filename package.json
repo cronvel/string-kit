@@ -44,6 +44,20 @@
   "bugs": {
     "url": "https://github.com/cronvel/string-kit/issues"
   },
+  "config": {
+    "tea-time": {
+      "coverDir": [
+        "lib"
+      ]
+    }
+  },
+  "config": {
+    "tea-time": {
+      "coverDir": [
+        "lib"
+      ]
+    }
+  },
   "copyright": {
     "title": "String Kit",
     "years": [
