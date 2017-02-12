@@ -1,4 +1,10 @@
 
+v0.5.15
+-------
+
+.format() option %I and %Y accept a 'depth' integer argument
+
+
 v0.5.14
 -------
 
