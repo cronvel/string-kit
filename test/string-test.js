@@ -162,6 +162,11 @@ describe( "format()" , function() {
 			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
 	} ) ;
 	
+	it( "'^' markup: shift feature" , function() {
+		expect( format( 'this background is ^#^bblue^ this is ^wwhite' ) )
+			.to.be( 'this background is ' + ansi.bgBlue + 'blue' + ansi.reset + ' this is ' + ansi.white + 'white' + ansi.reset ) ;
+	} ) ;
+	
 	it( "should expose a stand-alone markup only method" , function() {
 		
 		expect( string.markup( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;

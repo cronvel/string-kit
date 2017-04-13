@@ -449,6 +449,13 @@ expect( format( 'this is ^Bblue^ this is not' ) )
 	.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
 ```
 
+'^' markup: shift feature.
+
+```js
+expect( format( 'this background is ^#^bblue^ this is ^wwhite' ) )
+	.to.be( 'this background is ' + ansi.bgBlue + 'blue' + ansi.reset + ' this is ' + ansi.white + 'white' + ansi.reset ) ;
+```
+
 should expose a stand-alone markup only method.
 
 ```js
