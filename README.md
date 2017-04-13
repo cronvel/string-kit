@@ -178,6 +178,8 @@ Style markup:
 * `^-` switch to dim
 * `^:` reset the style
 * `^ ` (caret followed by a space) reset the style and write a single space
+* `^#` background modifier: next color will be a background color instead of a foreground color,
+  e.g.: `'Some ^#^r^bred background` text' will write *red background* in blue over red.
 
 **Note:** as soon as the format string has **one** style markup, a style reset will be added at the end of the string.
 
