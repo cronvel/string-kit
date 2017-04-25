@@ -1,6 +1,6 @@
 {
   "name": "string-kit",
-  "version": "0.5.19",
+  "version": "0.5.20",
   "engines": {
     "node": ">=4.0.0"
   },
@@ -10,7 +10,8 @@
     "test": "test"
   },
   "dependencies": {
-    "tree-kit": "^0.5.24"
+    "tree-kit": "^0.5.24",
+    "xregexp": "^3.2.0"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
