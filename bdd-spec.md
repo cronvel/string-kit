@@ -3,6 +3,7 @@
    - [Escape collection](#escape-collection)
    - [Camel case](#camel-case)
    - [Latinize](#latinize)
+   - [Wordwrap](#wordwrap)
    - [inspect()](#inspect)
    - [Misc](#misc)
    - [Unicode](#unicode)
@@ -319,6 +320,19 @@ expect( string.camelCaseToDashed( 'aBC' ) ).to.be( 'a-b-c' ) ;
 ```js
 expect( string.latinize( 'éàèùâêîôûÂÊÎÔÛäëïöüÄËÏÖÜæÆŧøþßðđħł' ) )
                  .to.be( 'eaeuaeiouAEIOUaeiouAEIOUaeAEtothssdhdhl' ) ;
+```
+
+<a name="wordwrap"></a>
+# Wordwrap
+.wordwrap() should wrap words.
+
+```js
+expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree\nfour five\nsix seven' ) ;
+expect( string.wordwrap( 'one two three four five six seven' , 10 , '<br />\n' ) ).to.be( 'one two<br />\nthree<br />\nfour five<br />\nsix seven' ) ;
+expect( string.wordwrap( 'one two three four five six seven' , 10 , null ) ).to.eql( [ 'one two' , 'three' , 'four five' , 'six seven' ] ) ;
+expect( string.wordwrap( 'one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
 ```
 
 <a name="inspect"></a>

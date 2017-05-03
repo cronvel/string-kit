@@ -334,6 +334,20 @@ describe( "Latinize" , function() {
 	
 
 
+describe( "Wordwrap" , function() {
+	
+	it( ".wordwrap() should wrap words" , function() {
+		expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( 'one two three four five six seven' , 10 , '<br />\n' ) ).to.be( 'one two<br />\nthree<br />\nfour five<br />\nsix seven' ) ;
+		expect( string.wordwrap( 'one two three four five six seven' , 10 , null ) ).to.eql( [ 'one two' , 'three' , 'four five' , 'six seven' ] ) ;
+		expect( string.wordwrap( 'one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+	} ) ;
+} ) ;
+	
+
+
 describe( "inspect()" , function() {
 	
 	it( "should inspect a variable with default options accordingly" , function() {
