@@ -364,6 +364,26 @@ expect( format( '%U' , -123 ) ).to.be( '1' ) ;
 expect( format( '%U' ) ).to.be( '1' ) ;
 ```
 
+%z should format as base64.
+
+```js
+expect( format( '%z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
+expect( format( '%z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
+expect( format( '%z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
+expect( format( '%z' , Buffer.from( 'some longer text' ) ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
+expect( format( '%z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '+/c=' ) ;
+```
+
+%Z should format as base64.
+
+```js
+expect( format( '%Z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
+expect( format( '%Z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
+expect( format( '%Z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
+expect( format( '%Z' , Buffer.from( 'some longer text' ) ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
+expect( format( '%Z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '-_c' ) ;
+```
+
 should perform well the argument's index feature.
 
 ```js

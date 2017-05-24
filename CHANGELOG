@@ -1,4 +1,10 @@
 
+v0.5.22
+-------
+
+New: .format() accept %z and %Z that transform to base64 and base64url
+
+
 v0.5.21
 -------
 
