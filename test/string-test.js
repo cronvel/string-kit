@@ -434,6 +434,20 @@ describe( "inspect()" , function() {
 	
 
 
+describe( "Title case" , function() {
+	
+	it( "Basic .toTitleCase() usages" , function() {
+		expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' ) )
+			.to.be( 'Bob Bill Booo Électron Hétérogénéité ALLCAPS McDowell Jean-Michel' ) ;
+		expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' , { zealous: true } ) )
+			.to.be( 'Bob Bill Booo Électron Hétérogénéité Allcaps Mcdowell Jean-Michel' ) ;
+		expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' , { zealous: true , preserveAllCaps: true } ) )
+			.to.be( 'Bob Bill Booo Électron Hétérogénéité ALLCAPS Mcdowell Jean-Michel' ) ;
+	} ) ;
+} ) ;
+
+
+
 describe( "Misc" , function() {
 	
 	it( ".resize()" , function() {

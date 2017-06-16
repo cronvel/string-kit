@@ -5,6 +5,7 @@
    - [Latinize](#latinize)
    - [Wordwrap](#wordwrap)
    - [inspect()](#inspect)
+   - [Title case](#title-case)
    - [Misc](#misc)
    - [Unicode](#unicode)
 <a name=""></a>
@@ -419,6 +420,19 @@ should pass the Array circular references bug.
 ```js
 var array = [ [ 1 ] ] ;
 expect( string.inspect( array ) ).to.be( '<Array>(1) <object> {\n    [0] <Array>(1) <object> {\n        [0] 1 <number>\n        length: 1 <number> <-conf -enum>\n    }\n    length: 1 <number> <-conf -enum>\n}\n' ) ;
+```
+
+<a name="title-case"></a>
+# Title case
+Basic .toTitleCase() usages.
+
+```js
+expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' ) )
+	.to.be( 'Bob Bill Booo Électron Hétérogénéité ALLCAPS McDowell Jean-Michel' ) ;
+expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' , { zealous: true } ) )
+	.to.be( 'Bob Bill Booo Électron Hétérogénéité Allcaps Mcdowell Jean-Michel' ) ;
+expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' , { zealous: true , preserveAllCaps: true } ) )
+	.to.be( 'Bob Bill Booo Électron Hétérogénéité ALLCAPS Mcdowell Jean-Michel' ) ;
 ```
 
 <a name="misc"></a>
