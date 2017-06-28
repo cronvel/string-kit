@@ -1,4 +1,10 @@
 
+v0.5.26
+-------
+
+inspectError() non-error fallback to inspect()
+
+
 v0.5.25
 -------
 
