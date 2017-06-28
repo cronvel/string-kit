@@ -1,4 +1,10 @@
 
+v0.5.25
+-------
+
+inspectError() fix: now return '(not an error)' if it was not inspecting an error
+
+
 v0.5.24
 -------
 
