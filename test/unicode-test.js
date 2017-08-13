@@ -100,8 +100,20 @@ describe( "Unicode" , function() {
 		expect( string.unicode.isFullWidth( '備' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( '䷆' ) ).to.be( false ) ;
 	} ) ;
-} ) ;
 	
+	it( ".toFullWidth() should transform a character to its full-width variant, if it exist" , function() {
+		expect( string.unicode.toFullWidth( '@' ) ).to.be( '＠' ) ;
+		expect( string.unicode.toFullWidth( 'é' ) ).to.be( 'é' ) ;
+	} ) ;
+	
+	it( ".width() should return the width of a string when displayed on a terminal or a monospace font" , function() {
+		expect( string.unicode.width( 'aé@à' ) ).to.be( 4 ) ;
+		expect( string.unicode.width( 'aé＠à' ) ).to.be( 5 ) ;
+	} ) ;
+} ) ;
+
+
+
 
 
 

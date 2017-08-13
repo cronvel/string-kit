@@ -1,4 +1,10 @@
 
+v0.5.27
+-------
+
+New: string.unicode.width() that return the width of a string when displayed on a terminal or when using a monospace font
+
+
 v0.5.26
 -------
 
