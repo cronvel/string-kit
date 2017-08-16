@@ -1,4 +1,10 @@
 
+v0.6.0
+------
+
+Breaking change: require node >= 6. Punycode module independance, unicode sub-module performance improved
+
+
 v0.5.27
 -------
 

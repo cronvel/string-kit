@@ -1,5 +1,6 @@
 {
 	// Generic options
+	"esversion": 6,
 	"maxerr" : 20,
 	
 	// Predefined globals (node.js, browser, etc...)
