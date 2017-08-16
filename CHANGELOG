@@ -1,4 +1,10 @@
 
+v0.6.1
+------
+
+Removed tree-kit dependency, using ES6 Object.assign() instead
+
+
 v0.6.0
 ------
 
