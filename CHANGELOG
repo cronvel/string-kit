@@ -1,4 +1,10 @@
 
+v0.6.3
+------
+
+Merging pull request #1: .inspect() now supports passing an object to customize the style
+
+
 v0.6.2
 ------
 

@@ -202,7 +202,6 @@ It just counts the number of *format specifier* in the `formatString`.
 		* 'none': (default) normal output suitable for console.log() or writing into a file
 		* 'color': colorful output suitable for terminal
 		* 'html': html output
-		* for more control, an object can be passed, see [inspect.js](https://github.com/cronvel/string-kit/blob/6df4842423d1318e475f7a38142bcd356afd8c0f/lib/inspect.js#L488-L560)
 	* depth: depth limit, default: 3
 	* noFunc: do not display functions
 	* noDescriptor: do not display descriptor information
