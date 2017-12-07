@@ -1,4 +1,10 @@
 
+v0.6.4
+------
+
+camelCaseToDash() alias of camelCaseToDashed()
+
+
 v0.6.3
 ------
 
