@@ -212,6 +212,8 @@ It just counts the number of *format specifier* in the `formatString`.
 	* sort: sort the keys
 	* minimal: imply noFunc: true, noDescriptor: true, noType: true, enumOnly: true, proto: false and funcDetails: false.
 	  Display a minimal JSON-like output.
+	* protoBlackList: `Set` of blacklisted object prototype (will not recurse inside it)
+	* propertyBlackList: `Set` of blacklisted property names (will not even display it)
 * variable `mixed` anything we want to inspect/debug
 
 It inspect a variable, and return a string ready to be displayed with console.log(), or even as HTML output.

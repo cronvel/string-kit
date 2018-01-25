@@ -1,8 +1,14 @@
 
+v0.6.6
+------
+
+Adding a 'propertyBlackList' options to .inspect() to prevent to skip properties based by name ; documentation has been updated
+
+
 v0.6.5
 ------
 
-Adding a 'blackList' options to .inspect() to prevent from recursing inside some objects based on their prototype
+Adding a 'protoBlackList' options to .inspect() to prevent from recursing inside some objects based on their prototype
 
 
 v0.6.4
