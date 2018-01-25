@@ -1,4 +1,10 @@
 
+v0.6.5
+------
+
+Adding a blackList options to .inspect() to prevent from recursing inside some object based on their prototype
+
+
 v0.6.4
 ------
 
