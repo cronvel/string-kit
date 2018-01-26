@@ -765,6 +765,24 @@ expect( string.resize( 'bobby' , 5 ) ).to.be( 'bobby' ) ;
 expect( string.resize( 'bobby' , 8 ) ).to.be( 'bobby   ' ) ;
 ```
 
+.occurenceCount().
+
+```js
+expect( string.occurenceCount( '' , '' ) ).to.be( 0 ) ;
+expect( string.occurenceCount( 'three' , '' ) ).to.be( 0 ) ;
+expect( string.occurenceCount( '' , 'o' ) ).to.be( 0 ) ;
+expect( string.occurenceCount( '' , 'omg' ) ).to.be( 0 ) ;
+expect( string.occurenceCount( 'three' , 'o' ) ).to.be( 0 ) ;
+expect( string.occurenceCount( 'o' , 'o' ) ).to.be( 1 ) ;
+expect( string.occurenceCount( 'ooo' , 'o' ) ).to.be( 3 ) ;
+expect( string.occurenceCount( 'ooo' , 'oo' ) ).to.be( 1 ) ;
+expect( string.occurenceCount( 'aooo' , 'oo' ) ).to.be( 1 ) ;
+expect( string.occurenceCount( 'aoooo' , 'oo' ) ).to.be( 2 ) ;
+expect( string.occurenceCount( 'one two three four' , 'o' ) ).to.be( 3 ) ;
+expect( string.occurenceCount( 'one one one' , 'one' ) ).to.be( 3 ) ;
+expect( string.occurenceCount( 'oneoneone' , 'one' ) ).to.be( 3 ) ;
+```
+
 <a name="unicode"></a>
 # Unicode
 unicode.length() should report correctly the length of a string.

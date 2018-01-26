@@ -1,4 +1,10 @@
 
+v0.6.7
+------
+
+New function: .occurenceCount() -- count occurences of a substring
+
+
 v0.6.6
 ------
 
