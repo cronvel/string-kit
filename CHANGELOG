@@ -1,4 +1,10 @@
 
+v0.6.8
+------
+
+.inspect(): proper display for String instances
+
+
 v0.6.7
 ------
 
