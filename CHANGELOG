@@ -1,4 +1,10 @@
 
+v0.6.9
+------
+
+.inspect() now has a 'maxLength' option that truncates big strings (default: 200)
+
+
 v0.6.8
 ------
 
