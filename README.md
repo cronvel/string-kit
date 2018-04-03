@@ -690,6 +690,12 @@ expect( string.wordwrap( '備備 備備 備 備備備備 備備' , 10
 expect( string.wordwrap( '備備 備備 備 備 備 備備 備備備' , 10 ) ).to.be( '備備 備備\n備 備 備\n備備\n備備備' ) ;
 ```
 
+.wordwrap() and french typography rules with '!', '?', ':' and ';'.
+
+```js
+expect( string.wordwrap( 'un ! deux ? trois : quatre ; cinq !' , 10 ) ).to.be( 'un !\ndeux ?\ntrois :\nquatre ;\ncinq !' ) ;
+```
+
 <a name="inspect"></a>
 # inspect()
 should inspect a variable with default options accordingly.
