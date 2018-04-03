@@ -676,6 +676,20 @@ expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be(
 expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
 ```
 
+.wordwrap() and surrogate pairs.
+
+```js
+expect( string.wordwrap( '𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' , 10 ) ).to.be( '𝌆𝌆𝌆 𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' ) ;
+```
+
+.wordwrap() and fullwidth chars.
+
+```js
+expect( string.wordwrap( '備備 備備備 備備備備 備備' , 10 ) ).to.be( '備備\n備備備\n備備備備\n備備' ) ;
+expect( string.wordwrap( '備備 備備 備 備備備備 備備' , 10 ) ).to.be( '備備 備備\n備\n備備備備\n備備' ) ;
+expect( string.wordwrap( '備備 備備 備 備 備 備備 備備備' , 10 ) ).to.be( '備備 備備\n備 備 備\n備備\n備備備' ) ;
+```
+
 <a name="inspect"></a>
 # inspect()
 should inspect a variable with default options accordingly.

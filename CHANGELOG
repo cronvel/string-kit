@@ -1,4 +1,10 @@
 
+v0.6.10
+-------
+
+.wordwrap() is now unicode aware and full-width aware
+
+
 v0.6.9
 ------
 
