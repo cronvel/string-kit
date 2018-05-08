@@ -1,4 +1,10 @@
 
+v0.6.12
+-------
+
+.inspect() improved -- new style: inline, new option: noArrayProperty
+
+
 v0.6.11
 -------
 

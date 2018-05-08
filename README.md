@@ -200,11 +200,13 @@ It just counts the number of *format specifier* in the `formatString`.
 * options `Object` display options, the following key are possible:
 	* style `String` this is the style to use, the value can be:
 		* 'none': (default) normal output suitable for console.log() or writing into a file
+		* 'inline': like 'none', but without newlines
 		* 'color': colorful output suitable for terminal
 		* 'html': html output
 	* depth: depth limit, default: 3
 	* noFunc: do not display functions
 	* noDescriptor: do not display descriptor information
+	* noArrayProperty: do not display array properties
 	* noType: do not display type and constructor
 	* enumOnly: only display enumerable properties
 	* funcDetails: display function's details
