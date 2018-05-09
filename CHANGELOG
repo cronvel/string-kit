@@ -1,4 +1,10 @@
 
+v0.6.13
+-------
+
+outputMaxLength option for .inspect() ; documentation
+
+
 v0.6.12
 -------
 
