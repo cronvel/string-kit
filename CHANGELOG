@@ -1,4 +1,10 @@
 
+v0.6.15
+-------
+
+.inspect() now display RegExp with .toString()
+
+
 v0.6.14
 -------
 
