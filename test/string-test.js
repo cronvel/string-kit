@@ -439,6 +439,10 @@ describe( "inspect()" , function() {
 		expect( string.inspect( array ) ).to.be( '<Array>(1) <object> {\n    [0] <Array>(1) <object> {\n        [0] 1 <number>\n        length: 1 <number> <-conf -enum>\n    }\n    length: 1 <number> <-conf -enum>\n}\n' ) ;
 	} ) ;
 	
+	it( "should inspect object with no constructor" , function() {
+		expect( string.inspect( Object.assign( Object.create( null ) , { a: 1, b: 2 } ) ) ).to.be( '<(no constructor)> <object> {\n    a: 1 <number>\n    b: 2 <number>\n}\n' ) ;
+	} ) ;
+	
 	it( "special objects tests (ES6 Set & Map, MongoDB ObjectID)" ) ;
 } ) ;
 	

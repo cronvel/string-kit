@@ -1,4 +1,10 @@
 
+v0.6.17
+-------
+
+Fixed an exception in .inspect() when an object has no constructor
+
+
 v0.6.16
 -------
 
