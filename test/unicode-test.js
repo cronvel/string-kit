@@ -24,15 +24,11 @@
 	SOFTWARE.
 */
 
-/* jshint unused:false */
-/* global describe, it, before, after */
-
 "use strict" ;
 
 
 
 var string = require( '../lib/string.js' ) ;
-var expect = require( 'expect.js' ) ;
 
 
 

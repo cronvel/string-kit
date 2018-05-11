@@ -1,6 +1,6 @@
 {
   "name": "string-kit",
-  "version": "0.6.15",
+  "version": "0.6.16",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -10,15 +10,10 @@
     "test": "test"
   },
   "dependencies": {
-    "xregexp": "^3.2.0"
-  },
-  "devDependencies": {
-    "expect.js": "^0.3.1",
-    "jshint": "^2.9.2",
-    "mocha": "^2.5.3"
+    "xregexp": "^4.1.1"
   },
   "scripts": {
-    "test": "mocha -R dot"
+    "test": "tea-time -R dot"
   },
   "repository": {
     "type": "git",

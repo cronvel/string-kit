@@ -1,4 +1,10 @@
 
+v0.6.16
+-------
+
+Unit tests are now using Tea-Time and its builtin 'expect' assertion
+
+
 v0.6.15
 -------
 
