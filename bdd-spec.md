@@ -1,14 +1,14 @@
 ## Table of Content
 
-* [format()](#format())
-* [Escape collection](#Escape collection)
-* [Camel case](#Camel case)
-* [Latinize](#Latinize)
-* [Wordwrap](#Wordwrap)
-* [inspect()](#inspect())
-* [Title case](#Title case)
-* [Misc](#Misc)
-* [Unicode](#Unicode)
+* [format()](#format)
+* [Escape collection](#escape-collection)
+* [Camel case](#camel-case)
+* [Latinize](#latinize)
+* [Wordwrap](#wordwrap)
+* [inspect()](#inspect)
+* [Title case](#title-case)
+* [Misc](#misc)
+* [Unicode](#unicode)
 
 
 ## format()
