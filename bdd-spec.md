@@ -568,4 +568,3 @@ expect( string.unicode.width( 'aé＠à' ) ).to.be( 5 ) ;
 ```
 
 
-[0m
