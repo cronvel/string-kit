@@ -1,4 +1,10 @@
 
+v0.6.18
+-------
+
+New: .wordwrap() now support a 4th argument, a function used to skip some special chars (e.g.: useful for skipping ANSI colors)
+
+
 v0.6.17
 -------
 
