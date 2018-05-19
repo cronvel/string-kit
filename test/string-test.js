@@ -352,11 +352,24 @@ describe( "Wordwrap" , function() {
 	
 	it( ".wordwrap() should wrap words" , function() {
 		expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree\nfour five\nsix seven' ) ;
-		expect( string.wordwrap( 'one two three four five six seven' , 10 , '<br />\n' ) ).to.be( 'one two<br />\nthree<br />\nfour five<br />\nsix seven' ) ;
-		expect( string.wordwrap( 'one two three four five six seven' , 10 , null ) ).to.eql( [ 'one two' , 'three' , 'four five' , 'six seven' ] ) ;
 		expect( string.wordwrap( 'one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
 		expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
 		expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'offset' option" , function() {
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , offset: 5 } ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'offset' and 'updateOffset' options" , function() {
+		var column = { width: 10 , offset: 5 , updateOffset: true } ;
+		expect( string.wordwrap( 'one two three four five six seven' , column ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+		expect( column.offset ).to.be( 9 ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'glue' option" , function() {
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , glue: '<br />\n' } ) ).to.be( 'one two<br />\nthree<br />\nfour five<br />\nsix seven' ) ;
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , glue: false } ) ).to.eql( [ 'one two' , 'three' , 'four five' , 'six seven' ] ) ;
 	} ) ;
 	
 	it( ".wordwrap() and surrogate pairs" , function() {

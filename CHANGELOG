@@ -1,4 +1,10 @@
 
+v0.7.0
+------
+
+Breaking change: .wordwrap() signature changed, either .wordwrap( str , width )  or .wordwrap( str, optionObject ) 
+
+
 v0.6.18
 -------
 
