@@ -1,4 +1,10 @@
 
+v0.7.1
+------
+
+Fix .wordwrap() behavior with offset and first word wrapping
+
+
 v0.7.0
 ------
 
