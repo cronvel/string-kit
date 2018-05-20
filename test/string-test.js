@@ -369,7 +369,10 @@ describe( "Wordwrap" , function() {
 	
 	it( ".wordwrap() and the 'glue' option" , function() {
 		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , glue: '<br />\n' } ) ).to.be( 'one two<br />\nthree<br />\nfour five<br />\nsix seven' ) ;
-		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , glue: false } ) ).to.eql( [ 'one two' , 'three' , 'four five' , 'six seven' ] ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'noJoin' option" , function() {
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , noJoin: true } ) ).to.eql( [ 'one two' , 'three' , 'four five' , 'six seven' ] ) ;
 	} ) ;
 	
 	it( ".wordwrap() and surrogate pairs" , function() {
