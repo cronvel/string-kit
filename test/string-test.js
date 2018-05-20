@@ -353,32 +353,31 @@ describe( "Wordwrap" , function() {
 	it( ".wordwrap() should wrap words" , function() {
 		expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree\nfour five\nsix seven' ) ;
 		expect( string.wordwrap( 'one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
-		expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six   ' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix' ) ;
+		expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six   ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix   ' ) ;
 	} ) ;
 	
 	it( ".wordwrap() should preserve explicit new lines" , function() {
-		expect( string.wordwrap( '   one        \ntwo three four five six' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six\n' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six\n\n' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n\n' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six\n ' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
+		expect( string.wordwrap( 'one\ntwo three four five six' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix' ) ;
+		expect( string.wordwrap( 'one\ntwo three four five six\n' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
+		expect( string.wordwrap( 'one\ntwo three four five six\n\n' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n\n' ) ;
+		expect( string.wordwrap( 'one\ntwo three four five six\n ' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n ' ) ;
 	} ) ;
 	
-	it( ".wordwrap() and the 'preserveLastSpace' option" , function() {
-		expect( string.wordwrap( '   one        \ntwo three four five six' , { width: 10 , preserveLastSpace: true } ) ).to.be( 'one\ntwo three\nfour five\nsix' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six ' , { width: 10 , preserveLastSpace: true } ) ).to.be( 'one\ntwo three\nfour five\nsix ' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six   ' , { width: 10 , preserveLastSpace: true } ) ).to.be( 'one\ntwo three\nfour five\nsix ' ) ;
-		
-		expect( string.wordwrap( '   one        \ntwo three four five six\n' , { width: 10 , preserveLastSpace: false } ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six\n' , { width: 10 , preserveLastSpace: true } ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , preserveLastSpace: false } ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , preserveLastSpace: true } ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six\n ' , { width: 10 , preserveLastSpace: false } ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six\n ' , { width: 10 , preserveLastSpace: true } ) ).to.be( 'one\ntwo three\nfour five\nsix\n ' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six\n\n' , { width: 10 , preserveLastSpace: false } ) ).to.be( 'one\ntwo three\nfour five\nsix\n\n' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six\n\n' , { width: 10 , preserveLastSpace: true } ) ).to.be( 'one\ntwo three\nfour five\nsix\n\n' ) ;
+	it( ".wordwrap() should right-trim all lines except the last" , function() {
+		expect( string.wordwrap( '   one        \ntwo three four five six' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix ' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six   ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix   ' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six\n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six\n ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n ' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six \n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six\n\n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n\n' ) ;
+	} ) ;
+	
+	it( ".wordwrap() should preserve space before breaking-lines" , function() {
+		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , noTrim: true } ) ).to.be( '   one   \ntwo three\nfour five\nsix \n' ) ;
 	} ) ;
 	
 	it( ".wordwrap() and the 'offset' option" , function() {
