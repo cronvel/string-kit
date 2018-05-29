@@ -1,4 +1,10 @@
 
+v0.7.4
+------
+
+.inspect(): raise string inspection default limit from 200 to 250, since all people have big screens
+
+
 v0.7.3
 ------
 
