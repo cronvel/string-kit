@@ -113,6 +113,15 @@ describe( "Unicode" , function() {
 		expect( string.unicode.arrayWidth( [ '汉', '字' , '＠' ] ) ).to.be( 6 ) ;
 		expect( string.unicode.arrayWidth( [ '汉', 'a' , '字' , '&'] ) ).to.be( 6 ) ;
 		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] ) ).to.be( 8 ) ;
+		
+		expect( string.unicode.arrayWidth( [ '汉', '字' ] , 2 ) ).to.be( 4 ) ;
+		expect( string.unicode.arrayWidth( [ '汉', '字' ] , 1 ) ).to.be( 2 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 0 ) ).to.be( 0 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 1 ) ).to.be( 1 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 2 ) ).to.be( 3 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 3 ) ).to.be( 5 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 4 ) ).to.be( 7 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 5 ) ).to.be( 8 ) ;
 	} ) ;
 } ) ;
 

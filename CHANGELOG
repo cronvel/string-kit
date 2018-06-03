@@ -1,4 +1,10 @@
 
+v0.7.6
+------
+
+New: unicode.arrayWidth() has a second argument (limit)
+
+
 v0.7.5
 ------
 
