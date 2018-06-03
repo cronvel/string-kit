@@ -105,12 +105,15 @@ describe( "Unicode" , function() {
 	it( ".width() should return the width of a string when displayed on a terminal or a monospace font" , function() {
 		expect( string.unicode.width( 'aé@à' ) ).to.be( 4 ) ;
 		expect( string.unicode.width( 'aé＠à' ) ).to.be( 5 ) ;
+		expect( string.unicode.width( 'aé汉字à' ) ).to.be( 7 ) ;
+	} ) ;
+	
+	it( ".arrayWidth() should return the width of an array of string when displayed on a terminal or a monospace font" , function() {
+		expect( string.unicode.arrayWidth( [ '汉', '字' ] ) ).to.be( 4 ) ;
+		expect( string.unicode.arrayWidth( [ '汉', '字' , '＠' ] ) ).to.be( 6 ) ;
+		expect( string.unicode.arrayWidth( [ '汉', 'a' , '字' , '&'] ) ).to.be( 6 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] ) ).to.be( 8 ) ;
 	} ) ;
 } ) ;
-
-
-
-
-
 
  
