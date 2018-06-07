@@ -1,4 +1,10 @@
 
+v0.7.7
+------
+
+New: .format() now has the %k formatter (metric prefix)
+
+
 v0.7.6
 ------
 
