@@ -1,4 +1,10 @@
 
+v0.7.8
+------
+
+.wordwrap() width fixed ; new option 'fill' that add space at the right to fill lines
+
+
 v0.7.7
 ------
 

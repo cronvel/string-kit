@@ -372,7 +372,7 @@ describe( "Latinize" , function() {
 describe( "Wordwrap" , function() {
 	
 	it( ".wordwrap() should wrap words" , function() {
-		expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree four\nfive six\nseven' ) ;
 		expect( string.wordwrap( 'one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
 		expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix seven' ) ;
 		expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix seven' ) ;
@@ -395,10 +395,20 @@ describe( "Wordwrap" , function() {
 		expect( string.wordwrap( '   one        \ntwo three four five six\n ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n ' ) ;
 		expect( string.wordwrap( '   one        \ntwo three four five six \n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n' ) ;
 		expect( string.wordwrap( '   one        \ntwo three four five six\n\n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n\n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three! four five! six \n' , 10 ) ).to.be( '   one\ntwo three!\nfour five!\nsix\n' ) ;
 	} ) ;
 	
 	it( ".wordwrap() should preserve space before breaking-lines" , function() {
-		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , noTrim: true } ) ).to.be( '   one   \ntwo three\nfour five\nsix \n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , noTrim: true } ) ).to.be( '   one    \ntwo three\nfour five\nsix \n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three! four five! six \n' , { width: 10 , noTrim: true } ) ).to.be( '   one    \ntwo three!\nfour five!\nsix \n' ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'fill' option" , function() {
+		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix       \n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
+		expect( string.wordwrap( '   one\ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
+		expect( string.wordwrap( '   one\ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
+		expect( string.wordwrap( 'onetwo three four five six' , { width: 10 , fill: true } ) ).to.be( 'onetwo    \nthree four\nfive six' ) ;
 	} ) ;
 	
 	it( ".wordwrap() and the 'offset' option" , function() {
@@ -412,15 +422,15 @@ describe( "Wordwrap" , function() {
 	} ) ;
 	
 	it( ".wordwrap() and the 'glue' option" , function() {
-		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , glue: '<br />\n' } ) ).to.be( 'one two<br />\nthree<br />\nfour five<br />\nsix seven' ) ;
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , glue: '<br />\n' } ) ).to.be( 'one two<br />\nthree four<br />\nfive six<br />\nseven' ) ;
 	} ) ;
 	
 	it( ".wordwrap() and the 'noJoin' option" , function() {
-		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , noJoin: true } ) ).to.eql( [ 'one two' , 'three' , 'four five' , 'six seven' ] ) ;
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , noJoin: true } ) ).to.eql( [ 'one two' , 'three four' , 'five six' , 'seven' ] ) ;
 	} ) ;
 	
 	it( ".wordwrap() and surrogate pairs" , function() {
-		expect( string.wordwrap( '𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' , 10 ) ).to.be( '𝌆𝌆𝌆 𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' ) ;
+		expect( string.wordwrap( '𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' , 9 ) ).to.be( '𝌆𝌆𝌆 𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' ) ;
 	} ) ;
 	
 	it( ".wordwrap() and fullwidth chars" , function() {
