@@ -1,4 +1,10 @@
 
+v0.6.18
+-------
+
+Fixed .inspect() on empty array
+
+
 v0.6.17
 -------
 
