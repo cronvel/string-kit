@@ -41,7 +41,6 @@ var string = require( '../lib/string.js' ) ;
 describe( "Unicode" , function() {
 	
 	it( "unicode.length() should report correctly the length of a string" , function() {
-		
 		expect( string.unicode.length( '' ) ).to.be( 0 ) ;
 		expect( string.unicode.length( 'a' ) ).to.be( 1 ) ;
 		expect( string.unicode.length( 'abc' ) ).to.be( 3 ) ;
@@ -57,7 +56,6 @@ describe( "Unicode" , function() {
 	} ) ;
 	
 	it( "unicode.toArray() should produce an array of character" , function() {
-		
 		expect( string.unicode.toArray( '' ) ).to.eql( [] ) ;
 		expect( string.unicode.toArray( 'a' ) ).to.eql( [ 'a' ] ) ;
 		expect( string.unicode.toArray( 'abc' ) ).to.eql( [ 'a' , 'b' , 'c' ] ) ;
@@ -73,7 +71,6 @@ describe( "Unicode" , function() {
 	} ) ;
 	
 	it( "unicode.surrogatePair() should return 0 for single char, 1 for leading surrogate, -1 for trailing surrogate" , function() {
-		
 		expect( string.unicode.surrogatePair( 'a' ) ).to.be( 0 ) ;
 		expect( '𝌆'.length ).to.be( 2 ) ;
 		expect( string.unicode.surrogatePair( '𝌆'[0] ) ).to.be( 1 ) ;
@@ -89,7 +86,6 @@ describe( "Unicode" , function() {
 	} ) ;
 	
 	it( "unicode.isFullWidth() should return true if the char is full-width" , function() {
-		
 		expect( string.unicode.isFullWidth( 'a' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( '𝌆' ) ).to.be( false ) ;
@@ -105,12 +101,42 @@ describe( "Unicode" , function() {
 	it( ".width() should return the width of a string when displayed on a terminal or a monospace font" , function() {
 		expect( string.unicode.width( 'aé@à' ) ).to.be( 4 ) ;
 		expect( string.unicode.width( 'aé＠à' ) ).to.be( 5 ) ;
+		expect( string.unicode.width( 'aé汉字à' ) ).to.be( 7 ) ;
+	} ) ;
+	
+	it( ".arrayWidth() should return the width of an array of string when displayed on a terminal or a monospace font" , function() {
+		expect( string.unicode.arrayWidth( [ '汉', '字' ] ) ).to.be( 4 ) ;
+		expect( string.unicode.arrayWidth( [ '汉', '字' , '＠' ] ) ).to.be( 6 ) ;
+		expect( string.unicode.arrayWidth( [ '汉', 'a' , '字' , '&'] ) ).to.be( 6 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] ) ).to.be( 8 ) ;
+		
+		expect( string.unicode.arrayWidth( [ '汉', '字' ] , 2 ) ).to.be( 4 ) ;
+		expect( string.unicode.arrayWidth( [ '汉', '字' ] , 1 ) ).to.be( 2 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 0 ) ).to.be( 0 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 1 ) ).to.be( 1 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 2 ) ).to.be( 3 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 3 ) ).to.be( 5 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 4 ) ).to.be( 7 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 5 ) ).to.be( 8 ) ;
+	} ) ;
+	
+	it( ".widthLimit() should return a string that does not exceed the limit" , function() {
+		expect( string.unicode.widthLimit( 'aé@à' , 3 ) ).to.be( 'aé@' ) ;
+		expect( string.unicode.widthLimit( 'aé@à' , 4 ) ).to.be( 'aé@à' ) ;
+		expect( string.unicode.widthLimit( 'aé@à' , 5 ) ).to.be( 'aé@à' ) ;
+		expect( string.unicode.widthLimit( 'aé＠à' , 2 ) ).to.be( 'aé' ) ;
+		expect( string.unicode.widthLimit( 'aé＠à' , 3 ) ).to.be( 'aé' ) ;
+		expect( string.unicode.widthLimit( 'aé＠à' , 4 ) ).to.be( 'aé＠' ) ;
+		expect( string.unicode.widthLimit( 'aé＠à' , 5 ) ).to.be( 'aé＠à' ) ;
+		expect( string.unicode.widthLimit( 'aé＠à' , 6 ) ).to.be( 'aé＠à' ) ;
+		expect( string.unicode.widthLimit( 'aé汉字à' , 2 ) ).to.be( 'aé' ) ;
+		expect( string.unicode.widthLimit( 'aé汉字à' , 3 ) ).to.be( 'aé' ) ;
+		expect( string.unicode.widthLimit( 'aé汉字à' , 4 ) ).to.be( 'aé汉' ) ;
+		expect( string.unicode.widthLimit( 'aé汉字à' , 5 ) ).to.be( 'aé汉' ) ;
+		expect( string.unicode.widthLimit( 'aé汉字à' , 6 ) ).to.be( 'aé汉字' ) ;
+		expect( string.unicode.widthLimit( 'aé汉字à' , 7 ) ).to.be( 'aé汉字à' ) ;
+		expect( string.unicode.widthLimit( 'aé汉字à' , 8 ) ).to.be( 'aé汉字à' ) ;
 	} ) ;
 } ) ;
-
-
-
-
-
 
  

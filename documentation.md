@@ -204,7 +204,7 @@ It just counts the number of *format specifier* in the `formatString`.
 		* 'color': colorful output suitable for terminal
 		* 'html': html output
 	* depth: depth limit, default: 3
-	* maxLength: length limit for strings, default: 200
+	* maxLength: length limit for strings, default: 250
 	* outputMaxLength:  length limit for the inspect output string, default: 5000
 	* noFunc: do not display functions
 	* noDescriptor: do not display descriptor information

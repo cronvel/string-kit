@@ -1,8 +1,74 @@
 
-v0.6.18
+v0.7.10
 -------
 
 Fixed .inspect() on empty array
+
+
+v0.7.9
+------
+
+New: .widthLimit()
+
+
+v0.7.8
+------
+
+.wordwrap() width fixed ; new option 'fill' that add space at the right to fill lines
+
+
+v0.7.7
+------
+
+New: .format() now has the %k formatter (metric prefix)
+
+
+v0.7.6
+------
+
+New: unicode.arrayWidth() has a second argument (limit)
+
+
+v0.7.5
+------
+
+New: unicode.arrayWidth()
+
+
+v0.7.4
+------
+
+.inspect(): raise string inspection default limit from 200 to 250, since all people have big screens
+
+
+v0.7.3
+------
+
+Fixed .wordwrap() edge-case behavior with spaces at the end of lines and explicit new lines (plus the noTrim option to controle it)
+
+
+v0.7.2
+------
+
+.wordwrap() API issues fixed
+
+
+v0.7.1
+------
+
+Fix .wordwrap() behavior with offset and first word wrapping
+
+
+v0.7.0
+------
+
+Breaking change: .wordwrap() signature changed, either .wordwrap( str , width )  or .wordwrap( str, optionObject ) 
+
+
+v0.6.18
+-------
+
+New: .wordwrap() now support a 4th argument, a function used to skip some special chars (e.g.: useful for skipping ANSI colors)
 
 
 v0.6.17

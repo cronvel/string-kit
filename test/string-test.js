@@ -45,7 +45,6 @@ describe( "format()" , function() {
 	var formatMethod = string.formatMethod ;
 	
 	it( "should perform basic examples" , function() {
-		
 		expect( format( 'Hello world' ) ).to.be( 'Hello world' ) ;
 		expect( format( 'Hello %s' , 'world' ) ).to.be( 'Hello world' ) ;
 		expect( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ).to.be( 'Hello Joe Doe, how are you?' ) ;
@@ -61,7 +60,6 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "%u should format unsigned integer" , function() {
-		
 		expect( format( '%u' , 123 ) ).to.be( '123' ) ;
 		expect( format( '%u' , 0 ) ).to.be( '0' ) ;
 		expect( format( '%u' , -123 ) ).to.be( '0' ) ;
@@ -69,15 +67,46 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "%U should format *positive* unsigned integer" , function() {
-		
 		expect( format( '%U' , 123 ) ).to.be( '123' ) ;
 		expect( format( '%U' , 0 ) ).to.be( '1' ) ;
 		expect( format( '%U' , -123 ) ).to.be( '1' ) ;
 		expect( format( '%U' ) ).to.be( '1' ) ;
 	} ) ;
 	
+	it( "%k should format with multipliers" , function() {
+		expect( format( '%k' , 123 ) ).to.be( '123' ) ;
+		expect( format( '%k' , 1234 ) ).to.be( '1.23k' ) ;
+		expect( format( '%k' , 12345 ) ).to.be( '12.3k' ) ;
+		expect( format( '%k' , 123456 ) ).to.be( '123k' ) ;
+		expect( format( '%k' , 1.2345 ) ).to.be( '1.23' ) ;
+		expect( format( '%k' , 12.345 ) ).to.be( '12.3' ) ;
+		expect( format( '%k' , 123.45 ) ).to.be( '123' ) ;
+		expect( format( '%k' , 1000 ) ).to.be( '1k' ) ;
+		expect( format( '%k' , 1001 ) ).to.be( '1k' ) ;
+		expect( format( '%k' , 1005 ) ).to.be( '1.01k' ) ;
+		expect( format( '%k' , 999.999 ) ).to.be( '1000' ) ;
+		expect( format( '%k' , 999.499 ) ).to.be( '999' ) ;
+		expect( format( '%k' , 0.999 ) ).to.be( '999m' ) ;
+		expect( format( '%k' , 0.0999 ) ).to.be( '99.9m' ) ;
+		expect( format( '%k' , 0.00999 ) ).to.be( '9.99m' ) ;
+		expect( format( '%k' , 0.000999 ) ).to.be( '999µ' ) ;
+		expect( format( '%k' , 0.0000999 ) ).to.be( '99.9µ' ) ;
+		expect( format( '%k' , 0.00000999 ) ).to.be( '9.99µ' ) ;
+		expect( format( '%k' , 0.00000000999 ) ).to.be( '9.99n' ) ;
+		expect( format( '%k' , 0.00000000000999 ) ).to.be( '9.99p' ) ;
+		expect( format( '%k' , 0.00000000000000999 ) ).to.be( '9.99f' ) ;
+		expect( format( '%k' , 123400 ) ).to.be( '123k' ) ;
+		expect( format( '%k' , 123400000 ) ).to.be( '123M' ) ;
+		expect( format( '%k' , 123400000000 ) ).to.be( '123G' ) ;
+		expect( format( '%k' , 123400000000000 ) ).to.be( '123T' ) ;
+		expect( format( '%k' , 123400000000000000 ) ).to.be( '123P' ) ;
+		expect( format( '%k' , 123400000000000000000 ) ).to.be( '123E' ) ;
+		expect( format( '%k' , -12.345 ) ).to.be( '-12.3' ) ;
+		expect( format( '%k' , -123400000 ) ).to.be( '-123M' ) ;
+		expect( format( '%k' , -0.00000000999 ) ).to.be( '-9.99n' ) ;
+	} ) ;
+	
 	it( "%z should format as base64" , function() {
-		
 		expect( format( '%z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
@@ -86,7 +115,6 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "%Z should format as base64" , function() {
-		
 		expect( format( '%Z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%Z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%Z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
@@ -95,14 +123,12 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "should perform well the argument's index feature" , function() {
-		
 		expect( format( '%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'ABC' ) ;
 		expect( format( '%+1s%-1s%s' , 'A' , 'B' , 'C' ) ).to.be( 'BAC' ) ;
 		expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
 	} ) ;
 	
 	it( "should perform well the mode arguments feature" , function() {
-		
 		expect( format( '%[f0]f' , 1/3 ) ).to.be( '0' ) ;
 		expect( format( '%[f1]f' , 1/3 ) ).to.be( '0.3' ) ;
 		expect( format( '%[f2]f' , 1/3 ) ).to.be( '0.33' ) ;
@@ -124,7 +150,6 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "format.count() should count the number of arguments found" , function() {
-		
 		expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
 		expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
 		expect( format.count( '%i %s' ) ).to.be( 2 ) ;
@@ -135,7 +160,6 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "format.hasFormatting() should return true if the string has formatting and thus need to be interpreted, or false otherwise" , function() {
-		
 		expect( format.hasFormatting( 'blah blih blah' ) ).to.be( false ) ;
 		expect( format.hasFormatting( 'blah blih %% blah' ) ).to.be( true ) ;
 		expect( format.hasFormatting( '%i %s' ) ).to.be( true ) ;
@@ -162,7 +186,6 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "'^' should add markup, defaulting to ansi markup" , function() {
-		
 		expect( format( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
 		expect( format( 'this is ^_underlined^: this is not' ) )
 			.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
@@ -182,7 +205,6 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "should expose a stand-alone markup only method" , function() {
-		
 		expect( string.markup( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
 		expect( string.markup( 'this is ^_underlined^: this is not' ) )
 			.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
@@ -201,7 +223,6 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "should expose a stand-alone markup only method" , function() {
-		
 		var wwwFormatter = {
 			endingMarkupReset: true ,
 			markupReset: function( markupStack ) {
@@ -351,16 +372,65 @@ describe( "Latinize" , function() {
 describe( "Wordwrap" , function() {
 	
 	it( ".wordwrap() should wrap words" , function() {
-		expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree\nfour five\nsix seven' ) ;
-		expect( string.wordwrap( 'one two three four five six seven' , 10 , '<br />\n' ) ).to.be( 'one two<br />\nthree<br />\nfour five<br />\nsix seven' ) ;
-		expect( string.wordwrap( 'one two three four five six seven' , 10 , null ) ).to.eql( [ 'one two' , 'three' , 'four five' , 'six seven' ] ) ;
+		expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree four\nfive six\nseven' ) ;
 		expect( string.wordwrap( 'one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
-		expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
-		expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six seven' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix seven' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six   ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix   ' ) ;
+	} ) ;
+	
+	it( ".wordwrap() should preserve explicit new lines" , function() {
+		expect( string.wordwrap( 'one\ntwo three four five six' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix' ) ;
+		expect( string.wordwrap( 'one\ntwo three four five six\n' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
+		expect( string.wordwrap( 'one\ntwo three four five six\n\n' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n\n' ) ;
+		expect( string.wordwrap( 'one\ntwo three four five six\n ' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n ' ) ;
+	} ) ;
+	
+	it( ".wordwrap() should right-trim all lines except the last" , function() {
+		expect( string.wordwrap( '   one        \ntwo three four five six' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix ' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six   ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix   ' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six\n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six\n ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n ' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six \n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six\n\n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n\n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three! four five! six \n' , 10 ) ).to.be( '   one\ntwo three!\nfour five!\nsix\n' ) ;
+	} ) ;
+	
+	it( ".wordwrap() should preserve space before breaking-lines" , function() {
+		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , noTrim: true } ) ).to.be( '   one    \ntwo three\nfour five\nsix \n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three! four five! six \n' , { width: 10 , noTrim: true } ) ).to.be( '   one    \ntwo three!\nfour five!\nsix \n' ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'fill' option" , function() {
+		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix       \n' ) ;
+		expect( string.wordwrap( '   one        \ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
+		expect( string.wordwrap( '   one\ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
+		expect( string.wordwrap( '   one\ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
+		expect( string.wordwrap( 'onetwo three four five six' , { width: 10 , fill: true } ) ).to.be( 'onetwo    \nthree four\nfive six' ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'offset' option" , function() {
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , offset: 5 } ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'offset' and 'updateOffset' options" , function() {
+		var column = { width: 10 , offset: 5 , updateOffset: true } ;
+		expect( string.wordwrap( 'one two three four five six seven' , column ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
+		expect( column.offset ).to.be( 9 ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'glue' option" , function() {
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , glue: '<br />\n' } ) ).to.be( 'one two<br />\nthree four<br />\nfive six<br />\nseven' ) ;
+	} ) ;
+	
+	it( ".wordwrap() and the 'noJoin' option" , function() {
+		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , noJoin: true } ) ).to.eql( [ 'one two' , 'three four' , 'five six' , 'seven' ] ) ;
 	} ) ;
 	
 	it( ".wordwrap() and surrogate pairs" , function() {
-		expect( string.wordwrap( '𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' , 10 ) ).to.be( '𝌆𝌆𝌆 𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' ) ;
+		expect( string.wordwrap( '𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' , 9 ) ).to.be( '𝌆𝌆𝌆 𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' ) ;
 	} ) ;
 	
 	it( ".wordwrap() and fullwidth chars" , function() {
