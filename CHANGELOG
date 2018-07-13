@@ -1,4 +1,10 @@
 
+v0.7.12
+-------
+
+.format() %Y now has 'useInspect' option on
+
+
 v0.7.11
 -------
 
