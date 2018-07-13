@@ -28,7 +28,7 @@
 
 
 
-var string = require( '../lib/string.js' ) ;
+var string = require( '..' ) ;
 
 
 
@@ -511,6 +511,16 @@ describe( "inspect()" , function() {
 	
 	it( "should inspect object with no constructor" , function() {
 		expect( string.inspect( Object.assign( Object.create( null ) , { a: 1, b: 2 } ) ) ).to.be( '<(no constructor)> <object> {\n    a: 1 <number>\n    b: 2 <number>\n}\n' ) ;
+	} ) ;
+	
+	it( "should use custom inspector whe the option 'useInspect'is set" , function() {
+		function Obj() {
+			this.name = 'bob' ;
+		}
+		
+		Obj.prototype.inspect = function() { return '<' + this.name + '>' ; }
+		
+		expect( string.inspect( { useInspect: true } , new Obj() ) ).to.be( '<Obj> <object> => "<bob>" <string>(5)\n' ) ;
 	} ) ;
 	
 	it( "special objects tests (ES6 Set & Map, MongoDB ObjectID)" ) ;

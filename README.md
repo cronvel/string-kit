@@ -218,6 +218,7 @@ It just counts the number of *format specifier* in the `formatString`.
 	  Display a minimal JSON-like output.
 	* protoBlackList: `Set` of blacklisted object prototype (will not recurse inside it)
 	* propertyBlackList: `Set` of blacklisted property names (will not even display it)
+	* useInspect: use .inspect() method when available on an object (default to false)
 * variable `mixed` anything we want to inspect/debug
 
 It inspect a variable, and return a string ready to be displayed with console.log(), or even as HTML output.
