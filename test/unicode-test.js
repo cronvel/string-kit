@@ -55,6 +55,38 @@ describe( "Unicode" , function() {
 		expect( string.unicode.length( '備-備' ) ).to.be( 3 ) ;
 	} ) ;
 	
+	it( "unicode.firstCodePoint() should produce the first character codepoint" , function() {
+		expect( string.unicode.firstCodePoint( 'a' ) ).to.be( 97 ) ;
+		expect( string.unicode.firstCodePoint( 'azdf' ) ).to.be( 97 ) ;
+		expect( string.unicode.firstCodePoint( '𝌆' ) ).to.be( 119558 ) ;
+		expect( string.unicode.firstCodePoint( '𝌆𝌆a𝌆' ) ).to.be( 119558 ) ;
+		expect( string.unicode.firstCodePoint( 'a𝌆𝌆a𝌆' ) ).to.be( 97 ) ;
+		expect( string.unicode.firstCodePoint( '' ) ).to.be( NaN ) ;
+	} ) ;
+	
+	it( "unicode.firstChar() should produce the first character codepoint" , function() {
+		expect( string.unicode.firstChar( 'a' ) ).to.be( 'a' ) ;
+		expect( string.unicode.firstChar( 'azdf' ) ).to.be( 'a' ) ;
+		expect( string.unicode.firstChar( '𝌆' ) ).to.be( '𝌆' ) ;
+		expect( string.unicode.firstChar( '𝌆𝌆a𝌆' ) ).to.be( '𝌆' ) ;
+		expect( string.unicode.firstChar( 'a𝌆𝌆a𝌆' ) ).to.be( 'a' ) ;
+		expect( string.unicode.firstChar( '' ) ).to.be( undefined ) ;
+	} ) ;
+	
+	it( "unicode.decode() should produce an array of codepoint" , function() {
+		expect( string.unicode.decode( '' ) ).to.eql( [] ) ;
+		expect( string.unicode.decode( 'a' ) ).to.eql( [ 97 ] ) ;
+		expect( string.unicode.decode( 'abc' ) ).to.eql( [ 97 , 98 , 99 ] ) ;
+		expect( string.unicode.decode( '\x1b[' ) ).to.eql( [ 27 , 91 ] ) ;
+		expect( string.unicode.decode( '𝌆' ) ).to.eql( [ 119558 ] ) ;
+		expect( string.unicode.decode( 'a𝌆' ) ).to.eql( [ 97 , 119558 ] ) ;
+		expect( string.unicode.decode( 'a𝌆a𝌆a' ) ).to.eql( [ 97 , 119558 , 97 , 119558 , 97 ] ) ;
+		expect( string.unicode.decode( '䷆䷆' ) ).to.eql( [ 19910 , 19910 ] ) ;
+		expect( string.unicode.decode( '備' ) ).to.eql( [ 194569 ] ) ;
+		expect( string.unicode.decode( '備備' ) ).to.eql( [ 194569 , 194569 ] ) ;
+		expect( string.unicode.decode( '備-備' ) ).to.eql( [ 194569 , 45 , 194569 ] ) ;
+	} ) ;
+	
 	it( "unicode.toArray() should produce an array of character" , function() {
 		expect( string.unicode.toArray( '' ) ).to.eql( [] ) ;
 		expect( string.unicode.toArray( 'a' ) ).to.eql( [ 'a' ] ) ;
