@@ -59,6 +59,17 @@ describe( "format()" , function() {
 		//expect( format( 'Inspect %E' , new Error( 'Some error' ) ) ).to.be( '' ) ;
 	} ) ;
 	
+	it( "%s should format string" , function() {
+		expect( format( 'Hello %s' , 'world' ) ).to.be( 'Hello world' ) ;
+		expect( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ).to.be( 'Hello Joe Doe, how are you?' ) ;
+	} ) ;
+	
+	it( "argument sanitizing" , function() {
+		expect( format( 'Some string: %s' , 'one\ntwo' ) ).to.be( 'Some string: one\ntwo' ) ;
+		expect( format( 'Some string: %s' , 'one\x00two' ) ).to.be( 'Some string: one\\x00two' ) ;
+		expect( format( 'Some string: %s' , 'one\n\x00two' ) ).to.be( 'Some string: one\n\\x00two' ) ;
+	} ) ;
+	
 	it( "%u should format unsigned integer" , function() {
 		expect( format( '%u' , 123 ) ).to.be( '123' ) ;
 		expect( format( '%u' , 0 ) ).to.be( '0' ) ;
@@ -276,6 +287,10 @@ describe( "Escape collection" , function() {
 		expect( string.escape.control( 'Hello\\\\n\\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
 		
 		expect( string.escape.control( 'Nasty\x00chars\x1bhere\x7f!' ) ).to.be( 'Nasty\\x00chars\\x1bhere\\x7f!' ) ;
+		expect( string.escape.control( 'Nasty\n\x00chars\t\x1bhere\x7f!' ) ).to.be( 'Nasty\\n\\x00chars\\t\\x1bhere\\x7f!' ) ;
+		
+		expect( string.escape.control( 'Hello\n\t... world!' , true ) ).to.be( 'Hello\n\t... world!' ) ;
+		expect( string.escape.control( 'Nasty\n\x00chars\t\x1bhere\x7f!' , true ) ).to.be( 'Nasty\n\\x00chars\t\\x1bhere\\x7f!' ) ;
 	} ) ;
 	
 	it( "escape.shellArg() should escape a string so that it will be suitable as a shell command's argument" , function() {

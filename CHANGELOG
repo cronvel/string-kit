@@ -1,4 +1,10 @@
 
+v0.7.14
+-------
+
+.format() Fixing control chars in non-function arguments
+
+
 v0.7.13
 -------
 
