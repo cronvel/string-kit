@@ -179,21 +179,19 @@ describe( "format()" , function() {
 	} ) ;
 	
 	it( "when using a filter object as the *this* context, the %[functionName]F format should use a custom function to format the input" , function() {
-		
-		var formatter = {
-			format: formatMethod ,
+		var customFormat = string.createFormatter( {
 			fn: {
 				fixed: function() { return 'f' ; } ,
 				double: function( str ) { return '' + str + str ; } ,
 				fxy: function( a , b ) { return '' + ( a * a + b ) ; }
 			}
-		} ;
+		} ) ;
 		
-		expect( formatter.format( '%[fixed]F' ) ).to.be( 'f' ) ;
-		expect( formatter.format( '%[fixed]F%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'fABC' ) ;
-		expect( formatter.format( '%s%[fxy:%a%a]F' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
-		expect( formatter.format( '%s%[fxy:%+1a%-1a]F' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
-		expect( formatter.format( '%[unexistant]F' ) ).to.be( '' ) ;
+		expect( customFormat( '%[fixed]F' ) ).to.be( 'f' ) ;
+		expect( customFormat( '%[fixed]F%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'fABC' ) ;
+		expect( customFormat( '%s%[fxy:%a%a]F' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
+		expect( customFormat( '%s%[fxy:%+1a%-1a]F' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
+		expect( customFormat( '%[unexistant]F' ) ).to.be( '' ) ;
 	} ) ;
 	
 	it( "'^' should add markup, defaulting to ansi markup" , function() {
@@ -208,6 +206,14 @@ describe( "format()" , function() {
 			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
 		expect( format( 'this is ^Bblue^ this is not' ) )
 			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
+	} ) ;
+	
+	it( "'^' markups are ignored when then 'noMarkup' option is on" , function() {
+		var customFormat = string.createFormatter( { noMarkup: true } ) ;
+		
+		expect( customFormat( 'this is ^^ a caret' ) ).to.be( 'this is ^^ a caret' ) ;
+		expect( customFormat( 'this is ^_underlined' ) ).to.be( 'this is ^_underlined' ) ;
+		expect( customFormat( 'this is ^_underlined^: nope' ) ).to.be( 'this is ^_underlined^: nope' ) ;
 	} ) ;
 	
 	it( "'^' markup: shift feature" , function() {
