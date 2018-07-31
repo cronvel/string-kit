@@ -119,10 +119,15 @@ describe( "Unicode" , function() {
 	
 	it( "unicode.isFullWidth() should return true if the char is full-width" , function() {
 		expect( string.unicode.isFullWidth( 'a' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( 'aa' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( '𝌆' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '備' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( '䷆' ) ).to.be( false ) ;
+
+		expect( string.unicode.isFullWidth( '＠＠' ) ).to.be( true ) ;
+		expect( string.unicode.isFullWidth( 'a＠' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '＠a' ) ).to.be( true ) ;
 	} ) ;
 	
 	it( ".toFullWidth() should transform a character to its full-width variant, if it exist" , function() {
