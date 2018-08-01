@@ -1,4 +1,10 @@
 
+v0.8.0
+------
+
+Private API breaking change: .wordwrap() option 'sequenceSkip' is now 'skipFn' ; more .wordwrap() private options ; New: .unicode.codePointWidth() and .unicode.charWidth()
+
+
 v0.7.18
 -------
 
