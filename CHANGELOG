@@ -1,4 +1,10 @@
 
+v0.8.1
+------
+
+Fix in the private API: .wordwrap()'s 'regroupFn' option
+
+
 v0.8.0
 ------
 
