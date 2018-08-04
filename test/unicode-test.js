@@ -74,47 +74,60 @@ describe( "Unicode" , function() {
 	} ) ;
 	
 	it( "unicode.decode() should produce an array of codepoint" , function() {
-		expect( string.unicode.decode( '' ) ).to.eql( [] ) ;
-		expect( string.unicode.decode( 'a' ) ).to.eql( [ 97 ] ) ;
-		expect( string.unicode.decode( 'abc' ) ).to.eql( [ 97 , 98 , 99 ] ) ;
-		expect( string.unicode.decode( '\x1b[' ) ).to.eql( [ 27 , 91 ] ) ;
-		expect( string.unicode.decode( '𝌆' ) ).to.eql( [ 119558 ] ) ;
-		expect( string.unicode.decode( 'a𝌆' ) ).to.eql( [ 97 , 119558 ] ) ;
-		expect( string.unicode.decode( 'a𝌆a𝌆a' ) ).to.eql( [ 97 , 119558 , 97 , 119558 , 97 ] ) ;
-		expect( string.unicode.decode( '䷆䷆' ) ).to.eql( [ 19910 , 19910 ] ) ;
-		expect( string.unicode.decode( '備' ) ).to.eql( [ 194569 ] ) ;
-		expect( string.unicode.decode( '備備' ) ).to.eql( [ 194569 , 194569 ] ) ;
-		expect( string.unicode.decode( '備-備' ) ).to.eql( [ 194569 , 45 , 194569 ] ) ;
+		expect( string.unicode.decode( '' ) ).to.equal( [] ) ;
+		expect( string.unicode.decode( 'a' ) ).to.equal( [ 97 ] ) ;
+		expect( string.unicode.decode( 'abc' ) ).to.equal( [ 97 , 98 , 99 ] ) ;
+		expect( string.unicode.decode( '\x1b[' ) ).to.equal( [ 27 , 91 ] ) ;
+		expect( string.unicode.decode( '𝌆' ) ).to.equal( [ 119558 ] ) ;
+		expect( string.unicode.decode( 'a𝌆' ) ).to.equal( [ 97 , 119558 ] ) ;
+		expect( string.unicode.decode( 'a𝌆a𝌆a' ) ).to.equal( [ 97 , 119558 , 97 , 119558 , 97 ] ) ;
+		expect( string.unicode.decode( '䷆䷆' ) ).to.equal( [ 19910 , 19910 ] ) ;
+		expect( string.unicode.decode( '備' ) ).to.equal( [ 194569 ] ) ;
+		expect( string.unicode.decode( '備備' ) ).to.equal( [ 194569 , 194569 ] ) ;
+		expect( string.unicode.decode( '備-備' ) ).to.equal( [ 194569 , 45 , 194569 ] ) ;
 	} ) ;
 	
 	it( "unicode.toArray() should produce an array of characters" , function() {
-		expect( string.unicode.toArray( '' ) ).to.eql( [] ) ;
-		expect( string.unicode.toArray( 'a' ) ).to.eql( [ 'a' ] ) ;
-		expect( string.unicode.toArray( 'abc' ) ).to.eql( [ 'a' , 'b' , 'c' ] ) ;
-		expect( string.unicode.toArray( '\x1b[' ) ).to.eql( [ '\x1b' , '[' ] ) ;
-		expect( string.unicode.toArray( '𝌆' ) ).to.eql( [ '𝌆' ] ) ;
-		expect( string.unicode.toArray( 'a𝌆' ) ).to.eql( [ 'a' , '𝌆' ] ) ;
-		expect( string.unicode.toArray( 'a𝌆a𝌆a' ) ).to.eql( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
-		expect( string.unicode.toArray( 'é𝌆é𝌆é' ) ).to.eql( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
-		expect( string.unicode.toArray( '䷆䷆' ) ).to.eql( [ '䷆' , '䷆' ] ) ;
-		expect( string.unicode.toArray( '備' ) ).to.eql( [ '備' ] ) ;
-		expect( string.unicode.toArray( '備備' ) ).to.eql( [ '備' , '備' ] ) ;
-		expect( string.unicode.toArray( '備-備' ) ).to.eql( [ '備' , '-' , '備' ] ) ;
+		expect( string.unicode.toArray( '' ) ).to.equal( [] ) ;
+		expect( string.unicode.toArray( 'a' ) ).to.equal( [ 'a' ] ) ;
+		expect( string.unicode.toArray( 'abc' ) ).to.equal( [ 'a' , 'b' , 'c' ] ) ;
+		expect( string.unicode.toArray( '\x1b[' ) ).to.equal( [ '\x1b' , '[' ] ) ;
+		expect( string.unicode.toArray( '𝌆' ) ).to.equal( [ '𝌆' ] ) ;
+		expect( string.unicode.toArray( 'a𝌆' ) ).to.equal( [ 'a' , '𝌆' ] ) ;
+		expect( string.unicode.toArray( 'a𝌆a𝌆a' ) ).to.equal( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
+		expect( string.unicode.toArray( 'é𝌆é𝌆é' ) ).to.equal( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
+		expect( string.unicode.toArray( '䷆䷆' ) ).to.equal( [ '䷆' , '䷆' ] ) ;
+		expect( string.unicode.toArray( '備' ) ).to.equal( [ '備' ] ) ;
+		expect( string.unicode.toArray( '備備' ) ).to.equal( [ '備' , '備' ] ) ;
+		expect( string.unicode.toArray( '備-備' ) ).to.equal( [ '備' , '-' , '備' ] ) ;
 	} ) ;
 	
-	it( "unicode.toCells() should produce an array of characters with filler chars following wide chars" , function() {
-		expect( string.unicode.toCells( '' ) ).to.eql( [] ) ;
-		expect( string.unicode.toCells( 'a' ) ).to.eql( [ 'a' ] ) ;
-		expect( string.unicode.toCells( 'abc' ) ).to.eql( [ 'a' , 'b' , 'c' ] ) ;
-		expect( string.unicode.toCells( '\x1b[' ) ).to.eql( [ '\x1b' , '[' ] ) ;
-		expect( string.unicode.toCells( '𝌆' ) ).to.eql( [ '𝌆' ] ) ;
-		expect( string.unicode.toCells( 'a𝌆' ) ).to.eql( [ 'a' , '𝌆' ] ) ;
-		expect( string.unicode.toCells( 'a𝌆a𝌆a' ) ).to.eql( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
-		expect( string.unicode.toCells( 'é𝌆é𝌆é' ) ).to.eql( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
-		expect( string.unicode.toCells( '䷆䷆' ) ).to.eql( [ '䷆' , '䷆' ] ) ;
-		expect( string.unicode.toCells( '備' ) ).to.eql( [ '備' , '\x00' ] ) ;
-		expect( string.unicode.toCells( '備備' ) ).to.eql( [ '備' , '\x00' , '備' , '\x00' ] ) ;
-		expect( string.unicode.toCells( '備-備' ) ).to.eql( [ '備' , '\x00' , '-' , '備' , '\x00' ] ) ;
+	it( "unicode.toCells() should produce an array of characters with filler chars following wide chars and tab" , function() {
+		expect( string.unicode.toCells( '' ) ).to.equal( [] ) ;
+		expect( string.unicode.toCells( 'a' ) ).to.equal( [ 'a' ] ) ;
+		expect( string.unicode.toCells( 'abc' ) ).to.equal( [ 'a' , 'b' , 'c' ] ) ;
+		expect( string.unicode.toCells( '\x1b[' ) ).to.equal( [ '\x1b' , '[' ] ) ;
+		expect( string.unicode.toCells( '𝌆' ) ).to.equal( [ '𝌆' ] ) ;
+		expect( string.unicode.toCells( 'a𝌆' ) ).to.equal( [ 'a' , '𝌆' ] ) ;
+		expect( string.unicode.toCells( 'a𝌆a𝌆a' ) ).to.equal( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
+		expect( string.unicode.toCells( 'é𝌆é𝌆é' ) ).to.equal( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
+		expect( string.unicode.toCells( '䷆䷆' ) ).to.equal( [ '䷆' , '䷆' ] ) ;
+		expect( string.unicode.toCells( '備' ) ).to.equal( [ '備' , '\x00' ] ) ;
+		expect( string.unicode.toCells( '備備' ) ).to.equal( [ '備' , '\x00' , '備' , '\x00' ] ) ;
+		expect( string.unicode.toCells( '備-備' ) ).to.equal( [ '備' , '\x00' , '-' , '備' , '\x00' ] ) ;
+		
+		// Tabs
+		expect( string.unicode.toCells( '\ta' ) ).to.equal( [ '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
+		expect( string.unicode.toCells( 'a\ta' ) ).to.equal( [ 'a' , '\t' , '\x00' , '\x00' , 'a' ] ) ;
+		expect( string.unicode.toCells( 'aa\ta' ) ).to.equal( [ 'a' , 'a' , '\t' , '\x00' , 'a' ] ) ;
+		expect( string.unicode.toCells( 'aaa\ta' ) ).to.equal( [ 'a' , 'a' , 'a' , '\t' , 'a' ] ) ;
+		expect( string.unicode.toCells( 'aaaa\ta' ) ).to.equal( [ 'a' , 'a' , 'a', 'a' , '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
+		
+		expect( string.unicode.toCells( '備\ta' ) ).to.equal( [ '備' , '\x00' , '\t' , '\x00' , 'a' ] ) ;
+	} ) ;
+	
+	it( "unicode.fromCells() should be the inverse of the unicode.toCells()" , function() {
+		expect( string.unicode.fromCells( string.unicode.toCells( '備\ta' ) ) ).to.be( '備\ta' ) ;
 	} ) ;
 	
 	it( "unicode.surrogatePair() should return 0 for single char, 1 for leading surrogate, -1 for trailing surrogate" , function() {

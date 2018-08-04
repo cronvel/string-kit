@@ -1,4 +1,10 @@
 
+v0.8.3
+------
+
+New: .unicode.toCells() and .unicode.fromCells()
+
+
 v0.8.2
 ------
 
