@@ -118,11 +118,17 @@ describe( "Unicode" , function() {
 		
 		// Tabs
 		expect( string.unicode.toCells( '\ta' ) ).to.equal( [ '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
+		expect( string.unicode.toCells( '\ta' ) ).to.equal( [ '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
 		expect( string.unicode.toCells( 'a\ta' ) ).to.equal( [ 'a' , '\t' , '\x00' , '\x00' , 'a' ] ) ;
 		expect( string.unicode.toCells( 'aa\ta' ) ).to.equal( [ 'a' , 'a' , '\t' , '\x00' , 'a' ] ) ;
 		expect( string.unicode.toCells( 'aaa\ta' ) ).to.equal( [ 'a' , 'a' , 'a' , '\t' , 'a' ] ) ;
 		expect( string.unicode.toCells( 'aaaa\ta' ) ).to.equal( [ 'a' , 'a' , 'a', 'a' , '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
 		expect( string.unicode.toCells( '備\ta' ) ).to.equal( [ '備' , '\x00' , '\t' , '\x00' , 'a' ] ) ;
+		
+		expect( string.unicode.toCells( '\t\t' ) ).to.equal( [ '\t' , '\x00' , '\x00' , '\x00' , '\t' , '\x00' , '\x00' , '\x00' ] ) ;
+		expect( string.unicode.toCells( 'a\t\t' ) ).to.equal( [ 'a' , '\t' , '\x00' , '\x00' , '\t' , '\x00' , '\x00' , '\x00' ] ) ;
+		expect( string.unicode.toCells( 'a\ta\t' ) ).to.equal( [ 'a' , '\t' , '\x00' , '\x00' , 'a' , '\t' , '\x00' , '\x00' ] ) ;
+		
 		expect( string.unicode.toCells( '\ta' , undefined , undefined , 2 ) ).to.equal( [ '\t' , '\x00' , 'a' ] ) ;
 	} ) ;
 	
