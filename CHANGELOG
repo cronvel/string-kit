@@ -1,4 +1,10 @@
 
+v0.8.4
+------
+
+.unicode.toCells(): added a fourth argument (the initial position in the line)
+
+
 v0.8.3
 ------
 

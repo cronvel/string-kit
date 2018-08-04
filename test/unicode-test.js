@@ -122,8 +122,8 @@ describe( "Unicode" , function() {
 		expect( string.unicode.toCells( 'aa\ta' ) ).to.equal( [ 'a' , 'a' , '\t' , '\x00' , 'a' ] ) ;
 		expect( string.unicode.toCells( 'aaa\ta' ) ).to.equal( [ 'a' , 'a' , 'a' , '\t' , 'a' ] ) ;
 		expect( string.unicode.toCells( 'aaaa\ta' ) ).to.equal( [ 'a' , 'a' , 'a', 'a' , '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
-		
 		expect( string.unicode.toCells( '備\ta' ) ).to.equal( [ '備' , '\x00' , '\t' , '\x00' , 'a' ] ) ;
+		expect( string.unicode.toCells( '\ta' , undefined , undefined , 2 ) ).to.equal( [ '\t' , '\x00' , 'a' ] ) ;
 	} ) ;
 	
 	it( "unicode.fromCells() should be the inverse of the unicode.toCells()" , function() {
