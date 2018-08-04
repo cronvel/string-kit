@@ -87,7 +87,7 @@ describe( "Unicode" , function() {
 		expect( string.unicode.decode( '備-備' ) ).to.eql( [ 194569 , 45 , 194569 ] ) ;
 	} ) ;
 	
-	it( "unicode.toArray() should produce an array of character" , function() {
+	it( "unicode.toArray() should produce an array of characters" , function() {
 		expect( string.unicode.toArray( '' ) ).to.eql( [] ) ;
 		expect( string.unicode.toArray( 'a' ) ).to.eql( [ 'a' ] ) ;
 		expect( string.unicode.toArray( 'abc' ) ).to.eql( [ 'a' , 'b' , 'c' ] ) ;
@@ -100,6 +100,21 @@ describe( "Unicode" , function() {
 		expect( string.unicode.toArray( '備' ) ).to.eql( [ '備' ] ) ;
 		expect( string.unicode.toArray( '備備' ) ).to.eql( [ '備' , '備' ] ) ;
 		expect( string.unicode.toArray( '備-備' ) ).to.eql( [ '備' , '-' , '備' ] ) ;
+	} ) ;
+	
+	it( "unicode.toCells() should produce an array of characters with filler chars following wide chars" , function() {
+		expect( string.unicode.toCells( '' ) ).to.eql( [] ) ;
+		expect( string.unicode.toCells( 'a' ) ).to.eql( [ 'a' ] ) ;
+		expect( string.unicode.toCells( 'abc' ) ).to.eql( [ 'a' , 'b' , 'c' ] ) ;
+		expect( string.unicode.toCells( '\x1b[' ) ).to.eql( [ '\x1b' , '[' ] ) ;
+		expect( string.unicode.toCells( '𝌆' ) ).to.eql( [ '𝌆' ] ) ;
+		expect( string.unicode.toCells( 'a𝌆' ) ).to.eql( [ 'a' , '𝌆' ] ) ;
+		expect( string.unicode.toCells( 'a𝌆a𝌆a' ) ).to.eql( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
+		expect( string.unicode.toCells( 'é𝌆é𝌆é' ) ).to.eql( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
+		expect( string.unicode.toCells( '䷆䷆' ) ).to.eql( [ '䷆' , '䷆' ] ) ;
+		expect( string.unicode.toCells( '備' ) ).to.eql( [ '備' , '\x00' ] ) ;
+		expect( string.unicode.toCells( '備備' ) ).to.eql( [ '備' , '\x00' , '備' , '\x00' ] ) ;
+		expect( string.unicode.toCells( '備-備' ) ).to.eql( [ '備' , '\x00' , '-' , '備' , '\x00' ] ) ;
 	} ) ;
 	
 	it( "unicode.surrogatePair() should return 0 for single char, 1 for leading surrogate, -1 for trailing surrogate" , function() {
