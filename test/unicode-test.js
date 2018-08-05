@@ -34,6 +34,19 @@ var string = require( '../lib/string.js' ) ;
 
 
 
+			/* Misc */
+
+
+
+function Cell( char ) {
+	this.char = char || ' ' ;
+	this.filler = char === null ;
+}
+
+
+
+
+
 			/* Tests */
 
 
@@ -103,37 +116,38 @@ describe( "Unicode" , function() {
 	} ) ;
 	
 	it( "unicode.toCells() should produce an array of characters with filler chars following wide chars and tab" , function() {
-		expect( string.unicode.toCells( '' ) ).to.equal( [] ) ;
-		expect( string.unicode.toCells( 'a' ) ).to.equal( [ 'a' ] ) ;
-		expect( string.unicode.toCells( 'abc' ) ).to.equal( [ 'a' , 'b' , 'c' ] ) ;
-		expect( string.unicode.toCells( '\x1b[' ) ).to.equal( [ '\x1b' , '[' ] ) ;
-		expect( string.unicode.toCells( '𝌆' ) ).to.equal( [ '𝌆' ] ) ;
-		expect( string.unicode.toCells( 'a𝌆' ) ).to.equal( [ 'a' , '𝌆' ] ) ;
-		expect( string.unicode.toCells( 'a𝌆a𝌆a' ) ).to.equal( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
-		expect( string.unicode.toCells( 'é𝌆é𝌆é' ) ).to.equal( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
-		expect( string.unicode.toCells( '䷆䷆' ) ).to.equal( [ '䷆' , '䷆' ] ) ;
-		expect( string.unicode.toCells( '備' ) ).to.equal( [ '備' , '\x00' ] ) ;
-		expect( string.unicode.toCells( '備備' ) ).to.equal( [ '備' , '\x00' , '備' , '\x00' ] ) ;
-		expect( string.unicode.toCells( '備-備' ) ).to.equal( [ '備' , '\x00' , '-' , '備' , '\x00' ] ) ;
+		expect( string.unicode.toCells( Cell ,'' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [] ) ;
+		expect( string.unicode.toCells( Cell ,'a' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'abc' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'b' , 'c' ] ) ;
+		expect( string.unicode.toCells( Cell ,'\x1b[' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\x1b' , '[' ] ) ;
+		expect( string.unicode.toCells( Cell ,'𝌆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '𝌆' ] ) ;
+		expect( string.unicode.toCells( Cell ,'a𝌆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '𝌆' ] ) ;
+		expect( string.unicode.toCells( Cell ,'a𝌆a𝌆a' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'é𝌆é𝌆é' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
+		expect( string.unicode.toCells( Cell ,'䷆䷆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '䷆' , '䷆' ] ) ;
+		expect( string.unicode.toCells( Cell ,'備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null ] ) ;
+		expect( string.unicode.toCells( Cell ,'備備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '備' , null ] ) ;
+		expect( string.unicode.toCells( Cell ,'備-備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '-' , '備' , null ] ) ;
 		
 		// Tabs
-		expect( string.unicode.toCells( '\ta' ) ).to.equal( [ '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
-		expect( string.unicode.toCells( '\ta' ) ).to.equal( [ '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
-		expect( string.unicode.toCells( 'a\ta' ) ).to.equal( [ 'a' , '\t' , '\x00' , '\x00' , 'a' ] ) ;
-		expect( string.unicode.toCells( 'aa\ta' ) ).to.equal( [ 'a' , 'a' , '\t' , '\x00' , 'a' ] ) ;
-		expect( string.unicode.toCells( 'aaa\ta' ) ).to.equal( [ 'a' , 'a' , 'a' , '\t' , 'a' ] ) ;
-		expect( string.unicode.toCells( 'aaaa\ta' ) ).to.equal( [ 'a' , 'a' , 'a', 'a' , '\t' , '\x00' , '\x00' , '\x00' , 'a' ] ) ;
-		expect( string.unicode.toCells( '備\ta' ) ).to.equal( [ '備' , '\x00' , '\t' , '\x00' , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'a\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'aa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , '\t' , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'aaa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , 'a' , '\t' , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'aaaa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , 'a', 'a' , '\t' , null , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'備\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '\t' , null , 'a' ] ) ;
 		
-		expect( string.unicode.toCells( '\t\t' ) ).to.equal( [ '\t' , '\x00' , '\x00' , '\x00' , '\t' , '\x00' , '\x00' , '\x00' ] ) ;
-		expect( string.unicode.toCells( 'a\t\t' ) ).to.equal( [ 'a' , '\t' , '\x00' , '\x00' , '\t' , '\x00' , '\x00' , '\x00' ] ) ;
-		expect( string.unicode.toCells( 'a\ta\t' ) ).to.equal( [ 'a' , '\t' , '\x00' , '\x00' , 'a' , '\t' , '\x00' , '\x00' ] ) ;
+		expect( string.unicode.toCells( Cell ,'\t\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , '\t' , null , null , null ] ) ;
+		expect( string.unicode.toCells( Cell ,'\ta\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' , '\t' , null , null ] ) ;
+		expect( string.unicode.toCells( Cell ,'a\t\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , '\t' , null , null , null ] ) ;
+		expect( string.unicode.toCells( Cell ,'a\ta\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , 'a' , '\t' , null , null ] ) ;
 		
-		expect( string.unicode.toCells( '\ta' , undefined , undefined , 2 ) ).to.equal( [ '\t' , '\x00' , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell ,'\ta' , undefined , 2 ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , 'a' ] ) ;
 	} ) ;
 	
 	it( "unicode.fromCells() should be the inverse of the unicode.toCells()" , function() {
-		expect( string.unicode.fromCells( string.unicode.toCells( '備\ta' ) ) ).to.be( '備\ta' ) ;
+		expect( string.unicode.fromCells( string.unicode.toCells( Cell ,'備\ta' ) ) ).to.be( '備\ta' ) ;
 	} ) ;
 	
 	it( "unicode.surrogatePair() should return 0 for single char, 1 for leading surrogate, -1 for trailing surrogate" , function() {

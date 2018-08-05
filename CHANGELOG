@@ -1,4 +1,10 @@
 
+v0.8.6
+------
+
+.toCells()/.fromCells() private API changed
+
+
 v0.8.5
 ------
 
