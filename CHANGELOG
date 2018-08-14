@@ -1,4 +1,10 @@
 
+v0.8.8
+------
+
+Fix a regression (since 0.7.14) with .format() and %I, %Y and %E format, when color: true
+
+
 v0.8.7
 ------
 
