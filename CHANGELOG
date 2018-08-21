@@ -1,4 +1,10 @@
 
+v0.8.10
+-------
+
+.inspect(): inspection of rejected promise (with an error) improved
+
+
 v0.8.9
 ------
 
