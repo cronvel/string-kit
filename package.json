@@ -1,6 +1,6 @@
 {
   "name": "string-kit",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -10,7 +10,7 @@
     "test": "test"
   },
   "dependencies": {
-    "xregexp": "^4.1.1"
+    "xregexp": "^4.2.0"
   },
   "scripts": {
     "test": "tea-time -R dot"

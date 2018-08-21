@@ -1,4 +1,10 @@
 
+v0.8.9
+------
+
+.inspect() now supports Promise inspection (Node.js only)
+
+
 v0.8.8
 ------
 
