@@ -1,4 +1,10 @@
 
+v0.8.11
+-------
+
+.format(): new %r format (like %s, with no sanitize)
+
+
 v0.8.10
 -------
 
