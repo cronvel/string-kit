@@ -359,6 +359,15 @@ describe( "Camel case" , function() {
 		expect( string.toCamelCase( 'a-b-c' ) ).to.be( 'aBC' ) ;
 	} ) ;
 	
+	it( ".toCamelCase() with uppercase preservation on" , function() {
+		expect( string.toCamelCase( 'one-two-three' , true ) ).to.be( 'oneTwoThree' ) ;
+		expect( string.toCamelCase( 'one_two_three' , true ) ).to.be( 'oneTwoThree' ) ;
+		expect( string.toCamelCase( 'OnE-tWo_tHree' , true ) ).to.be( 'OnETWoTHree' ) ;
+		expect( string.toCamelCase( 'onE-TWo_tHree' , true ) ).to.be( 'onETWoTHree' ) ;
+		expect( string.toCamelCase( 'ONE-TWO-THREE' , true ) ).to.be( 'ONETWOTHREE' ) ;
+		expect( string.toCamelCase( 'a-b-c' , true ) ).to.be( 'aBC' ) ;
+	} ) ;
+	
 	it( ".toCamelCase() edge cases" , function() {
 		expect( string.toCamelCase( '' ) ).to.be( '' ) ;
 		expect( string.toCamelCase() ).to.be( '' ) ;
