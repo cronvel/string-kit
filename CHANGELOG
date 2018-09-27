@@ -1,4 +1,10 @@
 
+v0.8.13
+-------
+
+Format: J mode (json) now returns 'null' for undefined, instead on crashing when sanitizing
+
+
 v0.8.12
 -------
 
