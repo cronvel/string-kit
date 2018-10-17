@@ -550,7 +550,7 @@ describe( "inspect()" , function() {
 		
 		Obj.prototype.inspect = function() { return '<' + this.name + '>' ; }
 		
-		expect( string.inspect( { useInspect: true } , new Obj() ) ).to.be( '<Obj> <object> => <bob>' ) ;
+		expect( string.inspect( { useInspect: true } , new Obj() ) ).to.be( '<Obj> <object> => <bob>\n' ) ;
 	} ) ;
 	
 	it( "special objects tests (ES6 Set & Map, MongoDB ObjectID)" ) ;

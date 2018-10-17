@@ -1,4 +1,10 @@
 
+v0.8.14
+-------
+
+.inspect() fixing the missing new line for special object that turn to a string
+
+
 v0.8.13
 -------
 
