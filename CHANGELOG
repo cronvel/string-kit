@@ -1,4 +1,10 @@
 
+v0.8.15
+-------
+
+.format() Node v6.x compatibility fix (PR #2)
+
+
 v0.8.14
 -------
 
