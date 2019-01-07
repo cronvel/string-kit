@@ -1,4 +1,46 @@
 
+v0.8.15
+-------
+
+.format() Node v6.x compatibility fix (PR #2)
+
+
+v0.8.14
+-------
+
+.inspect() fixing the missing new line for special object that turn to a string
+
+
+v0.8.13
+-------
+
+Format: J mode (json) now returns 'null' for undefined, instead on crashing when sanitizing
+
+
+v0.8.12
+-------
+
+.toCamelCase() uppercase preservation option
+
+
+v0.8.11
+-------
+
+.format(): new %r format (like %s, with no sanitize)
+
+
+v0.8.10
+-------
+
+.inspect(): inspection of rejected promise (with an error) improved
+
+
+v0.8.9
+------
+
+.inspect() now supports Promise inspection (Node.js only)
+
+
 v0.8.8
 ------
 
