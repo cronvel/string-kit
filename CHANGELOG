@@ -1,4 +1,10 @@
 
+v0.9.1
+------
+
+.inspect() now detects holes in array
+
+
 v0.9.0
 ------
 
