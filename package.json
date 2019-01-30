@@ -1,6 +1,6 @@
 {
   "name": "string-kit",
-  "version": "0.8.15",
+  "version": "0.9.0",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -9,9 +9,7 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "xregexp": "^4.2.0"
-  },
+  "dependencies": {},
   "scripts": {
     "test": "tea-time -R dot"
   },
@@ -50,7 +48,7 @@
     "title": "String Kit",
     "years": [
       2014,
-      2018
+      2019
     ],
     "owner": "Cédric Ronvel"
   }
