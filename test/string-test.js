@@ -62,6 +62,15 @@ describe( "format()" , function() {
 	it( "%s should format string" , function() {
 		expect( format( 'Hello %s' , 'world' ) ).to.be( 'Hello world' ) ;
 		expect( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ).to.be( 'Hello Joe Doe, how are you?' ) ;
+		
+		// Should ignore formatting: taking it as literal
+		expect( format( 'Hello %s' , 'w^bor^:ld' ) ).to.be( 'Hello w^bor^:ld' ) ;
+		expect( format( 'Hello %s %s, how are you?' , '^rJ^go^be' , '^rD^go^be' ) ).to.be( 'Hello ^rJ^go^be ^rD^go^be, how are you?' ) ;
+	} ) ;
+	
+	it( "%S should format string and interpret ^ formatting" , function() {
+		expect( format( 'Hello %S' , 'w^bor^:ld' ) ).to.be( 'Hello w\x1b[34mor\x1b[0mld\x1b[0m' ) ;
+		expect( format( 'Hello %S %S, how are you?' , '^rJ^go^be' , '^rD^go^be' ) ).to.be( 'Hello \x1b[31mJ\x1b[32mo\x1b[34me\x1b[0m \x1b[31mD\x1b[32mo\x1b[34me\x1b[0m, how are you?' ) ;
 	} ) ;
 	
 	it( "argument sanitizing" , function() {

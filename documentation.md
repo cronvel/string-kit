@@ -62,6 +62,8 @@ console.log( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ) ;
 Specifiers:
 * `%%` write a single %
 * `%s` string
+* `%S` string, interpret ^ formating
+* `%r` raw string, without sanitizer
 * `%f` float
 * `%d` *or* %i integer
 * `%u` unsigned integer
@@ -70,6 +72,8 @@ Specifiers:
 * `%x` unsigned hexadecimal, force pair of symbols (e.g. 'f' -> '0f')
 * `%o` unsigned octal
 * `%b` unsigned binary
+* `%z` base64
+* `%Z` base64url
 * `%I` call string-kit's inspect()
 * `%Y` call string-kit's inspect(), but do not inspect non-enumerable
 * `%E` call string-kit's inspectError()

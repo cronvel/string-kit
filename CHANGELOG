@@ -1,4 +1,10 @@
 
+v0.9.2
+------
+
+New: .inspect() now support %S formatting: a string where ^ formatting is interpreted
+
+
 v0.9.1
 ------
 
