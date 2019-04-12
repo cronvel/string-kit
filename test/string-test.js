@@ -589,6 +589,12 @@ describe( "Misc" , function() {
 		expect( string.resize( 'bobby' , 8 ) ).to.be( 'bobby   ' ) ;
 	} ) ;
 	
+	it( ".naturalSort()" , function() {
+		expect( [ 'one' , 'two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'one' , 'three' , 'two' ] ) ;
+		expect( [ 'one' , 'two' , 'Three' ].sort( string.naturalSort ) ).to.equal( [ 'one' , 'Three' , 'two' ] ) ;
+		expect( [ 'One' , 'Two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'One' , 'three' , 'Two' ] ) ;
+	} ) ;
+	
 	it( ".occurenceCount()" , function() {
 		expect( string.occurenceCount( '' , '' ) ).to.be( 0 ) ;
 		expect( string.occurenceCount( 'three' , '' ) ).to.be( 0 ) ;
@@ -605,5 +611,4 @@ describe( "Misc" , function() {
 		expect( string.occurenceCount( 'oneoneone' , 'one' ) ).to.be( 3 ) ;
 	} ) ;
 } ) ;
-
 
