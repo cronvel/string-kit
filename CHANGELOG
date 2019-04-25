@@ -1,4 +1,10 @@
 
+v0.9.4
+------
+
+.inpect(): now correctly handle truncated output for style:color
+
+
 v0.9.3
 ------
 
