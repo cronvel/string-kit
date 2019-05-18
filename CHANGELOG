@@ -1,4 +1,10 @@
 
+v0.9.5
+------
+
+.inspectError() now follow error.from
+
+
 v0.9.4
 ------
 
