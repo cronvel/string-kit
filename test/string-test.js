@@ -134,7 +134,7 @@ describe( "format()" , function() {
 		expect( format( '%z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '+/c=' ) ;
 	} ) ;
 	
-	it( "%Z should format as base64" , function() {
+	it( "%Z should format as base64-url" , function() {
 		expect( format( '%Z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%Z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%Z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
