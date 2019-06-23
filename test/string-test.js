@@ -24,76 +24,72 @@
 	SOFTWARE.
 */
 
+/* global describe, it, expect */
+
 "use strict" ;
 
 
 
-var string = require( '..' ) ;
+const string = require( '..' ) ;
 
 
 
+describe( "format()" , () => {
 
-
-			/* Tests */
-
-
-
-describe( "format()" , function() {
-	
 	var ansi = string.ansi ;
 	var format = string.format ;
 	var formatMethod = string.formatMethod ;
-	
-	it( "should perform basic examples" , function() {
+
+	it( "should perform basic examples" , () => {
 		expect( format( 'Hello world' ) ).to.be( 'Hello world' ) ;
 		expect( format( 'Hello %s' , 'world' ) ).to.be( 'Hello world' ) ;
 		expect( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ).to.be( 'Hello Joe Doe, how are you?' ) ;
 		expect( format( 'I have %i cookies.' , 3 ) ).to.be( 'I have 3 cookies.' ) ;
 		expect( format( 'This company regains %d%% of market share.' , 36 ) ).to.be( 'This company regains 36% of market share.' ) ;
-		expect( format( '11/8=%f' , 11/8 ) ).to.be( '11/8=1.375' ) ;
+		expect( format( '11/8=%f' , 11 / 8 ) ).to.be( '11/8=1.375' ) ;
 		expect( format( 'Binary %b %b' , 11 , 123 ) ).to.be( 'Binary 1011 1111011' ) ;
 		expect( format( 'Octal %o %o' , 11 , 123 ) ).to.be( 'Octal 13 173' ) ;
 		expect( format( 'Hexa %h %x %x' , 11 , 11 , 123 ) ).to.be( 'Hexa b 0b 7b' ) ;
-		expect( format( 'JSON %J' , {hello:'world',here:'is',my:{wonderful:'object'}} ) ).to.be( 'JSON {"hello":"world","here":"is","my":{"wonderful":"object"}}' ) ;
-		expect( format( 'Inspect %I' , {hello:'world',here:'is',my:{wonderful:'object'}} ) ).to.be( 'Inspect <Object> <object> {\n    hello: "world" <string>(5)\n    here: "is" <string>(2)\n    my: <Object> <object> {\n        wonderful: "object" <string>(6)\n    }\n}\n' ) ;
+		expect( format( 'JSON %J' , { hello: 'world' , here: 'is' , my: { wonderful: 'object' } } ) ).to.be( 'JSON {"hello":"world","here":"is","my":{"wonderful":"object"}}' ) ;
+		expect( format( 'Inspect %I' , { hello: 'world' , here: 'is' , my: { wonderful: 'object' } } ) ).to.be( 'Inspect <Object> <object> {\n    hello: "world" <string>(5)\n    here: "is" <string>(2)\n    my: <Object> <object> {\n        wonderful: "object" <string>(6)\n    }\n}\n' ) ;
 		//expect( format( 'Inspect %E' , new Error( 'Some error' ) ) ).to.be( '' ) ;
 	} ) ;
-	
-	it( "%s should format string" , function() {
+
+	it( "%s should format string" , () => {
 		expect( format( 'Hello %s' , 'world' ) ).to.be( 'Hello world' ) ;
 		expect( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ).to.be( 'Hello Joe Doe, how are you?' ) ;
-		
+
 		// Should ignore formatting: taking it as literal
 		expect( format( 'Hello %s' , 'w^bor^:ld' ) ).to.be( 'Hello w^bor^:ld' ) ;
 		expect( format( 'Hello %s %s, how are you?' , '^rJ^go^be' , '^rD^go^be' ) ).to.be( 'Hello ^rJ^go^be ^rD^go^be, how are you?' ) ;
 	} ) ;
-	
-	it( "%S should format string and interpret ^ formatting" , function() {
+
+	it( "%S should format string and interpret ^ formatting" , () => {
 		expect( format( 'Hello %S' , 'w^bor^:ld' ) ).to.be( 'Hello w\x1b[34mor\x1b[0mld\x1b[0m' ) ;
 		expect( format( 'Hello %S %S, how are you?' , '^rJ^go^be' , '^rD^go^be' ) ).to.be( 'Hello \x1b[31mJ\x1b[32mo\x1b[34me\x1b[0m \x1b[31mD\x1b[32mo\x1b[34me\x1b[0m, how are you?' ) ;
 	} ) ;
-	
-	it( "argument sanitizing" , function() {
+
+	it( "argument sanitizing" , () => {
 		expect( format( 'Some string: %s' , 'one\ntwo' ) ).to.be( 'Some string: one\ntwo' ) ;
 		expect( format( 'Some string: %s' , 'one\x00two' ) ).to.be( 'Some string: one\\x00two' ) ;
 		expect( format( 'Some string: %s' , 'one\n\x00two' ) ).to.be( 'Some string: one\n\\x00two' ) ;
 	} ) ;
-	
-	it( "%u should format unsigned integer" , function() {
+
+	it( "%u should format unsigned integer" , () => {
 		expect( format( '%u' , 123 ) ).to.be( '123' ) ;
 		expect( format( '%u' , 0 ) ).to.be( '0' ) ;
 		expect( format( '%u' , -123 ) ).to.be( '0' ) ;
 		expect( format( '%u' ) ).to.be( '0' ) ;
 	} ) ;
-	
-	it( "%U should format *positive* unsigned integer" , function() {
+
+	it( "%U should format *positive* unsigned integer" , () => {
 		expect( format( '%U' , 123 ) ).to.be( '123' ) ;
 		expect( format( '%U' , 0 ) ).to.be( '1' ) ;
 		expect( format( '%U' , -123 ) ).to.be( '1' ) ;
 		expect( format( '%U' ) ).to.be( '1' ) ;
 	} ) ;
-	
-	it( "%k should format with multipliers" , function() {
+
+	it( "%k should format with multipliers" , () => {
 		expect( format( '%k' , 123 ) ).to.be( '123' ) ;
 		expect( format( '%k' , 1234 ) ).to.be( '1.23k' ) ;
 		expect( format( '%k' , 12345 ) ).to.be( '12.3k' ) ;
@@ -125,51 +121,63 @@ describe( "format()" , function() {
 		expect( format( '%k' , -123400000 ) ).to.be( '-123M' ) ;
 		expect( format( '%k' , -0.00000000999 ) ).to.be( '-9.99n' ) ;
 	} ) ;
-	
-	it( "%z should format as base64" , function() {
+
+	it( "%z should format as base64" , () => {
 		expect( format( '%z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
 		expect( format( '%z' , Buffer.from( 'some longer text' ) ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
 		expect( format( '%z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '+/c=' ) ;
 	} ) ;
-	
-	it( "%Z should format as base64-url" , function() {
+
+	it( "%Z should format as base64-url" , () => {
 		expect( format( '%Z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%Z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%Z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
 		expect( format( '%Z' , Buffer.from( 'some longer text' ) ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
 		expect( format( '%Z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '-_c' ) ;
 	} ) ;
-	
-	it( "should perform well the argument's index feature" , function() {
+
+	it( "should perform well the argument's index feature" , () => {
 		expect( format( '%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'ABC' ) ;
 		expect( format( '%+1s%-1s%s' , 'A' , 'B' , 'C' ) ).to.be( 'BAC' ) ;
 		expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
 	} ) ;
-	
-	it( "should perform well the mode arguments feature" , function() {
-		expect( format( '%[f0]f' , 1/3 ) ).to.be( '0' ) ;
-		expect( format( '%[f1]f' , 1/3 ) ).to.be( '0.3' ) ;
-		expect( format( '%[f2]f' , 1/3 ) ).to.be( '0.33' ) ;
+
+	it( "%f should format floating point numbers" , () => {
+		expect( format( '%[0]f' , 4 / 3 ) ).to.be( '1' ) ;
+		expect( format( '%[1]f' , 4 / 3 ) ).to.be( '1.3' ) ;
+		expect( format( '%[2]f' , 4 / 3 ) ).to.be( '1.33' ) ;
 		
+		expect( format( '%[0]f' , 1 / 3 ) ).to.be( '0' ) ;
+		expect( format( '%[1]f' , 1 / 3 ) ).to.be( '0.3' ) ;
+		expect( format( '%[2]f' , 1 / 3 ) ).to.be( '0.33' ) ;
+
+		expect( format( '%[f0]f' , 4 / 3 ) ).to.be( '1' ) ;
+		expect( format( '%[f1]f' , 4 / 3 ) ).to.be( '1.3' ) ;
+		expect( format( '%[f2]f' , 4 / 3 ) ).to.be( '1.33' ) ;
+
+		expect( format( '%[f0]f' , 1 / 3 ) ).to.be( '0' ) ;
+		expect( format( '%[f1]f' , 1 / 3 ) ).to.be( '0.3' ) ;
+		expect( format( '%[f2]f' , 1 / 3 ) ).to.be( '0.33' ) ;
+
 		expect( format( '%[f0]f' , 0.1 ) ).to.be( '0' ) ;
 		expect( format( '%[f1]f' , 0.1 ) ).to.be( '0.1' ) ;
 		expect( format( '%[f2]f' , 0.1 ) ).to.be( '0.10' ) ;
-		
+
 		/*	p is not finished yet
 		expect( format( '%[p1]f' , 123 ) ).to.be( '10000' ) ;
 		expect( format( '%[p2]f' , 123 ) ).to.be( '12000' ) ;
-		
+
 		expect( format( '%[p1]f' , 1/3 ) ).to.be( '0.3' ) ;
 		expect( format( '%[p2]f' , 1/3 ) ).to.be( '0.33' ) ;
-		
+
 		expect( format( '%[p1]f' , 0.1 ) ).to.be( '0.1' ) ;
 		expect( format( '%[p2]f' , 0.1 ) ).to.be( '0.10' ) ;
 		*/
 	} ) ;
-	
-	it( "format.count() should count the number of arguments found" , function() {
+
+	it( "format.count() should count the number of arguments found" , () => {
 		expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
 		expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
 		expect( format.count( '%i %s' ) ).to.be( 2 ) ;
@@ -178,16 +186,16 @@ describe( "format()" , function() {
 		expect( format.count( '%[unexistant]F' ) ).to.be( 0 ) ;
 		expect( format.count( '%[unexistant:%a%a]F' ) ).to.be( 2 ) ;
 	} ) ;
-	
-	it( "format.hasFormatting() should return true if the string has formatting and thus need to be interpreted, or false otherwise" , function() {
+
+	it( "format.hasFormatting() should return true if the string has formatting and thus need to be interpreted, or false otherwise" , () => {
 		expect( format.hasFormatting( 'blah blih blah' ) ).to.be( false ) ;
 		expect( format.hasFormatting( 'blah blih %% blah' ) ).to.be( true ) ;
 		expect( format.hasFormatting( '%i %s' ) ).to.be( true ) ;
 		expect( format.hasFormatting( '%[unexistant]F' ) ).to.be( true ) ;
 		expect( format.hasFormatting( '%[unexistant:%a%a]F' ) ).to.be( true ) ;
 	} ) ;
-	
-	it( "when using a filter object as the *this* context, the %[functionName]F format should use a custom function to format the input" , function() {
+
+	it( "when using a filter object as the *this* context, the %[functionName]F format should use a custom function to format the input" , () => {
 		var customFormat = string.createFormatter( {
 			fn: {
 				fixed: function() { return 'f' ; } ,
@@ -195,15 +203,15 @@ describe( "format()" , function() {
 				fxy: function( a , b ) { return '' + ( a * a + b ) ; }
 			}
 		} ) ;
-		
+
 		expect( customFormat( '%[fixed]F' ) ).to.be( 'f' ) ;
 		expect( customFormat( '%[fixed]F%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'fABC' ) ;
 		expect( customFormat( '%s%[fxy:%a%a]F' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=28' ) ;
 		expect( customFormat( '%s%[fxy:%+1a%-1a]F' , 'f(x,y)=' , 5 , 3 ) ).to.be( 'f(x,y)=14' ) ;
 		expect( customFormat( '%[unexistant]F' ) ).to.be( '' ) ;
 	} ) ;
-	
-	it( "'^' should add markup, defaulting to ansi markup" , function() {
+
+	it( "'^' should add markup, defaulting to ansi markup" , () => {
 		expect( format( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
 		expect( format( 'this is ^_underlined^: this is not' ) )
 			.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
@@ -216,21 +224,21 @@ describe( "format()" , function() {
 		expect( format( 'this is ^Bblue^ this is not' ) )
 			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
 	} ) ;
-	
-	it( "'^' markups are ignored when then 'noMarkup' option is on" , function() {
+
+	it( "'^' markups are ignored when then 'noMarkup' option is on" , () => {
 		var customFormat = string.createFormatter( { noMarkup: true } ) ;
-		
+
 		expect( customFormat( 'this is ^^ a caret' ) ).to.be( 'this is ^^ a caret' ) ;
 		expect( customFormat( 'this is ^_underlined' ) ).to.be( 'this is ^_underlined' ) ;
 		expect( customFormat( 'this is ^_underlined^: nope' ) ).to.be( 'this is ^_underlined^: nope' ) ;
 	} ) ;
-	
-	it( "'^' markup: shift feature" , function() {
+
+	it( "'^' markup: shift feature" , () => {
 		expect( format( 'this background is ^#^bblue^ this is ^wwhite' ) )
 			.to.be( 'this background is ' + ansi.bgBlue + 'blue' + ansi.reset + ' this is ' + ansi.white + 'white' + ansi.reset ) ;
 	} ) ;
-	
-	it( "should expose a stand-alone markup only method" , function() {
+
+	it( "should expose a stand-alone markup only method" , () => {
 		expect( string.markup( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
 		expect( string.markup( 'this is ^_underlined^: this is not' ) )
 			.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
@@ -242,13 +250,13 @@ describe( "format()" , function() {
 			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
 		expect( string.markup( 'this is ^Bblue^ this is not' ) )
 			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not' + ansi.reset ) ;
-		
+
 		// format syntax should be ignored
 		expect( string.markup( 'this is ^Bblue^ this is not %d' , 5 ) )
 			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not %d' + ansi.reset ) ;
 	} ) ;
-	
-	it( "should expose a stand-alone markup only method" , function() {
+
+	it( "should expose a stand-alone markup only method" , () => {
 		var wwwFormatter = {
 			endingMarkupReset: true ,
 			markupReset: function( markupStack ) {
@@ -267,90 +275,90 @@ describe( "format()" , function() {
 					markupStack.length = 0 ;
 					return str + ' ' ;
 				} ,
-				
+
 				"+": '<span style="font-weight:bold">' ,
 				"b": '<span style="color:blue">'
 			}
 		} ;
-		
-		var markup = string.markupMethod.bind( wwwFormatter ) ;
-		var format = string.formatMethod.bind( wwwFormatter ) ;
-		
-		expect( markup( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
-		expect( markup( 'this is ^+bold^: this is not' ) )
+
+		var wwwMarkup = string.markupMethod.bind( wwwFormatter ) ;
+		var wwwFormat = string.formatMethod.bind( wwwFormatter ) ;
+
+		expect( wwwMarkup( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
+		expect( wwwMarkup( 'this is ^+bold^: this is not' ) )
 			.to.be( 'this is <span style="font-weight:bold">bold</span> this is not' ) ;
-		expect( markup( 'this is ^+bold^ this is not' ) )
+		expect( wwwMarkup( 'this is ^+bold^ this is not' ) )
 			.to.be( 'this is <span style="font-weight:bold">bold</span> this is not' ) ;
-		expect( markup( 'this is ^+bold^:this is not' ) )
+		expect( wwwMarkup( 'this is ^+bold^:this is not' ) )
 			.to.be( 'this is <span style="font-weight:bold">bold</span>this is not' ) ;
-		expect( markup( 'this is ^b^+blue bold' ) )
+		expect( wwwMarkup( 'this is ^b^+blue bold' ) )
 			.to.be( 'this is <span style="color:blue"><span style="font-weight:bold">blue bold</span></span>' ) ;
-		
-		expect( format( 'this is ^b^+blue bold' ) )
+
+		expect( wwwFormat( 'this is ^b^+blue bold' ) )
 			.to.be( 'this is <span style="color:blue"><span style="font-weight:bold">blue bold</span></span>' ) ;
 	} ) ;
 } ) ;
 
 
 
-describe( "Escape collection" , function() {
-	
-	it( "escape.control() should escape control characters" , function() {
+describe( "Escape collection" , () => {
+
+	it( "escape.control() should escape control characters" , () => {
 		expect( string.escape.control( 'Hello\n\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
 		expect( string.escape.control( 'Hello\\n\\t... world!' ) ).to.be( 'Hello\\n\\t... world!' ) ;
 		expect( string.escape.control( 'Hello\\\n\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
 		expect( string.escape.control( 'Hello\\\\n\\\\t... world!' ) ).to.be( 'Hello\\\\n\\\\t... world!' ) ;
-		
+
 		expect( string.escape.control( 'Nasty\x00chars\x1bhere\x7f!' ) ).to.be( 'Nasty\\x00chars\\x1bhere\\x7f!' ) ;
 		expect( string.escape.control( 'Nasty\n\x00chars\t\x1bhere\x7f!' ) ).to.be( 'Nasty\\n\\x00chars\\t\\x1bhere\\x7f!' ) ;
-		
+
 		expect( string.escape.control( 'Hello\n\t... world!' , true ) ).to.be( 'Hello\n\t... world!' ) ;
 		expect( string.escape.control( 'Nasty\n\x00chars\t\x1bhere\x7f!' , true ) ).to.be( 'Nasty\n\\x00chars\t\\x1bhere\\x7f!' ) ;
 	} ) ;
-	
-	it( "escape.shellArg() should escape a string so that it will be suitable as a shell command's argument" , function() {
+
+	it( "escape.shellArg() should escape a string so that it will be suitable as a shell command's argument" , () => {
 		//console.log( 'Shell arg:' , string.escape.shellArg( "Here's my shell's argument" ) ) ;
 		expect( string.escape.shellArg( "Here's my shell's argument" ) ).to.be( "'Here'\\''s my shell'\\''s argument'" ) ;
 	} ) ;
-	
-	it( "escape.jsSingleQuote() should escape a string so that it will be suitable as a JS string code" , function() {
+
+	it( "escape.jsSingleQuote() should escape a string so that it will be suitable as a JS string code" , () => {
 		expect( string.escape.jsSingleQuote( "A string with 'single' quotes" ) ).to.be( "A string with \\'single\\' quotes" ) ;
 		expect( string.escape.jsSingleQuote( "A string with 'single' quotes\nand new\nlines" ) ).to.be( "A string with \\'single\\' quotes\\nand new\\nlines" ) ;
 	} ) ;
-	
-	it( "escape.jsDoubleQuote() should escape a string so that it will be suitable as a JS string code" , function() {
+
+	it( "escape.jsDoubleQuote() should escape a string so that it will be suitable as a JS string code" , () => {
 		expect( string.escape.jsDoubleQuote( 'A string with "double" quotes' ) ).to.be( 'A string with \\"double\\" quotes' ) ;
 		expect( string.escape.jsDoubleQuote( 'A string with "double" quotes\nand new\nlines' ) ).to.be( 'A string with \\"double\\" quotes\\nand new\\nlines' ) ;
 	} ) ;
-	
-	it( "escape.regExp() should escape a string so that it will be suitable as a literal string into a regular expression pattern" , function() {
+
+	it( "escape.regExp() should escape a string so that it will be suitable as a literal string into a regular expression pattern" , () => {
 		//console.log( 'String in RegExp:' , string.escape.regExp( "(This) {is} [my] ^$tring^... +doesn't+ *it*? |yes| \\no\\ /maybe/" ) ) ;
 		expect( string.escape.regExp( "(This) {is} [my] ^$tring^... +doesn't+ *it*? |yes| \\no\\ /maybe/" ) )
 			.to.be( "\\(This\\) \\{is\\} \\[my\\] \\^\\$tring\\^\\.\\.\\. \\+doesn't\\+ \\*it\\*\\? \\|yes\\| \\\\no\\\\ \\/maybe\\/" ) ;
 	} ) ;
-	
-	it( "escape.regExpReplacement() should escape a string so that it will be suitable as a literal string into a regular expression replacement" , function() {
+
+	it( "escape.regExpReplacement() should escape a string so that it will be suitable as a literal string into a regular expression replacement" , () => {
 		expect( string.escape.regExpReplacement( "$he love$ dollar$ $$$" ) ).to.be( "$$he love$$ dollar$$ $$$$$$" ) ;
-		
+
 		expect(
 			'$he love$ dollar$ $$$'.replace(
 				new RegExp( string.escape.regExp( '$' ) , 'g' ) ,
 				string.escape.regExpReplacement( '$1' )
-			) 
+			)
 		).to.be( "$1he love$1 dollar$1 $1$1$1" ) ;
 	} ) ;
-	
-	it( "escape.html() should escape a string so that it will be suitable as HTML content" , function() {
+
+	it( "escape.html() should escape a string so that it will be suitable as HTML content" , () => {
 		//console.log( string.escape.html( "<This> isn't \"R&D\"" ) ) ;
 		expect( string.escape.html( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn't \"R&amp;D\"" ) ;
 	} ) ;
-	
-	it( "escape.htmlAttr() should escape a string so that it will be suitable as an HTML tag attribute's value" , function() {
+
+	it( "escape.htmlAttr() should escape a string so that it will be suitable as an HTML tag attribute's value" , () => {
 		//console.log( string.escape.htmlAttr( "<This> isn't \"R&D\"" ) ) ;
 		expect( string.escape.htmlAttr( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn't &quot;R&amp;D&quot;" ) ;
 	} ) ;
-	
-	it( "escape.htmlSpecialChars() should escape all HTML special characters" , function() {
+
+	it( "escape.htmlSpecialChars() should escape all HTML special characters" , () => {
 		//console.log( string.escape.htmlSpecialChars( "<This> isn't \"R&D\"" ) ) ;
 		expect( string.escape.htmlSpecialChars( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn&#039;t &quot;R&amp;D&quot;" ) ;
 	} ) ;
@@ -358,17 +366,17 @@ describe( "Escape collection" , function() {
 
 
 
-describe( "Camel case" , function() {
-	
-	it( ".toCamelCase() should transform a string composed of alphanum - minus - underscore to a camelCase string" , function() {
+describe( "Camel case" , () => {
+
+	it( ".toCamelCase() should transform a string composed of alphanum - minus - underscore to a camelCase string" , () => {
 		expect( string.toCamelCase( 'one-two-three' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'one_two_three' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'OnE-tWo_tHree' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'ONE-TWO-THREE' ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'a-b-c' ) ).to.be( 'aBC' ) ;
 	} ) ;
-	
-	it( ".toCamelCase() with uppercase preservation on" , function() {
+
+	it( ".toCamelCase() with uppercase preservation on" , () => {
 		expect( string.toCamelCase( 'one-two-three' , true ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'one_two_three' , true ) ).to.be( 'oneTwoThree' ) ;
 		expect( string.toCamelCase( 'OnE-tWo_tHree' , true ) ).to.be( 'OnETWoTHree' ) ;
@@ -376,8 +384,8 @@ describe( "Camel case" , function() {
 		expect( string.toCamelCase( 'ONE-TWO-THREE' , true ) ).to.be( 'ONETWOTHREE' ) ;
 		expect( string.toCamelCase( 'a-b-c' , true ) ).to.be( 'aBC' ) ;
 	} ) ;
-	
-	it( ".toCamelCase() edge cases" , function() {
+
+	it( ".toCamelCase() edge cases" , () => {
 		expect( string.toCamelCase( '' ) ).to.be( '' ) ;
 		expect( string.toCamelCase() ).to.be( '' ) ;
 		expect( string.toCamelCase( 'u' ) ).to.be( 'u' ) ;
@@ -386,31 +394,31 @@ describe( "Camel case" , function() {
 		expect( string.toCamelCase( 'U-' ) ).to.be( 'u' ) ;
 		expect( string.toCamelCase( '-U' ) ).to.be( 'u' ) ;
 	} ) ;
-	
-	it( ".camelCaseToDashed() should transform a string composed of alphanum - minus - underscore to a camelCase string" , function() {
+
+	it( ".camelCaseToDashed() should transform a string composed of alphanum - minus - underscore to a camelCase string" , () => {
 		expect( string.camelCaseToDashed( 'oneTwoThree' ) ).to.be( 'one-two-three' ) ;
 		expect( string.camelCaseToDashed( 'OneTwoThree' ) ).to.be( 'one-two-three' ) ;
 		expect( string.camelCaseToDashed( 'aBC' ) ).to.be( 'a-b-c' ) ;
 	} ) ;
-	
+
 	//it( ".camelCaseToDashed() edge cases" , function() {} ) ;
 } ) ;
-	
 
 
-describe( "Latinize" , function() {
-	
-	it( ".latinize() should transform to regular latin letters without any accent" , function() {
+
+describe( "Latinize" , () => {
+
+	it( ".latinize() should transform to regular latin letters without any accent" , () => {
 		expect( string.latinize( 'éàèùâêîôûÂÊÎÔÛäëïöüÄËÏÖÜæÆŧøþßðđħł' ) )
-		                 .to.be( 'eaeuaeiouAEIOUaeiouAEIOUaeAEtothssdhdhl' ) ;
+			.to.be( 'eaeuaeiouAEIOUaeiouAEIOUaeAEtothssdhdhl' ) ;
 	} ) ;
 } ) ;
-	
 
 
-describe( "Wordwrap" , function() {
-	
-	it( ".wordwrap() should wrap words" , function() {
+
+describe( "Wordwrap" , () => {
+
+	it( ".wordwrap() should wrap words" , () => {
 		expect( string.wordwrap( 'one two three four five six seven' , 10 ) ).to.be( 'one two\nthree four\nfive six\nseven' ) ;
 		expect( string.wordwrap( 'one\ntwo three four five six seven' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
 		expect( string.wordwrap( '   one\ntwo three four five six seven' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix seven' ) ;
@@ -418,15 +426,15 @@ describe( "Wordwrap" , function() {
 		expect( string.wordwrap( '   one        \ntwo three four five six' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix' ) ;
 		expect( string.wordwrap( '   one        \ntwo three four five six   ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix   ' ) ;
 	} ) ;
-	
-	it( ".wordwrap() should preserve explicit new lines" , function() {
+
+	it( ".wordwrap() should preserve explicit new lines" , () => {
 		expect( string.wordwrap( 'one\ntwo three four five six' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix' ) ;
 		expect( string.wordwrap( 'one\ntwo three four five six\n' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n' ) ;
 		expect( string.wordwrap( 'one\ntwo three four five six\n\n' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n\n' ) ;
 		expect( string.wordwrap( 'one\ntwo three four five six\n ' , 10 ) ).to.be( 'one\ntwo three\nfour five\nsix\n ' ) ;
 	} ) ;
-	
-	it( ".wordwrap() should right-trim all lines except the last" , function() {
+
+	it( ".wordwrap() should right-trim all lines except the last" , () => {
 		expect( string.wordwrap( '   one        \ntwo three four five six' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix' ) ;
 		expect( string.wordwrap( '   one        \ntwo three four five six ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix ' ) ;
 		expect( string.wordwrap( '   one        \ntwo three four five six   ' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix   ' ) ;
@@ -436,72 +444,72 @@ describe( "Wordwrap" , function() {
 		expect( string.wordwrap( '   one        \ntwo three four five six\n\n' , 10 ) ).to.be( '   one\ntwo three\nfour five\nsix\n\n' ) ;
 		expect( string.wordwrap( '   one        \ntwo three! four five! six \n' , 10 ) ).to.be( '   one\ntwo three!\nfour five!\nsix\n' ) ;
 	} ) ;
-	
-	it( ".wordwrap() should preserve space before breaking-lines" , function() {
+
+	it( ".wordwrap() should preserve space before breaking-lines" , () => {
 		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , noTrim: true } ) ).to.be( '   one    \ntwo three\nfour five\nsix \n' ) ;
 		expect( string.wordwrap( '   one        \ntwo three! four five! six \n' , { width: 10 , noTrim: true } ) ).to.be( '   one    \ntwo three!\nfour five!\nsix \n' ) ;
 	} ) ;
-	
-	it( ".wordwrap() and the 'fill' option" , function() {
+
+	it( ".wordwrap() and the 'fill' option" , () => {
 		expect( string.wordwrap( '   one        \ntwo three four five six \n' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix       \n' ) ;
 		expect( string.wordwrap( '   one        \ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
 		expect( string.wordwrap( '   one\ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
 		expect( string.wordwrap( '   one\ntwo three four five six' , { width: 10 , fill: true } ) ).to.be( '   one    \ntwo three \nfour five \nsix' ) ;
 		expect( string.wordwrap( 'onetwo three four five six' , { width: 10 , fill: true } ) ).to.be( 'onetwo    \nthree four\nfive six' ) ;
 	} ) ;
-	
-	it( ".wordwrap() and the 'offset' option" , function() {
+
+	it( ".wordwrap() and the 'offset' option" , () => {
 		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , offset: 5 } ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
 	} ) ;
-	
-	it( ".wordwrap() and the 'offset' and 'updateOffset' options" , function() {
+
+	it( ".wordwrap() and the 'offset' and 'updateOffset' options" , () => {
 		var column = { width: 10 , offset: 5 , updateOffset: true } ;
 		expect( string.wordwrap( 'one two three four five six seven' , column ) ).to.be( 'one\ntwo three\nfour five\nsix seven' ) ;
 		expect( column.offset ).to.be( 9 ) ;
 	} ) ;
-	
-	it( ".wordwrap() and the 'glue' option" , function() {
+
+	it( ".wordwrap() and the 'glue' option" , () => {
 		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , glue: '<br />\n' } ) ).to.be( 'one two<br />\nthree four<br />\nfive six<br />\nseven' ) ;
 	} ) ;
-	
-	it( ".wordwrap() and the 'noJoin' option" , function() {
+
+	it( ".wordwrap() and the 'noJoin' option" , () => {
 		expect( string.wordwrap( 'one two three four five six seven' , { width: 10 , noJoin: true } ) ).to.equal( [ 'one two' , 'three four' , 'five six' , 'seven' ] ) ;
 	} ) ;
-	
-	it( ".wordwrap() and surrogate pairs" , function() {
+
+	it( ".wordwrap() and surrogate pairs" , () => {
 		expect( string.wordwrap( '𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆 𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' , 9 ) ).to.be( '𝌆𝌆𝌆 𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆𝌆 𝌆𝌆𝌆𝌆\n𝌆𝌆𝌆 𝌆𝌆𝌆𝌆𝌆' ) ;
 	} ) ;
-	
-	it( ".wordwrap() and fullwidth chars" , function() {
+
+	it( ".wordwrap() and fullwidth chars" , () => {
 		expect( string.wordwrap( '備備 備備備 備備備備 備備' , 10 ) ).to.be( '備備\n備備備\n備備備備\n備備' ) ;
 		expect( string.wordwrap( '備備 備備 備 備備備備 備備' , 10 ) ).to.be( '備備 備備\n備\n備備備備\n備備' ) ;
 		expect( string.wordwrap( '備備 備備 備 備 備 備備 備備備' , 10 ) ).to.be( '備備 備備\n備 備 備\n備備\n備備備' ) ;
 	} ) ;
-	
-	it( ".wordwrap() and french typography rules with '!', '?', ':' and ';'" , function() {
+
+	it( ".wordwrap() and french typography rules with '!', '?', ':' and ';'" , () => {
 		expect( string.wordwrap( 'un ! deux ? trois : quatre ; cinq !' , 10 ) ).to.be( 'un !\ndeux ?\ntrois :\nquatre ;\ncinq !' ) ;
 	} ) ;
 } ) ;
-	
 
 
-describe( "inspect()" , function() {
-	
-	it( "should inspect a variable with default options accordingly" , function() {
-		
+
+describe( "inspect()" , () => {
+
+	it( "should inspect a variable with default options accordingly" , () => {
+
 		var MyClass = function MyClass() {
 			this.variable = 1 ;
 		} ;
-		
+
 		MyClass.prototype.report = function report() { console.log( 'Variable value:' , this.variable ) ; } ;
 		MyClass.staticFunc = function staticFunc() { console.log( 'Static function.' ) ; } ;
-		
+
 		var sparseArray = [] ;
 		sparseArray[ 3 ] = 'three' ;
 		sparseArray[ 10 ] = 'ten' ;
 		sparseArray[ 20 ] = 'twenty' ;
 		sparseArray.customProperty = 'customProperty' ;
-		
+
 		var object = {
 			a: 'A' ,
 			b: 2 ,
@@ -514,7 +522,7 @@ describe( "inspect()" , function() {
 			} ,
 			emptyString: '' ,
 			emptyObject: {} ,
-			list: [ 'one','two','three' ] ,
+			list: [ 'one' , 'two' , 'three' ] ,
 			emptyList: [] ,
 			sparseArray: sparseArray ,
 			hello: function hello() { console.log( 'Hello!' ) ; } ,
@@ -523,9 +531,9 @@ describe( "inspect()" , function() {
 			instance: new MyClass() ,
 			buf: new Buffer( 'This is a buffer!' )
 		} ;
-		
+
 		object.sub.circular = object ;
-		
+
 		Object.defineProperties( object , {
 			c: { value: '3' } ,
 			d: {
@@ -533,7 +541,7 @@ describe( "inspect()" , function() {
 				set: function( value ) {}
 			}
 		} ) ;
-		
+
 		//console.log( '>>>>>' , string.escape.control( string.inspect( object ) ) ) ;
 		//console.log( string.inspect( { style: 'color' } , object ) ) ;
 		var actual = string.inspect( object ) ;
@@ -542,34 +550,34 @@ describe( "inspect()" , function() {
 		expect( actual ).to.be( expected ) ;
 		//console.log( string.inspect( { style: 'color' } , object ) ) ;
 	} ) ;
-	
-	it( "should pass the Array circular references bug" , function() {
+
+	it( "should pass the Array circular references bug" , () => {
 		var array = [ [ 1 ] ] ;
 		expect( string.inspect( array ) ).to.be( '<Array>(1) <object> {\n    [0] <Array>(1) <object> {\n        [0] 1 <number>\n        length: 1 <number> <-conf -enum>\n    }\n    length: 1 <number> <-conf -enum>\n}\n' ) ;
 	} ) ;
-	
-	it( "should inspect object with no constructor" , function() {
-		expect( string.inspect( Object.assign( Object.create( null ) , { a: 1, b: 2 } ) ) ).to.be( '<(no constructor)> <object> {\n    a: 1 <number>\n    b: 2 <number>\n}\n' ) ;
+
+	it( "should inspect object with no constructor" , () => {
+		expect( string.inspect( Object.assign( Object.create( null ) , { a: 1 , b: 2 } ) ) ).to.be( '<(no constructor)> <object> {\n    a: 1 <number>\n    b: 2 <number>\n}\n' ) ;
 	} ) ;
-	
-	it( "should use custom inspector whe the option 'useInspect'is set" , function() {
+
+	it( "should use custom inspector whe the option 'useInspect'is set" , () => {
 		function Obj() {
 			this.name = 'bob' ;
 		}
-		
-		Obj.prototype.inspect = function() { return '<' + this.name + '>' ; }
-		
+
+		Obj.prototype.inspect = function() { return '<' + this.name + '>' ; } ;
+
 		expect( string.inspect( { useInspect: true } , new Obj() ) ).to.be( '<Obj> <object> => <bob>\n' ) ;
 	} ) ;
-	
+
 	it( "special objects tests (ES6 Set & Map, MongoDB ObjectID)" ) ;
 } ) ;
-	
 
 
-describe( "Title case" , function() {
-	
-	it( "Basic .toTitleCase() usages" , function() {
+
+describe( "Title case" , () => {
+
+	it( "Basic .toTitleCase() usages" , () => {
 		expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' ) )
 			.to.be( 'Bob Bill Booo Électron Hétérogénéité ALLCAPS McDowell Jean-Michel' ) ;
 		expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' , { zealous: true } ) )
@@ -581,21 +589,21 @@ describe( "Title case" , function() {
 
 
 
-describe( "Misc" , function() {
-	
-	it( ".resize()" , function() {
+describe( "Misc" , () => {
+
+	it( ".resize()" , () => {
 		expect( string.resize( 'bobby' , 3 ) ).to.be( 'bob' ) ;
 		expect( string.resize( 'bobby' , 5 ) ).to.be( 'bobby' ) ;
 		expect( string.resize( 'bobby' , 8 ) ).to.be( 'bobby   ' ) ;
 	} ) ;
-	
-	it( ".naturalSort()" , function() {
+
+	it( ".naturalSort()" , () => {
 		expect( [ 'one' , 'two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'one' , 'three' , 'two' ] ) ;
 		expect( [ 'one' , 'two' , 'Three' ].sort( string.naturalSort ) ).to.equal( [ 'one' , 'Three' , 'two' ] ) ;
 		expect( [ 'One' , 'Two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'One' , 'three' , 'Two' ] ) ;
 	} ) ;
-	
-	it( ".occurenceCount()" , function() {
+
+	it( ".occurenceCount()" , () => {
 		expect( string.occurenceCount( '' , '' ) ).to.be( 0 ) ;
 		expect( string.occurenceCount( 'three' , '' ) ).to.be( 0 ) ;
 		expect( string.occurenceCount( '' , 'o' ) ).to.be( 0 ) ;

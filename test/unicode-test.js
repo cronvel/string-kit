@@ -24,6 +24,8 @@
 	SOFTWARE.
 */
 
+/* global describe, it, expect */
+
 "use strict" ;
 
 
@@ -34,7 +36,7 @@ var string = require( '../lib/string.js' ) ;
 
 
 
-			/* Misc */
+/* Misc */
 
 
 
@@ -47,13 +49,13 @@ function Cell( char ) {
 
 
 
-			/* Tests */
+/* Tests */
 
 
 
-describe( "Unicode" , function() {
-	
-	it( "unicode.length() should report correctly the length of a string" , function() {
+describe( "Unicode" , () => {
+
+	it( "unicode.length() should report correctly the length of a string" , () => {
 		expect( string.unicode.length( '' ) ).to.be( 0 ) ;
 		expect( string.unicode.length( 'a' ) ).to.be( 1 ) ;
 		expect( string.unicode.length( 'abc' ) ).to.be( 3 ) ;
@@ -67,8 +69,8 @@ describe( "Unicode" , function() {
 		expect( string.unicode.length( '備備' ) ).to.be( 2 ) ;
 		expect( string.unicode.length( '備-備' ) ).to.be( 3 ) ;
 	} ) ;
-	
-	it( "unicode.firstCodePoint() should produce the first character codepoint" , function() {
+
+	it( "unicode.firstCodePoint() should produce the first character codepoint" , () => {
 		expect( string.unicode.firstCodePoint( 'a' ) ).to.be( 97 ) ;
 		expect( string.unicode.firstCodePoint( 'azdf' ) ).to.be( 97 ) ;
 		expect( string.unicode.firstCodePoint( '𝌆' ) ).to.be( 119558 ) ;
@@ -76,8 +78,8 @@ describe( "Unicode" , function() {
 		expect( string.unicode.firstCodePoint( 'a𝌆𝌆a𝌆' ) ).to.be( 97 ) ;
 		expect( string.unicode.firstCodePoint( '' ) ).to.be( NaN ) ;
 	} ) ;
-	
-	it( "unicode.firstChar() should produce the first character codepoint" , function() {
+
+	it( "unicode.firstChar() should produce the first character codepoint" , () => {
 		expect( string.unicode.firstChar( 'a' ) ).to.be( 'a' ) ;
 		expect( string.unicode.firstChar( 'azdf' ) ).to.be( 'a' ) ;
 		expect( string.unicode.firstChar( '𝌆' ) ).to.be( '𝌆' ) ;
@@ -85,8 +87,8 @@ describe( "Unicode" , function() {
 		expect( string.unicode.firstChar( 'a𝌆𝌆a𝌆' ) ).to.be( 'a' ) ;
 		expect( string.unicode.firstChar( '' ) ).to.be( undefined ) ;
 	} ) ;
-	
-	it( "unicode.decode() should produce an array of codepoint" , function() {
+
+	it( "unicode.decode() should produce an array of codepoint" , () => {
 		expect( string.unicode.decode( '' ) ).to.equal( [] ) ;
 		expect( string.unicode.decode( 'a' ) ).to.equal( [ 97 ] ) ;
 		expect( string.unicode.decode( 'abc' ) ).to.equal( [ 97 , 98 , 99 ] ) ;
@@ -99,8 +101,8 @@ describe( "Unicode" , function() {
 		expect( string.unicode.decode( '備備' ) ).to.equal( [ 194569 , 194569 ] ) ;
 		expect( string.unicode.decode( '備-備' ) ).to.equal( [ 194569 , 45 , 194569 ] ) ;
 	} ) ;
-	
-	it( "unicode.toArray() should produce an array of characters" , function() {
+
+	it( "unicode.toArray() should produce an array of characters" , () => {
 		expect( string.unicode.toArray( '' ) ).to.equal( [] ) ;
 		expect( string.unicode.toArray( 'a' ) ).to.equal( [ 'a' ] ) ;
 		expect( string.unicode.toArray( 'abc' ) ).to.equal( [ 'a' , 'b' , 'c' ] ) ;
@@ -114,43 +116,43 @@ describe( "Unicode" , function() {
 		expect( string.unicode.toArray( '備備' ) ).to.equal( [ '備' , '備' ] ) ;
 		expect( string.unicode.toArray( '備-備' ) ).to.equal( [ '備' , '-' , '備' ] ) ;
 	} ) ;
-	
-	it( "unicode.toCells() should produce an array of characters with filler chars following wide chars and tab" , function() {
-		expect( string.unicode.toCells( Cell ,'' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [] ) ;
-		expect( string.unicode.toCells( Cell ,'a' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' ] ) ;
-		expect( string.unicode.toCells( Cell ,'abc' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'b' , 'c' ] ) ;
-		expect( string.unicode.toCells( Cell ,'\x1b[' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\x1b' , '[' ] ) ;
-		expect( string.unicode.toCells( Cell ,'𝌆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '𝌆' ] ) ;
-		expect( string.unicode.toCells( Cell ,'a𝌆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '𝌆' ] ) ;
-		expect( string.unicode.toCells( Cell ,'a𝌆a𝌆a' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
-		expect( string.unicode.toCells( Cell ,'é𝌆é𝌆é' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
-		expect( string.unicode.toCells( Cell ,'䷆䷆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '䷆' , '䷆' ] ) ;
-		expect( string.unicode.toCells( Cell ,'備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null ] ) ;
-		expect( string.unicode.toCells( Cell ,'備備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '備' , null ] ) ;
-		expect( string.unicode.toCells( Cell ,'備-備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '-' , '備' , null ] ) ;
-		
+
+	it( "unicode.toCells() should produce an array of characters with filler chars following wide chars and tab" , () => {
+		expect( string.unicode.toCells( Cell , '' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [] ) ;
+		expect( string.unicode.toCells( Cell , 'a' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , 'abc' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'b' , 'c' ] ) ;
+		expect( string.unicode.toCells( Cell , '\x1b[' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\x1b' , '[' ] ) ;
+		expect( string.unicode.toCells( Cell , '𝌆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '𝌆' ] ) ;
+		expect( string.unicode.toCells( Cell , 'a𝌆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '𝌆' ] ) ;
+		expect( string.unicode.toCells( Cell , 'a𝌆a𝌆a' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '𝌆' , 'a' , '𝌆' , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , 'é𝌆é𝌆é' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'é' , '𝌆' , 'é' , '𝌆' , 'é' ] ) ;
+		expect( string.unicode.toCells( Cell , '䷆䷆' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '䷆' , '䷆' ] ) ;
+		expect( string.unicode.toCells( Cell , '備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null ] ) ;
+		expect( string.unicode.toCells( Cell , '備備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '備' , null ] ) ;
+		expect( string.unicode.toCells( Cell , '備-備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '-' , '備' , null ] ) ;
+
 		// Tabs
-		expect( string.unicode.toCells( Cell ,'\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
-		expect( string.unicode.toCells( Cell ,'\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
-		expect( string.unicode.toCells( Cell ,'a\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , 'a' ] ) ;
-		expect( string.unicode.toCells( Cell ,'aa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , '\t' , null , 'a' ] ) ;
-		expect( string.unicode.toCells( Cell ,'aaa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , 'a' , '\t' , 'a' ] ) ;
-		expect( string.unicode.toCells( Cell ,'aaaa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , 'a', 'a' , '\t' , null , null , null , 'a' ] ) ;
-		expect( string.unicode.toCells( Cell ,'備\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '\t' , null , 'a' ] ) ;
-		
-		expect( string.unicode.toCells( Cell ,'\t\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , '\t' , null , null , null ] ) ;
-		expect( string.unicode.toCells( Cell ,'\ta\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' , '\t' , null , null ] ) ;
-		expect( string.unicode.toCells( Cell ,'a\t\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , '\t' , null , null , null ] ) ;
-		expect( string.unicode.toCells( Cell ,'a\ta\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , 'a' , '\t' , null , null ] ) ;
-		
-		expect( string.unicode.toCells( Cell ,'\ta' , undefined , 2 ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , '\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , '\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , 'a\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , 'aa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , '\t' , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , 'aaa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , 'a' , '\t' , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , 'aaaa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , 'a' , 'a' , '\t' , null , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , '備\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '\t' , null , 'a' ] ) ;
+
+		expect( string.unicode.toCells( Cell , '\t\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , '\t' , null , null , null ] ) ;
+		expect( string.unicode.toCells( Cell , '\ta\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' , '\t' , null , null ] ) ;
+		expect( string.unicode.toCells( Cell , 'a\t\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , '\t' , null , null , null ] ) ;
+		expect( string.unicode.toCells( Cell , 'a\ta\t' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , 'a' , '\t' , null , null ] ) ;
+
+		expect( string.unicode.toCells( Cell , '\ta' , undefined , 2 ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , 'a' ] ) ;
 	} ) ;
-	
-	it( "unicode.fromCells() should be the inverse of the unicode.toCells()" , function() {
-		expect( string.unicode.fromCells( string.unicode.toCells( Cell ,'備\ta' ) ) ).to.be( '備\ta' ) ;
+
+	it( "unicode.fromCells() should be the inverse of the unicode.toCells()" , () => {
+		expect( string.unicode.fromCells( string.unicode.toCells( Cell , '備\ta' ) ) ).to.be( '備\ta' ) ;
 	} ) ;
-	
-	it( "unicode.surrogatePair() should return 0 for single char, 1 for leading surrogate, -1 for trailing surrogate" , function() {
+
+	it( "unicode.surrogatePair() should return 0 for single char, 1 for leading surrogate, -1 for trailing surrogate" , () => {
 		expect( string.unicode.surrogatePair( 'a' ) ).to.be( 0 ) ;
 		expect( '𝌆'.length ).to.be( 2 ) ;
 		expect( string.unicode.surrogatePair( '𝌆'[0] ) ).to.be( 1 ) ;
@@ -158,14 +160,14 @@ describe( "Unicode" , function() {
 		expect( '備'.length ).to.be( 2 ) ;
 		expect( string.unicode.surrogatePair( '備'[0] ) ).to.be( 1 ) ;
 		expect( string.unicode.surrogatePair( '備'[1] ) ).to.be( -1 ) ;
-		
+
 		// Can be wide or not, but expressed in only 1 code unit
 		expect( '䷆'.length ).to.be( 1 ) ;
 		expect( string.unicode.surrogatePair( '䷆'[0] ) ).to.be( 0 ) ;
-//		expect( string.unicode.surrogatePair( '䷆'[1] ) ).to.be( undefined ) ;
+		//		expect( string.unicode.surrogatePair( '䷆'[1] ) ).to.be( undefined ) ;
 	} ) ;
-	
-	it( "unicode.isFullWidth() should return true if the char is full-width" , function() {
+
+	it( "unicode.isFullWidth() should return true if the char is full-width" , () => {
 		expect( string.unicode.isFullWidth( 'a' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( 'aa' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠' ) ).to.be( true ) ;
@@ -177,35 +179,35 @@ describe( "Unicode" , function() {
 		expect( string.unicode.isFullWidth( 'a＠' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠a' ) ).to.be( true ) ;
 	} ) ;
-	
-	it( ".toFullWidth() should transform a character to its full-width variant, if it exist" , function() {
+
+	it( ".toFullWidth() should transform a character to its full-width variant, if it exist" , () => {
 		expect( string.unicode.toFullWidth( '@' ) ).to.be( '＠' ) ;
 		expect( string.unicode.toFullWidth( 'é' ) ).to.be( 'é' ) ;
 	} ) ;
-	
-	it( ".width() should return the width of a string when displayed on a terminal or a monospace font" , function() {
+
+	it( ".width() should return the width of a string when displayed on a terminal or a monospace font" , () => {
 		expect( string.unicode.width( 'aé@à' ) ).to.be( 4 ) ;
 		expect( string.unicode.width( 'aé＠à' ) ).to.be( 5 ) ;
 		expect( string.unicode.width( 'aé汉字à' ) ).to.be( 7 ) ;
 	} ) ;
-	
-	it( ".arrayWidth() should return the width of an array of string when displayed on a terminal or a monospace font" , function() {
-		expect( string.unicode.arrayWidth( [ '汉', '字' ] ) ).to.be( 4 ) ;
-		expect( string.unicode.arrayWidth( [ '汉', '字' , '＠' ] ) ).to.be( 6 ) ;
-		expect( string.unicode.arrayWidth( [ '汉', 'a' , '字' , '&'] ) ).to.be( 6 ) ;
-		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] ) ).to.be( 8 ) ;
-		
-		expect( string.unicode.arrayWidth( [ '汉', '字' ] , 2 ) ).to.be( 4 ) ;
-		expect( string.unicode.arrayWidth( [ '汉', '字' ] , 1 ) ).to.be( 2 ) ;
-		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 0 ) ).to.be( 0 ) ;
-		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 1 ) ).to.be( 1 ) ;
-		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 2 ) ).to.be( 3 ) ;
-		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 3 ) ).to.be( 5 ) ;
-		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 4 ) ).to.be( 7 ) ;
-		expect( string.unicode.arrayWidth( [ 'c' , '汉', '字' , '＠' , '&'] , 5 ) ).to.be( 8 ) ;
+
+	it( ".arrayWidth() should return the width of an array of string when displayed on a terminal or a monospace font" , () => {
+		expect( string.unicode.arrayWidth( [ '汉' , '字' ] ) ).to.be( 4 ) ;
+		expect( string.unicode.arrayWidth( [ '汉' , '字' , '＠' ] ) ).to.be( 6 ) ;
+		expect( string.unicode.arrayWidth( [ '汉' , 'a' , '字' , '&' ] ) ).to.be( 6 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉' , '字' , '＠' , '&' ] ) ).to.be( 8 ) ;
+
+		expect( string.unicode.arrayWidth( [ '汉' , '字' ] , 2 ) ).to.be( 4 ) ;
+		expect( string.unicode.arrayWidth( [ '汉' , '字' ] , 1 ) ).to.be( 2 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉' , '字' , '＠' , '&' ] , 0 ) ).to.be( 0 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉' , '字' , '＠' , '&' ] , 1 ) ).to.be( 1 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉' , '字' , '＠' , '&' ] , 2 ) ).to.be( 3 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉' , '字' , '＠' , '&' ] , 3 ) ).to.be( 5 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉' , '字' , '＠' , '&' ] , 4 ) ).to.be( 7 ) ;
+		expect( string.unicode.arrayWidth( [ 'c' , '汉' , '字' , '＠' , '&' ] , 5 ) ).to.be( 8 ) ;
 	} ) ;
-	
-	it( ".truncateWidth() should return a string that does not exceed the limit" , function() {
+
+	it( ".truncateWidth() should return a string that does not exceed the limit" , () => {
 		expect( string.unicode.truncateWidth( 'aé@à' , 3 ) ).to.be( 'aé@' ) ;
 		expect( string.unicode.truncateWidth( 'aé@à' , 4 ) ).to.be( 'aé@à' ) ;
 		expect( string.unicode.truncateWidth( 'aé@à' , 5 ) ).to.be( 'aé@à' ) ;
@@ -224,4 +226,3 @@ describe( "Unicode" , function() {
 	} ) ;
 } ) ;
 
- 
