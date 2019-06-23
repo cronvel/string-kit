@@ -1,4 +1,10 @@
 
+v0.9.6
+------
+
+.format(): %f mode greatly improved, new %e mode for scientific notation
+
+
 v0.9.5
 ------
 

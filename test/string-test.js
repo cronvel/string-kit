@@ -145,38 +145,76 @@ describe( "format()" , () => {
 	} ) ;
 
 	it( "%f should format floating point numbers" , () => {
-		expect( format( '%[0]f' , 4 / 3 ) ).to.be( '1' ) ;
-		expect( format( '%[1]f' , 4 / 3 ) ).to.be( '1.3' ) ;
-		expect( format( '%[2]f' , 4 / 3 ) ).to.be( '1.33' ) ;
-		
-		expect( format( '%[0]f' , 1 / 3 ) ).to.be( '0' ) ;
-		expect( format( '%[1]f' , 1 / 3 ) ).to.be( '0.3' ) ;
-		expect( format( '%[2]f' , 1 / 3 ) ).to.be( '0.33' ) ;
+		expect( format( '%f' , 12345.6789 ) ).to.be( '12345.6789' ) ;
+		expect( format( '%f' , 0.00123456789 ) ).to.be( '0.00123456789' ) ;
+	} ) ;
+	
+	it( "%f precision syntax" , () => {
+		expect( format( '%[1]f' , 12345.6789 ) ).to.be( '10000' ) ;
+		expect( format( '%[2]f' , 12345.6789 ) ).to.be( '12000' ) ;
+		expect( format( '%[3]f' , 12345.6789 ) ).to.be( '12300' ) ;
+		expect( format( '%[4]f' , 12345.6789 ) ).to.be( '12350' ) ;
+		expect( format( '%[5]f' , 12345.6789 ) ).to.be( '12346' ) ;
+		expect( format( '%[6]f' , 12345.6789 ) ).to.be( '12345.7' ) ;
+		expect( format( '%[7]f' , 12345.6789 ) ).to.be( '12345.68' ) ;
+		expect( format( '%[8]f' , 12345.6789 ) ).to.be( '12345.679' ) ;
+		expect( format( '%[9]f' , 12345.6789 ) ).to.be( '12345.6789' ) ;
+		expect( format( '%[10]f' , 12345.6789 ) ).to.be( '12345.6789' ) ;
 
-		expect( format( '%[f0]f' , 4 / 3 ) ).to.be( '1' ) ;
-		expect( format( '%[f1]f' , 4 / 3 ) ).to.be( '1.3' ) ;
-		expect( format( '%[f2]f' , 4 / 3 ) ).to.be( '1.33' ) ;
+		expect( format( '%[1]f' , 0.1234 ) ).to.be( '0.1' ) ;
+		expect( format( '%[2]f' , 0.1234 ) ).to.be( '0.12' ) ;
+		expect( format( '%[3]f' , 0.1234 ) ).to.be( '0.123' ) ;
 
-		expect( format( '%[f0]f' , 1 / 3 ) ).to.be( '0' ) ;
-		expect( format( '%[f1]f' , 1 / 3 ) ).to.be( '0.3' ) ;
-		expect( format( '%[f2]f' , 1 / 3 ) ).to.be( '0.33' ) ;
+		expect( format( '%[1]f' , 0.001234 ) ).to.be( '0.001' ) ;
+		expect( format( '%[2]f' , 0.001234 ) ).to.be( '0.0012' ) ;
+		expect( format( '%[3]f' , 0.001234 ) ).to.be( '0.00123' ) ;
+	} ) ;
+	
+	it( "%f integer rounding syntax" , () => {
+		expect( format( '%[1.]f' , 12345.6789 ) ).to.be( '12350' ) ;
+		expect( format( '%[2.]f' , 12345.6789 ) ).to.be( '12300' ) ;
+		expect( format( '%[3.]f' , 12345.6789 ) ).to.be( '12000' ) ;
+		expect( format( '%[4.]f' , 12345.6789 ) ).to.be( '10000' ) ;
+		expect( format( '%[5.]f' , 12345.6789 ) ).to.be( '0' ) ;
+	} ) ;
+	
+	it( "%f decimal rounding syntax" , () => {
+		expect( format( '%[.0]f' , 12345.6789 ) ).to.be( '12346' ) ;
+		expect( format( '%[.1]f' , 12345.6789 ) ).to.be( '12345.7' ) ;
+		expect( format( '%[.2]f' , 12345.6789 ) ).to.be( '12345.68' ) ;
+		expect( format( '%[.3]f' , 12345.6789 ) ).to.be( '12345.679' ) ;
 
-		expect( format( '%[f0]f' , 0.1 ) ).to.be( '0' ) ;
-		expect( format( '%[f1]f' , 0.1 ) ).to.be( '0.1' ) ;
-		expect( format( '%[f2]f' , 0.1 ) ).to.be( '0.10' ) ;
-
-		/*	p is not finished yet
-		expect( format( '%[p1]f' , 123 ) ).to.be( '10000' ) ;
-		expect( format( '%[p2]f' , 123 ) ).to.be( '12000' ) ;
-
-		expect( format( '%[p1]f' , 1/3 ) ).to.be( '0.3' ) ;
-		expect( format( '%[p2]f' , 1/3 ) ).to.be( '0.33' ) ;
-
-		expect( format( '%[p1]f' , 0.1 ) ).to.be( '0.1' ) ;
-		expect( format( '%[p2]f' , 0.1 ) ).to.be( '0.10' ) ;
-		*/
+		expect( format( '%[.2]f' , 12345 ) ).to.be( '12345' ) ;
+		expect( format( '%[.2]f' , 12345.6 ) ).to.be( '12345.6' ) ;
+	} ) ;
+	
+	it( "%f decimal rounding syntax forcing 0 padding after decimal" , () => {
+		expect( format( '%[.2!]f' , 12.523 ) ).to.be( '12.52' ) ;
+		expect( format( '%[.2!]f' , 12.5 ) ).to.be( '12.50' ) ;
+		expect( format( '%[.2!]f' , 12 ) ).to.be( '12.00' ) ;
 	} ) ;
 
+	it( "%f decimal rounding syntax forcing 0 padding after decimal only if there is decimal" , () => {
+		expect( format( '%[.2?]f' , 12.523 ) ).to.be( '12.52' ) ;
+		expect( format( '%[.2?]f' , 12.5 ) ).to.be( '12.50' ) ;
+		expect( format( '%[.2?]f' , 12 ) ).to.be( '12' ) ;
+	} ) ;
+	
+	it( "%f 0-left-padding syntax" , () => {
+		expect( format( '%[p3]f' , 12.34 ) ).to.be( '012.34' ) ;
+		expect( format( '%[p5]f' , 12.34 ) ).to.be( '00012.34' ) ;
+		expect( format( '%[.0p5]f' , 12.34 ) ).to.be( '00012' ) ;
+	} ) ;
+	
+	it( "%e scientific notation" , () => {
+		expect( format( '%e' , 1.234 ) ).to.be( '1.234e+0' ) ;
+		expect( format( '%e' , 12.34 ) ).to.be( '1.234e+1' ) ;
+		expect( format( '%e' , 123.4 ) ).to.be( '1.234e+2' ) ;
+
+		expect( format( '%[2]e' , 123.4 ) ).to.be( '1.2e+2' ) ;
+		expect( format( '%[3]e' , 123.4 ) ).to.be( '1.23e+2' ) ;
+	} ) ;
+	
 	it( "format.count() should count the number of arguments found" , () => {
 		expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
 		expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
@@ -529,7 +567,7 @@ describe( "inspect()" , () => {
 			anonymous: function() { console.log( 'anonymous...' ) ; } ,
 			class: MyClass ,
 			instance: new MyClass() ,
-			buf: new Buffer( 'This is a buffer!' )
+			buf: Buffer.from( 'This is a buffer!' )
 		} ;
 
 		object.sub.circular = object ;
