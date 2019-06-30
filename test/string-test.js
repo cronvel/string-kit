@@ -122,6 +122,17 @@ describe( "format()" , () => {
 		expect( format( '%k' , -0.00000000999 ) ).to.be( '-9.99n' ) ;
 	} ) ;
 
+	it( "%t should format time duration" , () => {
+		expect( format( '%t' , 1000 ) ).to.be( '1s' ) ;
+		expect( format( '%t' , 1234 ) ).to.be( '1s' ) ;
+		expect( format( '%t' , 56789 ) ).to.be( '56s' ) ;
+		expect( format( '%t' , 60000 ) ).to.be( '1min00s' ) ;
+		expect( format( '%t' , 123456 ) ).to.be( '2min03s' ) ;
+		expect( format( '%t' , 3600000 ) ).to.be( '1h00min00s' ) ;
+		expect( format( '%t' , 3599999 ) ).to.be( '59min59s' ) ;
+		expect( format( '%t' , 7890000 ) ).to.be( '2h11min30s' ) ;
+	} ) ;
+
 	it( "%z should format as base64" , () => {
 		expect( format( '%z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
 		expect( format( '%z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
