@@ -411,6 +411,20 @@ describe( "Escape collection" , () => {
 		//console.log( string.escape.htmlSpecialChars( "<This> isn't \"R&D\"" ) ) ;
 		expect( string.escape.htmlSpecialChars( "<This> isn't \"R&D\"" ) ).to.be( "&lt;This&gt; isn&#039;t &quot;R&amp;D&quot;" ) ;
 	} ) ;
+
+	it( "escape.unicodePercentEncoding() should escape all control chars and codepoint greater than 255 using percent encoding" , () => {
+		expect( string.escape.unicodePercentEncode( "regular" ) ).to.be( "regular" ) ;
+		expect( string.escape.unicodePercentEncode( "some «sp€¢ial»" ) ).to.be( "some «sp%E2%82%AC¢ial»" ) ;
+		expect( string.escape.unicodePercentEncode( "percent % encoding" ) ).to.be( "percent %25 encoding" ) ;
+		expect( string.escape.unicodePercentEncode( "\n\t\r" ) ).to.be( "%0A%09%0D" ) ;
+	} ) ;
+
+	it( "escape.httpHeaderValue()" , () => {
+		expect( string.escape.httpHeaderValue( "regular" ) ).to.be( "regular" ) ;
+		expect( string.escape.httpHeaderValue( "some «sp€¢ial»" ) ).to.be( "some «sp%E2%82%AC¢ial»" ) ;
+		expect( string.escape.httpHeaderValue( "percent % encoding" ) ).to.be( "percent %25 encoding" ) ;
+		expect( string.escape.httpHeaderValue( "\n\t\r" ) ).to.be( "%0A%09%0D" ) ;
+	} ) ;
 } ) ;
 
 
