@@ -1,4 +1,10 @@
 
+v0.9.9
+------
+
+New: .camelCaseToSeparated(): like .camelCaseToDashed() but with a customizable separator (default to space)
+
+
 v0.9.8
 ------
 
