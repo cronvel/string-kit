@@ -1,4 +1,10 @@
 
+v0.9.10
+-------
+
+Fix .wordwarp() options to the correct name: widthFn -> charWidthFn
+
+
 v0.9.9
 ------
 
