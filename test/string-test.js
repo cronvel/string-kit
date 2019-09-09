@@ -654,6 +654,23 @@ describe( "Title case" , () => {
 
 describe( "Fuzzy string matching" , () => {
 
+	const continents = [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ;
+	
+	const things = [
+		'the elven sword' ,
+		'a jewel-encrusted egg' ,
+		'a brass lantern' ,
+		'a bag' ,
+		'a lunch' ,
+		'a rope' ,
+		'a knife' ,
+		'a throwing knife' ,
+		'a bottle of water' ,
+		'a helm' ,
+		'a crossbow' ,
+		'a bolt'
+	] ;
+	
 	it( "Levenshtein" , () => {
 		expect( string.fuzzy.levenshtein( 'amrica' , 'africa' ) ).to.be( 1 ) ;
 		expect( string.fuzzy.levenshtein( 'america' , 'amrica' ) ).to.be( 1 ) ;
@@ -670,18 +687,78 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.score( 'austia' , 'asia' ) ).to.be.around( 2 / 4 ) ;
 		expect( string.fuzzy.score( 'random' , 'australia' ) ).to.be.around( 1 / 9 ) ;
 		expect( string.fuzzy.score( 'random' , 'africa' ) ).to.be.around( 0 ) ;
+		expect( string.fuzzy.score( 'walter' , 'a bottle of water' ) ).to.be.around( 4 / 17 ) ;
+		expect( string.fuzzy.score( 'walter' , 'a brass lantern' ) ).to.be.around( 5 / 15 ) ;
 	} ) ;
 
 	it( "Best match" , () => {
-		expect( string.fuzzy.bestMatch( 'arica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'africa' ) ;
-		expect( string.fuzzy.bestMatch( 'amrica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'america' ) ;
-		expect( string.fuzzy.bestMatch( 'armorica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'america' ) ;
-		expect( string.fuzzy.bestMatch( 'armrica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'america' ) ;
-		expect( string.fuzzy.bestMatch( 'austrica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'australia' ) ;
-		expect( string.fuzzy.bestMatch( 'ausia' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'asia' ) ;
-		expect( string.fuzzy.bestMatch( 'austia' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'australia' ) ;
-		expect( string.fuzzy.bestMatch( 'astia' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'asia' ) ;
-		expect( string.fuzzy.bestMatch( 'random' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'australia' ) ;
+		expect( string.fuzzy.bestMatch( 'arica' , continents ) ).to.be( 'africa' ) ;
+		expect( string.fuzzy.bestMatch( 'amrica' , continents ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'armorica' , continents ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'armrica' , continents ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'austrica' , continents ) ).to.be( 'australia' ) ;
+		expect( string.fuzzy.bestMatch( 'ausia' , continents ) ).to.be( 'asia' ) ;
+		expect( string.fuzzy.bestMatch( 'austia' , continents ) ).to.be( 'australia' ) ;
+		expect( string.fuzzy.bestMatch( 'astia' , continents ) ).to.be( 'asia' ) ;
+		expect( string.fuzzy.bestMatch( 'random' , continents ) ).to.be( 'australia' ) ;
+
+		expect( string.fuzzy.bestMatch( 'sword' , things ) ).to.be( 'the elven sword' ) ;
+		expect( string.fuzzy.bestMatch( 'word' , things ) ).to.be( 'the elven sword' ) ;
+		expect( string.fuzzy.bestMatch( 'lantern' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestMatch( 'luntern' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestMatch( 'lunctern' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestMatch( 'luncten' , things ) ).to.be( 'a lunch' ) ;
+		expect( string.fuzzy.bestMatch( 'bottle' , things ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestMatch( 'water' , things ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestMatch( 'walter' , things ) ).to.be( 'a brass lantern' ) ;
+
+		expect( string.fuzzy.bestMatch( 'knife' , things ) ).to.be( 'a knife' ) ;
+	} ) ;
+
+	it( "Best token match" , () => {
+		expect( string.fuzzy.bestTokenMatch( 'sword' , things ) ).to.be( 'the elven sword' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'word' , things ) ).to.be( 'the elven sword' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'lantern' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'luntern' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'lunctern' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'luncten' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'bottle' , things ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'water' , things ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'walter' , things ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'a walter' , things ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'some walter' , things ) ).to.be( 'a bottle of water' ) ;
+
+		expect( string.fuzzy.bestTokenMatch( 'knife' , things ) ).to.be( 'a knife' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'throwing knife' , things ) ).to.be( 'a throwing knife' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'throwing' , things ) ).to.be( 'a throwing knife' ) ;
+	} ) ;
+
+	it( "Top match" , () => {
+		expect( string.fuzzy.topMatch( 'arica' , continents ) ).to.equal( [ 'africa' ] ) ;
+		expect( string.fuzzy.topMatch( 'amrica' , continents ) ).to.equal( [ 'america' , 'africa' ] ) ;
+		expect( string.fuzzy.topMatch( 'armorica' , continents ) ).to.equal( [ 'america' ] ) ;
+		expect( string.fuzzy.topMatch( 'armrica' , continents ) ).to.equal( [ 'america' , 'africa' ] ) ;
+		expect( string.fuzzy.topMatch( 'austrica' , continents ) ).to.equal( [ 'australia' ] ) ;
+		expect( string.fuzzy.topMatch( 'ausia' , continents ) ).to.equal( [ 'asia' ] ) ;
+		expect( string.fuzzy.topMatch( 'austia' , continents ) ).to.equal( [ 'australia' ] ) ;
+		expect( string.fuzzy.topMatch( 'astia' , continents ) ).to.equal( [ 'asia' ] ) ;
+		expect( string.fuzzy.topMatch( 'random' , continents ) ).to.equal( [ 'australia' ] ) ;
+
+		expect( string.fuzzy.topMatch( 'sword' , things ) ).to.equal( [ 'the elven sword' ] ) ;
+		expect( string.fuzzy.topMatch( 'word' , things ) ).to.equal( [ 'the elven sword' ] ) ;
+		expect( string.fuzzy.topMatch( 'lantern' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
+		expect( string.fuzzy.topMatch( 'luntern' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
+		expect( string.fuzzy.topMatch( 'lunctern' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
+		expect( string.fuzzy.topMatch( 'luncten' , things ) ).to.equal( [ 'a lunch' , 'a brass lantern' ] ) ;
+		expect( string.fuzzy.topMatch( 'bottle' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+		expect( string.fuzzy.topMatch( 'water' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+		expect( string.fuzzy.topMatch( 'walter' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
+
+		expect( string.fuzzy.topMatch( 'knife' , things ) ).to.equal( [ 'a knife' ] ) ;
+	} ) ;
+
+	it( "Top token match" , () => {
+		expect( string.fuzzy.topTokenMatch( 'sword' , things ) ).to.be( 'the elven sword' ) ;
 	} ) ;
 } ) ;
 
