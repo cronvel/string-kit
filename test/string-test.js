@@ -666,6 +666,7 @@ describe( "Fuzzy string matching" , () => {
 		'a knife' ,
 		'a throwing knife' ,
 		'a bottle of water' ,
+		'a rattle' ,
 		'a helm' ,
 		'a crossbow' ,
 		'a bolt'
@@ -676,6 +677,7 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.levenshtein( 'america' , 'amrica' ) ).to.be( 1 ) ;
 		expect( string.fuzzy.levenshtein( 'america' , 'armorica' ) ).to.be( 2 ) ;
 		expect( string.fuzzy.levenshtein( 'america' , 'amierca' ) ).to.be( 2 ) ;
+		expect( string.fuzzy.levenshtein( 'bottle' , 'rattle' ) ).to.be( 2 ) ;
 	} ) ;
 
 	it( "Score" , () => {
@@ -689,6 +691,10 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.score( 'random' , 'africa' ) ).to.be.around( 0 ) ;
 		expect( string.fuzzy.score( 'walter' , 'a bottle of water' ) ).to.be.around( 4 / 17 ) ;
 		expect( string.fuzzy.score( 'walter' , 'a brass lantern' ) ).to.be.around( 5 / 15 ) ;
+		expect( string.fuzzy.score( 'bottle' , 'a bottle of water' ) ).to.be.around( 6 / 17 ) ;
+		expect( string.fuzzy.score( 'rattle' , 'a bottle of water' ) ).to.be.around( 4 / 17 ) ;
+		expect( string.fuzzy.score( 'rottle' , 'bottle' ) ).to.be.around( 5 / 6 ) ;
+		expect( string.fuzzy.score( 'battle' , 'bottle' ) ).to.be.around( 5 / 6 ) ;
 	} ) ;
 
 	it( "Best match" , () => {
@@ -708,7 +714,8 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.bestMatch( 'luntern' , things ) ).to.be( 'a brass lantern' ) ;
 		expect( string.fuzzy.bestMatch( 'lunctern' , things ) ).to.be( 'a brass lantern' ) ;
 		expect( string.fuzzy.bestMatch( 'luncten' , things ) ).to.be( 'a lunch' ) ;
-		expect( string.fuzzy.bestMatch( 'bottle' , things ) ).to.be( 'a bottle of water' ) ;
+		//expect( string.fuzzy.bestMatch( 'bottle' , things ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestMatch( 'bottle' , things ) ).to.be( 'a rattle' ) ;
 		expect( string.fuzzy.bestMatch( 'water' , things ) ).to.be( 'a bottle of water' ) ;
 		expect( string.fuzzy.bestMatch( 'walter' , things ) ).to.be( 'a brass lantern' ) ;
 
@@ -750,15 +757,34 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.topMatch( 'luntern' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
 		expect( string.fuzzy.topMatch( 'lunctern' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
 		expect( string.fuzzy.topMatch( 'luncten' , things ) ).to.equal( [ 'a lunch' , 'a brass lantern' ] ) ;
-		expect( string.fuzzy.topMatch( 'bottle' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
-		expect( string.fuzzy.topMatch( 'water' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+		//expect( string.fuzzy.topMatch( 'bottle' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+		expect( string.fuzzy.topMatch( 'bottle' , things ) ).to.equal( [ 'a rattle' ] ) ;
+		expect( string.fuzzy.topMatch( 'water' , things ) ).to.equal( [ 'a bottle of water' , 'a brass lantern' ] ) ;
 		expect( string.fuzzy.topMatch( 'walter' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
 
 		expect( string.fuzzy.topMatch( 'knife' , things ) ).to.equal( [ 'a knife' ] ) ;
 	} ) ;
 
 	it( "Top token match" , () => {
-		expect( string.fuzzy.topTokenMatch( 'sword' , things ) ).to.be( 'the elven sword' ) ;
+		expect( string.fuzzy.topTokenMatch( 'sword' , things ) ).to.equal( [ 'the elven sword' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'word' , things ) ).to.equal( [ 'the elven sword' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'lantern' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'luntern' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'lunctern' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'luncten' , things ) ).to.equal( [ 'a brass lantern' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'bottle' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'rattle' , things ) ).to.equal( [ 'a rattle' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'rottle' , things ) ).to.equal( [ 'a rattle' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'cottle' , things ) ).to.equal( [ 'a bottle of water' , 'a rattle' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'cattle' , things ) ).to.equal( [ 'a rattle' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'water' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'walter' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'a walter' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'some walter' , things ) ).to.equal( [ 'a bottle of water' ] ) ;
+
+		expect( string.fuzzy.topTokenMatch( 'knife' , things ) ).to.equal( [ 'a knife' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'throwing knife' , things ) ).to.equal( [ 'a throwing knife' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'throwing' , things ) ).to.equal( [ 'a throwing knife' ] ) ;
 	} ) ;
 } ) ;
 
