@@ -652,6 +652,41 @@ describe( "Title case" , () => {
 
 
 
+describe( "Fuzzy string matching" , () => {
+
+	it( "Levenshtein" , () => {
+		expect( string.fuzzy.levenshtein( 'amrica' , 'africa' ) ).to.be( 1 ) ;
+		expect( string.fuzzy.levenshtein( 'america' , 'amrica' ) ).to.be( 1 ) ;
+		expect( string.fuzzy.levenshtein( 'america' , 'armorica' ) ).to.be( 2 ) ;
+		expect( string.fuzzy.levenshtein( 'america' , 'amierca' ) ).to.be( 2 ) ;
+	} ) ;
+
+	it( "Score" , () => {
+		expect( string.fuzzy.score( 'armorica' , 'america' ) ).to.be.around( 5 / 7 ) ;
+		expect( string.fuzzy.score( 'amrica' , 'africa' ) ).to.be.around( 5 / 6 ) ;
+		expect( string.fuzzy.score( 'amrica' , 'america' ) ).to.be.around( 6 / 7 ) ;
+		expect( string.fuzzy.score( 'amierca' , 'america' ) ).to.be.around( 5 / 7 ) ;
+		expect( string.fuzzy.score( 'austia' , 'australia' ) ).to.be.around( 6 / 9 ) ;
+		expect( string.fuzzy.score( 'austia' , 'asia' ) ).to.be.around( 2 / 4 ) ;
+		expect( string.fuzzy.score( 'random' , 'australia' ) ).to.be.around( 1 / 9 ) ;
+		expect( string.fuzzy.score( 'random' , 'africa' ) ).to.be.around( 0 ) ;
+	} ) ;
+
+	it( "Best match" , () => {
+		expect( string.fuzzy.bestMatch( 'arica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'africa' ) ;
+		expect( string.fuzzy.bestMatch( 'amrica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'armorica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'armrica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'austrica' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'australia' ) ;
+		expect( string.fuzzy.bestMatch( 'ausia' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'asia' ) ;
+		expect( string.fuzzy.bestMatch( 'austia' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'australia' ) ;
+		expect( string.fuzzy.bestMatch( 'astia' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'asia' ) ;
+		expect( string.fuzzy.bestMatch( 'random' , [ 'africa' , 'america' , 'australia' , 'asia' , 'europe' ] ) ).to.be( 'australia' ) ;
+	} ) ;
+} ) ;
+
+
+
 describe( "Misc" , () => {
 
 	it( ".resize()" , () => {
