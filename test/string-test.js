@@ -678,6 +678,11 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.levenshtein( 'america' , 'armorica' ) ).to.be( 2 ) ;
 		expect( string.fuzzy.levenshtein( 'america' , 'amierca' ) ).to.be( 2 ) ;
 		expect( string.fuzzy.levenshtein( 'bottle' , 'rattle' ) ).to.be( 2 ) ;
+
+		expect( string.fuzzy.levenshtein( 'america' , 'america' ) ).to.be( 0 ) ;
+		expect( string.fuzzy.levenshtein( 'america' , '' ) ).to.be( 7 ) ;
+		expect( string.fuzzy.levenshtein( '' , 'america' ) ).to.be( 7 ) ;
+		expect( string.fuzzy.levenshtein( '' , '' ) ).to.be( 0 ) ;
 	} ) ;
 
 	it( "Score" , () => {
@@ -695,6 +700,13 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.score( 'rattle' , 'a bottle of water' ) ).to.be.around( 4 / 17 ) ;
 		expect( string.fuzzy.score( 'rottle' , 'bottle' ) ).to.be.around( 5 / 6 ) ;
 		expect( string.fuzzy.score( 'battle' , 'bottle' ) ).to.be.around( 5 / 6 ) ;
+		expect( string.fuzzy.score( 'lunctern' , 'a brass lantern' ) ).to.be.around( 5 / 15 ) ;
+		expect( string.fuzzy.score( 'lunctern' , 'lantern' ) ).to.be.around( 5 / 7 ) ;
+		
+		expect( string.fuzzy.score( 'america' , 'america' ) ).to.be.around( 1 ) ;
+		expect( string.fuzzy.score( 'america' , '' ) ).to.be.around( 0 ) ;
+		expect( string.fuzzy.score( '' , 'america' ) ).to.be.around( 0 ) ;
+		expect( string.fuzzy.score( '' , '' ) ).to.be.around( 1 ) ;
 	} ) ;
 
 	it( "Best match" , () => {
@@ -722,6 +734,20 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.bestMatch( 'knife' , things ) ).to.be( 'a knife' ) ;
 	} ) ;
 
+	it( "Best match with scoreLimit" , () => {
+		expect( string.fuzzy.bestMatch( 'lunctern' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestMatch( 'lunctern' , things , { scoreLimit: 0.3 } ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestMatch( 'lunctern' , things , { scoreLimit: 0.4 } ) ).to.be( null ) ;
+		
+		expect( string.fuzzy.bestMatch( 'armrica' , continents ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'armrica' , continents , { scoreLimit: 0.7 } ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'armrica' , continents , { scoreLimit: 0.8 } ) ).to.be( null ) ;
+
+		expect( string.fuzzy.bestMatch( 'amierca' , continents ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'amierca' , continents , { scoreLimit: 0.7 } ) ).to.be( 'america' ) ;
+		expect( string.fuzzy.bestMatch( 'amierca' , continents , { scoreLimit: 0.8 } ) ).to.be( null ) ;
+	} ) ;
+
 	it( "Best token match" , () => {
 		expect( string.fuzzy.bestTokenMatch( 'sword' , things ) ).to.be( 'the elven sword' ) ;
 		expect( string.fuzzy.bestTokenMatch( 'word' , things ) ).to.be( 'the elven sword' ) ;
@@ -738,6 +764,16 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.bestTokenMatch( 'knife' , things ) ).to.be( 'a knife' ) ;
 		expect( string.fuzzy.bestTokenMatch( 'throwing knife' , things ) ).to.be( 'a throwing knife' ) ;
 		expect( string.fuzzy.bestTokenMatch( 'throwing' , things ) ).to.be( 'a throwing knife' ) ;
+	} ) ;
+
+	it( "Best token match with scoreLimit" , () => {
+		expect( string.fuzzy.bestTokenMatch( 'lunctern' , things ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'lunctern' , things , { scoreLimit: 0.6 } ) ).to.be( 'a brass lantern' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'lunctern' , things , { scoreLimit: 0.7 } ) ).to.be( null ) ;
+
+		expect( string.fuzzy.bestTokenMatch( 'walter' , things ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'walter' , things , { scoreLimit: 0.7 } ) ).to.be( 'a bottle of water' ) ;
+		expect( string.fuzzy.bestTokenMatch( 'walter' , things , { scoreLimit: 0.8 } ) ).to.be( null ) ;
 	} ) ;
 
 	it( "Top match" , () => {
@@ -785,6 +821,16 @@ describe( "Fuzzy string matching" , () => {
 		expect( string.fuzzy.topTokenMatch( 'knife' , things ) ).to.equal( [ 'a knife' ] ) ;
 		expect( string.fuzzy.topTokenMatch( 'throwing knife' , things ) ).to.equal( [ 'a throwing knife' ] ) ;
 		expect( string.fuzzy.topTokenMatch( 'throwing' , things ) ).to.equal( [ 'a throwing knife' ] ) ;
+	} ) ;
+
+	it( "Top token match with deltaRate" , () => {
+		expect( string.fuzzy.topTokenMatch( 'knife' , things ) ).to.equal( [ 'a knife' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'knife' , things , { deltaRate: 0.9 } ) ).to.equal( [ 'a knife' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'knife' , things , { deltaRate: 0.8 } ) ).to.equal( [ 'a knife' , 'a throwing knife' ] ) ;
+
+		expect( string.fuzzy.topTokenMatch( 'throwing knife' , things ) ).to.equal( [ 'a throwing knife' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'throwing knife' , things , { deltaRate: 0.6 } ) ).to.equal( [ 'a throwing knife' ] ) ;
+		expect( string.fuzzy.topTokenMatch( 'throwing knife' , things , { deltaRate: 0.4 } ) ).to.equal( [ 'a throwing knife' , 'a knife' ] ) ;
 	} ) ;
 } ) ;
 
