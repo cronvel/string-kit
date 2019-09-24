@@ -1,4 +1,10 @@
 
+v0.10.0
+-------
+
+BREAKING: fixing occurrenceCount() spelling, and add the overlap option
+
+
 v0.9.12
 -------
 

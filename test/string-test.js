@@ -850,20 +850,27 @@ describe( "Misc" , () => {
 		expect( [ 'One' , 'Two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'One' , 'three' , 'Two' ] ) ;
 	} ) ;
 
-	it( ".occurenceCount()" , () => {
-		expect( string.occurenceCount( '' , '' ) ).to.be( 0 ) ;
-		expect( string.occurenceCount( 'three' , '' ) ).to.be( 0 ) ;
-		expect( string.occurenceCount( '' , 'o' ) ).to.be( 0 ) ;
-		expect( string.occurenceCount( '' , 'omg' ) ).to.be( 0 ) ;
-		expect( string.occurenceCount( 'three' , 'o' ) ).to.be( 0 ) ;
-		expect( string.occurenceCount( 'o' , 'o' ) ).to.be( 1 ) ;
-		expect( string.occurenceCount( 'ooo' , 'o' ) ).to.be( 3 ) ;
-		expect( string.occurenceCount( 'ooo' , 'oo' ) ).to.be( 1 ) ;
-		expect( string.occurenceCount( 'aooo' , 'oo' ) ).to.be( 1 ) ;
-		expect( string.occurenceCount( 'aoooo' , 'oo' ) ).to.be( 2 ) ;
-		expect( string.occurenceCount( 'one two three four' , 'o' ) ).to.be( 3 ) ;
-		expect( string.occurenceCount( 'one one one' , 'one' ) ).to.be( 3 ) ;
-		expect( string.occurenceCount( 'oneoneone' , 'one' ) ).to.be( 3 ) ;
+	it( ".occurrenceCount()" , () => {
+		expect( string.occurrenceCount( '' , '' ) ).to.be( 0 ) ;
+		expect( string.occurrenceCount( 'three' , '' ) ).to.be( 0 ) ;
+		expect( string.occurrenceCount( '' , 'o' ) ).to.be( 0 ) ;
+		expect( string.occurrenceCount( '' , 'omg' ) ).to.be( 0 ) ;
+		expect( string.occurrenceCount( 'three' , 'o' ) ).to.be( 0 ) ;
+		expect( string.occurrenceCount( 'o' , 'o' ) ).to.be( 1 ) ;
+		expect( string.occurrenceCount( 'ooo' , 'o' ) ).to.be( 3 ) ;
+		expect( string.occurrenceCount( 'ooo' , 'oo' ) ).to.be( 1 ) ;
+		expect( string.occurrenceCount( 'aooo' , 'oo' ) ).to.be( 1 ) ;
+		expect( string.occurrenceCount( 'aoooo' , 'oo' ) ).to.be( 2 ) ;
+		expect( string.occurrenceCount( 'one two three four' , 'o' ) ).to.be( 3 ) ;
+		expect( string.occurrenceCount( 'one one one' , 'one' ) ).to.be( 3 ) ;
+		expect( string.occurrenceCount( 'oneoneone' , 'one' ) ).to.be( 3 ) ;
+		expect( string.occurrenceCount( 'oneoneone' , 'oneone' ) ).to.be( 1 ) ;
+	} ) ;
+
+	it( ".occurrenceCount() with overlap" , () => {
+		expect( string.occurrenceCount( 'ooo' , 'oo' , true ) ).to.be( 2 ) ;
+		expect( string.occurrenceCount( 'aooo' , 'oo' , true ) ).to.be( 2 ) ;
+		expect( string.occurrenceCount( 'oneoneone' , 'oneone' , true ) ).to.be( 2 ) ;
 	} ) ;
 } ) ;
 
