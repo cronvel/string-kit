@@ -1,8 +1,50 @@
 
+v0.10.1
+-------
+
+New options 'indexOf' for fuzzy matcher
+
+
+v0.10.0
+-------
+
+BREAKING: fixing occurrenceCount() spelling, and add the overlap option
+
+
+v0.9.12
+-------
+
+Fuzzy string matcher improvements, more unit tests
+
+
+v0.9.11
+-------
+
+New: fuzzy string matcher
+
+
+v0.9.10
+-------
+
+Fix .wordwarp() options to the correct name: widthFn -> charWidthFn
+
+
+v0.9.9
+------
+
+New: .camelCaseToSeparated(): like .camelCaseToDashed() but with a customizable separator (default to space)
+
+
+v0.9.8
+------
+
+escape.unicodePercentEncode()
+
+
 v0.9.7
 ------
 
-New format %n and %N (WIP: behavior)
+.format() %t option for time duration
 
 
 v0.9.6
@@ -777,7 +819,4 @@ v0.1.0
 ------
 
 Refactoring.
-
-
-
 
