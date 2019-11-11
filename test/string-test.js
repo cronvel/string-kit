@@ -226,6 +226,9 @@ describe( "format()" , () => {
 		expect( format( '%[3]e' , 123.4 ) ).to.be( '1.23e+2' ) ;
 	} ) ;
 	
+	it( "%n natural" ) ;
+	it( "%N more natural" ) ;
+	
 	it( "format.count() should count the number of arguments found" , () => {
 		expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
 		expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
