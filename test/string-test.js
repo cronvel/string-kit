@@ -235,7 +235,16 @@ describe( "format()" , () => {
 		expect( format( '%[.0p5]f' , 12.34 ) ).to.be( '00012' ) ;
 		
 		// That nasty minus bug...
-		expect( format( '%[.0p5]f' , -12.34 ) ).to.be( '-0012' ) ;
+		expect( format( '%[.0p5]f' , -12.34 ) ).to.be( '-00012' ) ;
+	} ) ;
+	
+	it( "%f space-left-padding syntax" , () => {
+		expect( format( '%[P3]f' , 12.34 ) ).to.be( ' 12.34' ) ;
+		expect( format( '%[P5]f' , 12.34 ) ).to.be( '   12.34' ) ;
+		expect( format( '%[.0P5]f' , 12.34 ) ).to.be( '   12' ) ;
+		
+		// With minus bug...
+		expect( format( '%[.0P5]f' , -12.34 ) ).to.be( '  -12' ) ;
 	} ) ;
 	
 	it( "%e scientific notation" , () => {
