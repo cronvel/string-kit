@@ -1,4 +1,10 @@
 
+v0.10.4
+-------
+
+New: .format() %s now support padding
+
+
 v0.10.3
 -------
 
