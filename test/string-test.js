@@ -233,6 +233,9 @@ describe( "format()" , () => {
 		expect( format( '%[p3]f' , 12.34 ) ).to.be( '012.34' ) ;
 		expect( format( '%[p5]f' , 12.34 ) ).to.be( '00012.34' ) ;
 		expect( format( '%[.0p5]f' , 12.34 ) ).to.be( '00012' ) ;
+		
+		// That nasty minus bug...
+		expect( format( '%[.0p5]f' , -12.34 ) ).to.be( '-0012' ) ;
 	} ) ;
 	
 	it( "%e scientific notation" , () => {

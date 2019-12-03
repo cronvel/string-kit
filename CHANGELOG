@@ -1,4 +1,10 @@
 
+v0.10.5
+-------
+
+Fix format number 0 padding and negative numbers
+
+
 v0.10.4
 -------
 
