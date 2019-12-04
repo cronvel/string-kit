@@ -72,6 +72,7 @@ Specifiers:
 * `%u` unsigned integer
 * `%U` unsigned positive integer (>0)
 * `%k` number with metric system prefixes (like k, M, G, and so on...)
+* `%m` degrees/minutes/seconds notation
 * `%t` time duration, convert ms into H:min:s
 * `%h` unsigned hexadecimal
 * `%x` unsigned hexadecimal, force pairs of symbols (e.g. 'f' -> '0f')

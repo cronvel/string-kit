@@ -267,6 +267,16 @@ describe( "format()" , () => {
 		expect( format( '%[2L7]e' , 123.4 ) ).to.be( ' 1.2e+2' ) ;
 	} ) ;
 	
+	it( "%m degree minute seconds notation" , () => {
+		expect( format( '%m' , 0 ) ).to.be( '0°' ) ;
+		expect( format( '%m' , 10 ) ).to.be( '10°' ) ;
+		expect( format( '%m' , -10 ) ).to.be( '-10°' ) ;
+		expect( format( '%m' , 1 + 17 / 60 ) ).to.be( '1°17′' ) ;
+		expect( format( '%m' , 1 + 1 / 60 + 1 / 3600 ) ).to.be( '1°01′01″' ) ;
+		expect( format( '%m' , 1 + 59 / 60 + 59 / 3600 ) ).to.be( '1°59′59″' ) ;
+		expect( format( '%m' , - ( 1 + 59 / 60 + 59 / 3600 ) ) ).to.be( '-1°59′59″' ) ;
+	} ) ;
+	
 	it( "%n natural" ) ;
 	it( "%N more natural" ) ;
 	

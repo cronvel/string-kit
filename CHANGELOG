@@ -1,4 +1,10 @@
 
+v0.11.1
+-------
+
+.format(): Add %m specifier for degrees/minutes/seconds notation
+
+
 v0.11.0
 -------
 
