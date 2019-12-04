@@ -65,23 +65,38 @@ describe( "format()" , () => {
 	} ) ;
 
 	it( "%s padding syntax" , () => {
-		expect( format( 'Cat. #1%[10]s' , 'Cat. #2' ) ).to.be( 'Cat. #1   Cat. #2' ) ;
-		expect( format( 'Cat. #1%[l10]s' , 'Cat. #2' ) ).to.be( 'Cat. #1   Cat. #2' ) ;
-		expect( format( 'Cat. #1%[r10]s' , 'Cat. #2' ) ).to.be( 'Cat. #1Cat. #2   ' ) ;
+		expect( format( 'Cat. #1%[L10]s' , 'Cat. #2' ) ).to.be( 'Cat. #1   Cat. #2' ) ;
+		expect( format( 'Cat. #1%[R10]s' , 'Cat. #2' ) ).to.be( 'Cat. #1Cat. #2   ' ) ;
 		
 		// Truncate
-		expect( format( 'Cat. #1%[10]s' , 'this is way to big' ) ).to.be( 'Cat. #1this is w.' ) ;
-		expect( format( 'Cat. #1%[10]s' , 'that was way to big' ) ).to.be( 'Cat. #1 that was.' ) ;
-		expect( format( 'Cat. #1%[r10]s' , 'this is way to big' ) ).to.be( 'Cat. #1this is w.' ) ;
-		expect( format( 'Cat. #1%[r10]s' , 'that was way to big' ) ).to.be( 'Cat. #1that was. ' ) ;
+		expect( format( 'Cat. #1%[L10]s' , 'this is way to big' ) ).to.be( 'Cat. #1this is w…' ) ;
+		expect( format( 'Cat. #1%[L10]s' , 'that was way to big' ) ).to.be( 'Cat. #1 that was…' ) ;
+		expect( format( 'Cat. #1%[R10]s' , 'this is way to big' ) ).to.be( 'Cat. #1this is w…' ) ;
+		expect( format( 'Cat. #1%[R10]s' , 'that was way to big' ) ).to.be( 'Cat. #1that was… ' ) ;
 
 		// Unicode length/width
-		expect( format( 'Cat. #1%[10]s' , 'Cat. 備' ) ).to.be( 'Cat. #1   Cat. 備' ) ;	// 備 have length and width of 2
-		expect( format( 'Cat. #1%[10]s' , 'Cat. ＠' ) ).to.be( 'Cat. #1   Cat. ＠' ) ;	// ＠ have length of 1 but width of 2
-		expect( format( 'Cat. #1%[r10]s' , 'Cat. 備' ) ).to.be( 'Cat. #1Cat. 備   ' ) ;	// 備 have length and width of 2
-		expect( format( 'Cat. #1%[r10]s' , 'Cat. ＠' ) ).to.be( 'Cat. #1Cat. ＠   ' ) ;	// ＠ have length of 1 but width of 2
+		expect( format( 'Cat. #1%[L10]s' , 'Cat. 備' ) ).to.be( 'Cat. #1   Cat. 備' ) ;	// 備 have length and width of 2
+		expect( format( 'Cat. #1%[L10]s' , 'Cat. ＠' ) ).to.be( 'Cat. #1   Cat. ＠' ) ;	// ＠ have length of 1 but width of 2
+		expect( format( 'Cat. #1%[R10]s' , 'Cat. 備' ) ).to.be( 'Cat. #1Cat. 備   ' ) ;	// 備 have length and width of 2
+		expect( format( 'Cat. #1%[R10]s' , 'Cat. ＠' ) ).to.be( 'Cat. #1Cat. ＠   ' ) ;	// ＠ have length of 1 but width of 2
 	} ) ;
 
+	it( "common mode arg padding" , () => {
+		expect( format( '%[L6]f' , 12.34 ) ).to.be( ' 12.34' ) ;
+		expect( format( '%[L6]f' , -12.34 ) ).to.be( '-12.34' ) ;
+		expect( format( '%[L8z3]f' , 12.34 ) ).to.be( '  012.34' ) ;
+		expect( format( '%[L8z3]f' , -12.34 ) ).to.be( ' -012.34' ) ;
+		expect( format( '%[.0L5]f' , 12.34 ) ).to.be( '   12' ) ;
+		expect( format( '%[.0L5]f' , -12.34 ) ).to.be( '  -12' ) ;
+
+		expect( format( '%[R6]f' , 12.34 ) ).to.be( '12.34 ' ) ;
+		expect( format( '%[R6]f' , -12.34 ) ).to.be( '-12.34' ) ;
+		expect( format( '%[R8z3]f' , 12.34 ) ).to.be( '012.34  ' ) ;
+		expect( format( '%[R8z3]f' , -12.34 ) ).to.be( '-012.34 ' ) ;
+		expect( format( '%[.0R5]f' , 12.34 ) ).to.be( '12   ' ) ;
+		expect( format( '%[.0R5]f' , -12.34 ) ).to.be( '-12  ' ) ;
+	} ) ;
+	
 	it( "%S should format string and interpret ^ formatting" , () => {
 		expect( format( 'Hello %S' , 'w^bor^:ld' ) ).to.be( 'Hello w\x1b[34mor\x1b[0mld\x1b[0m' ) ;
 		expect( format( 'Hello %S %S, how are you?' , '^rJ^go^be' , '^rD^go^be' ) ).to.be( 'Hello \x1b[31mJ\x1b[32mo\x1b[34me\x1b[0m \x1b[31mD\x1b[32mo\x1b[34me\x1b[0m, how are you?' ) ;
@@ -229,22 +244,15 @@ describe( "format()" , () => {
 		expect( format( '%[.2?]f' , 12 ) ).to.be( '12' ) ;
 	} ) ;
 	
-	it( "%f 0-left-padding syntax" , () => {
-		expect( format( '%[p3]f' , 12.34 ) ).to.be( '012.34' ) ;
-		expect( format( '%[p5]f' , 12.34 ) ).to.be( '00012.34' ) ;
-		expect( format( '%[.0p5]f' , 12.34 ) ).to.be( '00012' ) ;
+	it( "%f zero-left-padding syntax" , () => {
+		expect( format( '%[z3]f' , 12.34 ) ).to.be( '012.34' ) ;
+		expect( format( '%[z5]f' , 12.34 ) ).to.be( '00012.34' ) ;
+		expect( format( '%[.0z5]f' , 12.34 ) ).to.be( '00012' ) ;
 		
 		// That nasty minus bug...
-		expect( format( '%[.0p5]f' , -12.34 ) ).to.be( '-00012' ) ;
-	} ) ;
-	
-	it( "%f space-left-padding syntax" , () => {
-		expect( format( '%[P3]f' , 12.34 ) ).to.be( ' 12.34' ) ;
-		expect( format( '%[P5]f' , 12.34 ) ).to.be( '   12.34' ) ;
-		expect( format( '%[.0P5]f' , 12.34 ) ).to.be( '   12' ) ;
-		
-		// With minus bug...
-		expect( format( '%[.0P5]f' , -12.34 ) ).to.be( '  -12' ) ;
+		expect( format( '%[z3]f' , -12.34 ) ).to.be( '-012.34' ) ;
+		expect( format( '%[z5]f' , -12.34 ) ).to.be( '-00012.34' ) ;
+		expect( format( '%[.0z5]f' , -12.34 ) ).to.be( '-00012' ) ;
 	} ) ;
 	
 	it( "%e scientific notation" , () => {
@@ -254,6 +262,9 @@ describe( "format()" , () => {
 
 		expect( format( '%[2]e' , 123.4 ) ).to.be( '1.2e+2' ) ;
 		expect( format( '%[3]e' , 123.4 ) ).to.be( '1.23e+2' ) ;
+
+		// With padding
+		expect( format( '%[2L7]e' , 123.4 ) ).to.be( ' 1.2e+2' ) ;
 	} ) ;
 	
 	it( "%n natural" ) ;

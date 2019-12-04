@@ -64,16 +64,22 @@ Specifiers:
 * `%s` string
 * `%S` string, interpret ^ formating
 * `%r` raw string, without sanitizer
+* `%n` natural: output the most natural representation for this type
+* `%N` even more natural: avoid type hinting marks like bracket for array
 * `%f` float
-* `%d` *or* %i integer
+* `%e` for scientific notation
+* `%d` *or* `%i` integer
 * `%u` unsigned integer
 * `%U` unsigned positive integer (>0)
+* `%k` number with metric system prefixes (like k, M, G, and so on...)
+* `%t` time duration, convert ms into H:min:s
 * `%h` unsigned hexadecimal
-* `%x` unsigned hexadecimal, force pair of symbols (e.g. 'f' -> '0f')
+* `%x` unsigned hexadecimal, force pairs of symbols (e.g. 'f' -> '0f')
 * `%o` unsigned octal
 * `%b` unsigned binary
 * `%z` base64
 * `%Z` base64url
+* `%O` object (call string-kit's inspect() with ultra-minimal options)
 * `%I` call string-kit's inspect()
 * `%Y` call string-kit's inspect(), but do not inspect non-enumerable
 * `%E` call string-kit's inspectError()
@@ -126,6 +132,9 @@ console.log( format( hello[ lang ] , firstName , lastName ) ) ;
 // but the argument list doesn't need to be changed.
 ```
 
+**Some specifiers accept parameters:** there are between bracket, inserted before the letter, e.g.: `%[L5]s`.
+[See the specifier parameters section.](#ref.format.parameters)
+
 The mysterious `%[]F` format specifier is used when we want custom formatter.
 Firstly we need to build an object containing one or many functions.
 Then, `format()` should be used with `call()`, to pass the functions collection as the *this* context.
@@ -146,6 +155,42 @@ console.log( format.call( filters , '%s%[fxy:%a%a]F' , 'f(x,y)=' , 5 , 3 ) ) ;
 console.log( format.call( filters , '%s%[fxy:%+1a%-1a]F' , 'f(x,y)=' , 5 , 3 ) ) ;
 // Output: 'f(x,y)=14'
 ```
+
+
+
+<a name="ref.format.parameters"></a>
+##### Specifiers parameters
+
+A parameter consists in a letter, then exactly one character (letter or not letter), and eventually any number of non-letter characters.
+E.g. `%[L5]s`, the *L* parameter that produce left-padding to force a *5* characters-length.
+
+A special parameter (specific for that *specifier*) consists in any number of non-letter characters and must be the first parameter.
+E.g.:
+* `%[.2]f`, the special parameter for the *f* specifier (float), it rounds the number to the second decimal place.
+* `%[.2L5]f`, mixing both the special and normal parameters, the special parameter comes first (round the the second decimal place),
+  then comes the generic and normal parameter *L* (left-padding)
+
+When a parameter needs a boolean, `+` denotes true, while `-` denotes false.
+
+Generic parameters -- they almost always exists for any specifier and use an upper-case parameter name :
+* L *integer*: it produces left-padding (using space) and force the length to the value
+* R *integer*: same than *L* but produce right-padding instead
+
+*Specifier's* specific parameters :
+* %e:
+	* *integer*: the number of significative number for the scientific notation, e.g. `%[3]e`.
+* %f:
+	* *integer*: the number precision in *digits*, e.g. `%[3]f`
+	* *integer* .: rounds to this integer place, e.g. `%[3.]f`
+	* . *integer*: rounds to this decimal place, e.g. `%[.3]f`
+	* . *integer* !: rounds to this decimal place and force displaying 0 up to this decimal place, e.g. `%[.3!]f`
+	* . *integer* ?: rounds to this decimal place and force displaying 0 up to this decimal place **if** there is at least one non-zero in the decimal part, e.g. `%[.3?]f`
+	* z *integer*: it produces zero padding for the integer part, e.g. `%[z3]f`
+* %O %I %Y %E:
+	* *integer*: the depth of nested object inspection
+	* c *boolean*: if true, can use ANSI color, if false, it will not use colors. E.g. `%[c+]I`.
+
+
 
 <a name="ref.format.markup"></a>
 ##### Style markup reference

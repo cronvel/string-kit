@@ -1,4 +1,10 @@
 
+v0.11.0
+-------
+
+.format() big improvements: generic parameters (parameters common to multiple specifiers), better API, more documentation. Also BREAKING change: %f zero-paddingdo not use the 'p' parameter but the 'z' (like Zero). Removed the 'P' parameter which would break the new standard of upper-case = generic parameter, and it is useless since any specifier can use the 'L' and 'R' parameter.
+
+
 v0.10.6
 -------
 
