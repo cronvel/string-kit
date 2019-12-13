@@ -1,4 +1,10 @@
 
+v0.11.2
+-------
+
+.inpectError() improved (support for new elements in the latest Node.js stack trace)
+
+
 v0.11.1
 -------
 
