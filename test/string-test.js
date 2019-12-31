@@ -613,7 +613,6 @@ describe( "Wordwrap" , () => {
 describe( "inspect()" , () => {
 
 	it( "should inspect a variable with default options accordingly" , () => {
-
 		var MyClass = function MyClass() {
 			this.variable = 1 ;
 		} ;
@@ -677,7 +676,7 @@ describe( "inspect()" , () => {
 		expect( string.inspect( Object.assign( Object.create( null ) , { a: 1 , b: 2 } ) ) ).to.be( '<(no constructor)> <object> {\n    a: 1 <number>\n    b: 2 <number>\n}\n' ) ;
 	} ) ;
 
-	it( "should use custom inspector whe the option 'useInspect'is set" , () => {
+	it( "should use target-specified's object substitution (.inspect method) when the option 'useInspect' is set" , () => {
 		function Obj() {
 			this.name = 'bob' ;
 		}
@@ -685,6 +684,17 @@ describe( "inspect()" , () => {
 		Obj.prototype.inspect = function() { return '<' + this.name + '>' ; } ;
 
 		expect( string.inspect( { useInspect: true } , new Obj() ) ).to.be( '<Obj> <object> => <bob>\n' ) ;
+	} ) ;
+
+	it( "should use target-specified's blacklist (.inspectPropertyBlackList is a Set) when the option 'useInspectPropertyBlackList' is set" , () => {
+		function Obj() {
+			this.name = 'bob' ;
+			this.app = {} ;
+		}
+
+		Obj.prototype.inspectPropertyBlackList = new Set( [ 'app' ] ) ;
+
+		expect( string.inspect( { useInspectPropertyBlackList: true } , new Obj() ) ).to.be( '<Obj> <object> {\n    name: "bob" <string>(3)\n}\n' ) ;
 	} ) ;
 
 	it( "special objects tests (ES6 Set & Map, MongoDB ObjectID)" ) ;

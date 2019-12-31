@@ -1,4 +1,11 @@
 
+v0.11.6
+-------
+
+.format(): new inspection argument 's' for max string length
+.inspect(): new option 'useInpectPropertyBlackList' that use target object own blacklist
+
+
 v0.11.5
 -------
 
