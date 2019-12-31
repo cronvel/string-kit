@@ -1,4 +1,10 @@
 
+v0.11.4
+-------
+
+.format(): new inspect argument 'l' for outputMaxLength
+
+
 v0.11.3
 -------
 
