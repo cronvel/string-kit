@@ -280,6 +280,10 @@ describe( "format()" , () => {
 	it( "%n natural" ) ;
 	it( "%N more natural" ) ;
 	
+	it( "%N and object keys sorting" , () => {
+		expect( format( '%N' , { bob: 3 , alice: 4 , john: 2 , jack: 3 } ) ).to.be( 'alice: 4, bob: 3, jack: 3, john: 2' ) ;
+	} ) ;
+	
 	it( "format.count() should count the number of arguments found" , () => {
 		expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
 		expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;

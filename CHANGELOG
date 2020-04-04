@@ -1,4 +1,10 @@
 
+v0.11.7
+-------
+
+.format() %n and %N sort object keys
+
+
 v0.11.6
 -------
 
