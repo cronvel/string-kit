@@ -1,4 +1,10 @@
 
+v0.11.10
+--------
+
+Fix format %X to respect unicode
+
+
 v0.11.9
 -------
 

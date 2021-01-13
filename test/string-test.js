@@ -105,7 +105,7 @@ describe( "format()" , () => {
 	it( "%X should turn a string into hexadecimal" , () => {
 		expect( format( 'Hello %X' , 'w' ) ).to.be( 'Hello 77' ) ;
 		expect( format( 'Hello %X' , 'world' ) ).to.be( 'Hello 776f726c64' ) ;
-		expect( format( 'Hello %X' , 'Cédric' ) ).to.be( 'Hello 43e964726963' ) ;
+		expect( format( 'Hello %X' , 'Cédric' ) ).to.be( 'Hello 43c3a964726963' ) ;
 	} ) ;
 
 	it( "argument sanitizing" , () => {
