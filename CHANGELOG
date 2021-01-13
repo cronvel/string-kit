@@ -1,4 +1,10 @@
 
+v0.11.9
+-------
+
+New format argument: %X, turning a string into its hexadecimal representation
+
+
 v0.11.8
 -------
 
