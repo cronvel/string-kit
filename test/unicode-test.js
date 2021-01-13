@@ -209,20 +209,42 @@ describe( "Unicode" , () => {
 
 	it( ".truncateWidth() should return a string that does not exceed the limit" , () => {
 		expect( string.unicode.truncateWidth( 'aé@à' , 3 ) ).to.be( 'aé@' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 3 ) ;
 		expect( string.unicode.truncateWidth( 'aé@à' , 4 ) ).to.be( 'aé@à' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 4 ) ;
 		expect( string.unicode.truncateWidth( 'aé@à' , 5 ) ).to.be( 'aé@à' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 4 ) ;
 		expect( string.unicode.truncateWidth( 'aé＠à' , 2 ) ).to.be( 'aé' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 2 ) ;
 		expect( string.unicode.truncateWidth( 'aé＠à' , 3 ) ).to.be( 'aé' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 2 ) ;
 		expect( string.unicode.truncateWidth( 'aé＠à' , 4 ) ).to.be( 'aé＠' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 4 ) ;
 		expect( string.unicode.truncateWidth( 'aé＠à' , 5 ) ).to.be( 'aé＠à' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 5 ) ;
 		expect( string.unicode.truncateWidth( 'aé＠à' , 6 ) ).to.be( 'aé＠à' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 5 ) ;
 		expect( string.unicode.truncateWidth( 'aé汉字à' , 2 ) ).to.be( 'aé' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 2 ) ;
 		expect( string.unicode.truncateWidth( 'aé汉字à' , 3 ) ).to.be( 'aé' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 2 ) ;
 		expect( string.unicode.truncateWidth( 'aé汉字à' , 4 ) ).to.be( 'aé汉' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 4 ) ;
 		expect( string.unicode.truncateWidth( 'aé汉字à' , 5 ) ).to.be( 'aé汉' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 4 ) ;
 		expect( string.unicode.truncateWidth( 'aé汉字à' , 6 ) ).to.be( 'aé汉字' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 6 ) ;
 		expect( string.unicode.truncateWidth( 'aé汉字à' , 7 ) ).to.be( 'aé汉字à' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 7 ) ;
 		expect( string.unicode.truncateWidth( 'aé汉字à' , 8 ) ).to.be( 'aé汉字à' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 7 ) ;
+
+		expect( string.unicode.truncateWidth( 'aé汉字' , 5 ) ).to.be( 'aé汉' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 4 ) ;
+		expect( string.unicode.truncateWidth( 'aé汉字' , 6 ) ).to.be( 'aé汉字' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 6 ) ;
+		expect( string.unicode.truncateWidth( 'aé汉字' , 7 ) ).to.be( 'aé汉字' ) ;
+		expect( string.unicode.getLastTruncateWidth() ).to.be( 6 ) ;
 	} ) ;
 } ) ;
 
