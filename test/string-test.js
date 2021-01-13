@@ -102,6 +102,12 @@ describe( "format()" , () => {
 		expect( format( 'Hello %S %S, how are you?' , '^rJ^go^be' , '^rD^go^be' ) ).to.be( 'Hello \x1b[31mJ\x1b[32mo\x1b[34me\x1b[0m \x1b[31mD\x1b[32mo\x1b[34me\x1b[0m, how are you?' ) ;
 	} ) ;
 
+	it( "%X should turn a string into hexadecimal" , () => {
+		expect( format( 'Hello %X' , 'w' ) ).to.be( 'Hello 77' ) ;
+		expect( format( 'Hello %X' , 'world' ) ).to.be( 'Hello 776f726c64' ) ;
+		expect( format( 'Hello %X' , 'Cédric' ) ).to.be( 'Hello 43e964726963' ) ;
+	} ) ;
+
 	it( "argument sanitizing" , () => {
 		expect( format( 'Some string: %s' , 'one\ntwo' ) ).to.be( 'Some string: one\ntwo' ) ;
 		expect( format( 'Some string: %s' , 'one\x00two' ) ).to.be( 'Some string: one\\x00two' ) ;
