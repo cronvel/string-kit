@@ -238,7 +238,7 @@ describe( "format()" , () => {
 		expect( format( '%[.2]f' , 12345.6 ) ).to.be( '12345.6' ) ;
 	} ) ;
 
-	it.opt( "%f decimal rounding artifact" , () => {
+	it( "%f decimal rounding artifact" , () => {
 		// JS artifact
 		expect( format( '%[.5]f' , 1000000 ) ).to.be( '1000000' ) ;
 	} ) ;
