@@ -1,4 +1,10 @@
 
+v0.12.0
+-------
+
+[Maybe breaking] .format() now use the new StringNumber class, used for number formatting
+
+
 v0.11.10
 --------
 

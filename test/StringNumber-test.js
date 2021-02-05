@@ -110,7 +110,40 @@ describe( "StringNumber" , () => {
 		expect( sn.toNumber() ).to.be( -123.4 ) ;
 	} ) ;
 
-	it( "precision" ) ;
+	it( "precision" , () => {
+		var sn ;
+		
+		sn = new StringNumber( 1001 ).precision( 3 ) ;
+		console.log( sn ) ;
+		expect( sn ).to.be.like( { sign: 1, digits: [ 1 ], exposant: 4 , special: null } ) ;
+		expect( sn.toNumber() ).to.be( 1000 ) ;
+		
+		sn = new StringNumber( 1004 ).precision( 3 ) ;
+		console.log( sn ) ;
+		expect( sn ).to.be.like( { sign: 1, digits: [ 1 ], exposant: 4 , special: null } ) ;
+		expect( sn.toNumber() ).to.be( 1000 ) ;
+		
+		sn = new StringNumber( 1005 ).precision( 3 ) ;
+		console.log( sn ) ;
+		expect( sn ).to.be.like( { sign: 1, digits: [ 1, 0, 1 ], exposant: 4 , special: null } ) ;
+		expect( sn.toNumber() ).to.be( 1010 ) ;
+		
+		sn = new StringNumber( 1009 ).precision( 3 ) ;
+		console.log( sn ) ;
+		expect( sn ).to.be.like( { sign: 1, digits: [ 1, 0, 1 ], exposant: 4 , special: null } ) ;
+		expect( sn.toNumber() ).to.be( 1010 ) ;
+		
+		sn = new StringNumber( 1039 ).precision( 3 ) ;
+		console.log( sn ) ;
+		expect( sn ).to.be.like( { sign: 1, digits: [ 1, 0, 4 ], exposant: 4 , special: null } ) ;
+		expect( sn.toNumber() ).to.be( 1040 ) ;
+		
+		sn = new StringNumber( 1999 ).precision( 3 ) ;
+		console.log( sn ) ;
+		expect( sn ).to.be.like( { sign: 1, digits: [ 2 ], exposant: 4 , special: null } ) ;
+		expect( sn.toNumber() ).to.be( 2000 ) ;
+	} ) ;
+
 	it( "rounding" ) ;
 	it( "leading/trailing zero padding" ) ;
 } ) ;

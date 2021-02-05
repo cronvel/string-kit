@@ -139,7 +139,7 @@ describe( "format()" , () => {
 		expect( format( '%k' , 1000 ) ).to.be( '1k' ) ;
 		expect( format( '%k' , 1001 ) ).to.be( '1k' ) ;
 		expect( format( '%k' , 1005 ) ).to.be( '1.01k' ) ;
-		expect( format( '%k' , 999.999 ) ).to.be( '1000' ) ;
+		expect( format( '%k' , 999.999 ) ).to.be( '1k' ) ;
 		expect( format( '%k' , 999.499 ) ).to.be( '999' ) ;
 		expect( format( '%k' , 0.999 ) ).to.be( '999m' ) ;
 		expect( format( '%k' , 0.0999 ) ).to.be( '99.9m' ) ;
