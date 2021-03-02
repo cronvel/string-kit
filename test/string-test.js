@@ -1,7 +1,7 @@
 /*
 	String Kit
 
-	Copyright (c) 2014 - 2019 Cédric Ronvel
+	Copyright (c) 2014 - 2021 Cédric Ronvel
 
 	The MIT License (MIT)
 
@@ -139,7 +139,7 @@ describe( "format()" , () => {
 		expect( format( '%k' , 1000 ) ).to.be( '1k' ) ;
 		expect( format( '%k' , 1001 ) ).to.be( '1k' ) ;
 		expect( format( '%k' , 1005 ) ).to.be( '1.01k' ) ;
-		expect( format( '%k' , 999.999 ) ).to.be( '1000' ) ;
+		expect( format( '%k' , 999.999 ) ).to.be( '1k' ) ;
 		expect( format( '%k' , 999.499 ) ).to.be( '999' ) ;
 		expect( format( '%k' , 0.999 ) ).to.be( '999m' ) ;
 		expect( format( '%k' , 0.0999 ) ).to.be( '99.9m' ) ;
@@ -236,6 +236,11 @@ describe( "format()" , () => {
 
 		expect( format( '%[.2]f' , 12345 ) ).to.be( '12345' ) ;
 		expect( format( '%[.2]f' , 12345.6 ) ).to.be( '12345.6' ) ;
+	} ) ;
+
+	it( "%f decimal rounding artifact" , () => {
+		// JS artifact
+		expect( format( '%[.5]f' , 1000000 ) ).to.be( '1000000' ) ;
 	} ) ;
 	
 	it( "%f decimal rounding syntax forcing 0 padding after decimal" , () => {
