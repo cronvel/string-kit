@@ -1,4 +1,10 @@
 
+v0.12.1
+-------
+
+.inspect() new option: 'minimalPlusConstructor' and 'noTypeButConstructor' (for displaying non-trivial constructor)
+
+
 v0.12.0
 -------
 
