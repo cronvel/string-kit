@@ -1,4 +1,10 @@
 
+v0.12.2
+-------
+
+.format(): new %P/%p format for absolute/relative percent
+
+
 v0.12.1
 -------
 

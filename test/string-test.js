@@ -128,72 +128,6 @@ describe( "format()" , () => {
 		expect( format( '%U' ) ).to.be( '1' ) ;
 	} ) ;
 
-	it( "%k should format with multipliers" , () => {
-		expect( format( '%k' , 123 ) ).to.be( '123' ) ;
-		expect( format( '%k' , 1234 ) ).to.be( '1.23k' ) ;
-		expect( format( '%k' , 12345 ) ).to.be( '12.3k' ) ;
-		expect( format( '%k' , 123456 ) ).to.be( '123k' ) ;
-		expect( format( '%k' , 1.2345 ) ).to.be( '1.23' ) ;
-		expect( format( '%k' , 12.345 ) ).to.be( '12.3' ) ;
-		expect( format( '%k' , 123.45 ) ).to.be( '123' ) ;
-		expect( format( '%k' , 1000 ) ).to.be( '1k' ) ;
-		expect( format( '%k' , 1001 ) ).to.be( '1k' ) ;
-		expect( format( '%k' , 1005 ) ).to.be( '1.01k' ) ;
-		expect( format( '%k' , 999.999 ) ).to.be( '1k' ) ;
-		expect( format( '%k' , 999.499 ) ).to.be( '999' ) ;
-		expect( format( '%k' , 0.999 ) ).to.be( '999m' ) ;
-		expect( format( '%k' , 0.0999 ) ).to.be( '99.9m' ) ;
-		expect( format( '%k' , 0.00999 ) ).to.be( '9.99m' ) ;
-		expect( format( '%k' , 0.000999 ) ).to.be( '999µ' ) ;
-		expect( format( '%k' , 0.0000999 ) ).to.be( '99.9µ' ) ;
-		expect( format( '%k' , 0.00000999 ) ).to.be( '9.99µ' ) ;
-		expect( format( '%k' , 0.00000000999 ) ).to.be( '9.99n' ) ;
-		expect( format( '%k' , 0.00000000000999 ) ).to.be( '9.99p' ) ;
-		expect( format( '%k' , 0.00000000000000999 ) ).to.be( '9.99f' ) ;
-		expect( format( '%k' , 123400 ) ).to.be( '123k' ) ;
-		expect( format( '%k' , 123400000 ) ).to.be( '123M' ) ;
-		expect( format( '%k' , 123400000000 ) ).to.be( '123G' ) ;
-		expect( format( '%k' , 123400000000000 ) ).to.be( '123T' ) ;
-		expect( format( '%k' , 123400000000000000 ) ).to.be( '123P' ) ;
-		expect( format( '%k' , 123400000000000000000 ) ).to.be( '123E' ) ;
-		expect( format( '%k' , -12.345 ) ).to.be( '-12.3' ) ;
-		expect( format( '%k' , -123400000 ) ).to.be( '-123M' ) ;
-		expect( format( '%k' , -0.00000000999 ) ).to.be( '-9.99n' ) ;
-	} ) ;
-
-	it( "%t should format time duration" , () => {
-		expect( format( '%t' , 1000 ) ).to.be( '1s' ) ;
-		expect( format( '%t' , 1234 ) ).to.be( '1s' ) ;
-		expect( format( '%t' , 56789 ) ).to.be( '56s' ) ;
-		expect( format( '%t' , 60000 ) ).to.be( '1min00s' ) ;
-		expect( format( '%t' , 123456 ) ).to.be( '2min03s' ) ;
-		expect( format( '%t' , 3600000 ) ).to.be( '1h00min00s' ) ;
-		expect( format( '%t' , 3599999 ) ).to.be( '59min59s' ) ;
-		expect( format( '%t' , 7890000 ) ).to.be( '2h11min30s' ) ;
-	} ) ;
-
-	it( "%z should format as base64" , () => {
-		expect( format( '%z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
-		expect( format( '%z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
-		expect( format( '%z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
-		expect( format( '%z' , Buffer.from( 'some longer text' ) ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
-		expect( format( '%z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '+/c=' ) ;
-	} ) ;
-
-	it( "%Z should format as base64-url" , () => {
-		expect( format( '%Z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
-		expect( format( '%Z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
-		expect( format( '%Z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
-		expect( format( '%Z' , Buffer.from( 'some longer text' ) ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
-		expect( format( '%Z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '-_c' ) ;
-	} ) ;
-
-	it( "should perform well the argument's index feature" , () => {
-		expect( format( '%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'ABC' ) ;
-		expect( format( '%+1s%-1s%s' , 'A' , 'B' , 'C' ) ).to.be( 'BAC' ) ;
-		expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
-	} ) ;
-
 	it( "%f should format floating point numbers" , () => {
 		expect( format( '%f' , 12345.6789 ) ).to.be( '12345.6789' ) ;
 		expect( format( '%f' , 0.00123456789 ) ).to.be( '0.00123456789' ) ;
@@ -239,7 +173,7 @@ describe( "format()" , () => {
 	} ) ;
 
 	it( "%f decimal rounding artifact" , () => {
-		// JS artifact
+		// JS artifact, without the StringNumber class, it is impossible to get this working unless breaking anything else:
 		expect( format( '%[.5]f' , 1000000 ) ).to.be( '1000000' ) ;
 	} ) ;
 	
@@ -264,6 +198,10 @@ describe( "format()" , () => {
 		expect( format( '%[z3]f' , -12.34 ) ).to.be( '-012.34' ) ;
 		expect( format( '%[z5]f' , -12.34 ) ).to.be( '-00012.34' ) ;
 		expect( format( '%[.0z5]f' , -12.34 ) ).to.be( '-00012' ) ;
+
+		// Forcing no zero before the dot
+		expect( format( '%[z0]f' , 0.1234 ) ).to.be( '.1234' ) ;
+		expect( format( '%[z0]f' , 0.001234 ) ).to.be( '.001234' ) ;
 	} ) ;
 	
 	it( "%e scientific notation" , () => {
@@ -278,6 +216,73 @@ describe( "format()" , () => {
 		expect( format( '%[2L7]e' , 123.4 ) ).to.be( ' 1.2e+2' ) ;
 	} ) ;
 	
+	it( "%P should format with (absolute) percent" , () => {
+		expect( format( '%P' , 2 ) ).to.be( '200%' ) ;
+		expect( format( '%P' , 1 ) ).to.be( '100%' ) ;
+		expect( format( '%P' , 0 ) ).to.be( '0%' ) ;
+		expect( format( '%P' , -1 ) ).to.be( '-100%' ) ;
+		expect( format( '%P' , 1.23 ) ).to.be( '123%' ) ;
+		expect( format( '%P' , 0.45 ) ).to.be( '45%' ) ;
+
+		expect( format( '%P' , 0.12345 ) ).to.be( '12%' ) ;
+		expect( format( '%[.1]P' , 0.12345 ) ).to.be( '12.3%' ) ;
+
+		expect( format( '%[.1]P' , 0.00345 ) ).to.be( '0.3%' ) ;
+		expect( format( '%[.1z0]P' , 0.00345 ) ).to.be( '.3%' ) ;
+	} ) ;
+
+	it( "%p should format with relative percent" , () => {
+		expect( format( '%p' , 2 ) ).to.be( '+100%' ) ;
+		expect( format( '%p' , 1 ) ).to.be( '+0%' ) ;
+		expect( format( '%p' , 0 ) ).to.be( '-100%' ) ;
+		expect( format( '%p' , -1 ) ).to.be( '-200%' ) ;
+		expect( format( '%p' , 1.23 ) ).to.be( '+23%' ) ;
+		expect( format( '%p' , 0.45 ) ).to.be( '-55%' ) ;
+
+		expect( format( '%p' , 1.2345 ) ).to.be( '+23%' ) ;
+		expect( format( '%[.1]p' , 1.2345 ) ).to.be( '+23.4%' ) ;
+		expect( format( '%p' , 0.12345 ) ).to.be( '-88%' ) ;
+		expect( format( '%[.1]p' , 0.12345 ) ).to.be( '-87.7%' ) ;
+
+		expect( format( '%[.1]p' , 1.00345 ) ).to.be( '+0.3%' ) ;
+		expect( format( '%[.1z0]p' , 1.00345 ) ).to.be( '+.3%' ) ;
+		expect( format( '%[.1]p' , 0.997 ) ).to.be( '-0.3%' ) ;
+		expect( format( '%[.1z0]p' , 0.997 ) ).to.be( '-.3%' ) ;
+	} ) ;
+
+	it( "%k should format with multipliers" , () => {
+		expect( format( '%k' , 123 ) ).to.be( '123' ) ;
+		expect( format( '%k' , 1234 ) ).to.be( '1.23k' ) ;
+		expect( format( '%k' , 12345 ) ).to.be( '12.3k' ) ;
+		expect( format( '%k' , 123456 ) ).to.be( '123k' ) ;
+		expect( format( '%k' , 1.2345 ) ).to.be( '1.23' ) ;
+		expect( format( '%k' , 12.345 ) ).to.be( '12.3' ) ;
+		expect( format( '%k' , 123.45 ) ).to.be( '123' ) ;
+		expect( format( '%k' , 1000 ) ).to.be( '1k' ) ;
+		expect( format( '%k' , 1001 ) ).to.be( '1k' ) ;
+		expect( format( '%k' , 1005 ) ).to.be( '1.01k' ) ;
+		expect( format( '%k' , 999.999 ) ).to.be( '1k' ) ;
+		expect( format( '%k' , 999.499 ) ).to.be( '999' ) ;
+		expect( format( '%k' , 0.999 ) ).to.be( '999m' ) ;
+		expect( format( '%k' , 0.0999 ) ).to.be( '99.9m' ) ;
+		expect( format( '%k' , 0.00999 ) ).to.be( '9.99m' ) ;
+		expect( format( '%k' , 0.000999 ) ).to.be( '999µ' ) ;
+		expect( format( '%k' , 0.0000999 ) ).to.be( '99.9µ' ) ;
+		expect( format( '%k' , 0.00000999 ) ).to.be( '9.99µ' ) ;
+		expect( format( '%k' , 0.00000000999 ) ).to.be( '9.99n' ) ;
+		expect( format( '%k' , 0.00000000000999 ) ).to.be( '9.99p' ) ;
+		expect( format( '%k' , 0.00000000000000999 ) ).to.be( '9.99f' ) ;
+		expect( format( '%k' , 123400 ) ).to.be( '123k' ) ;
+		expect( format( '%k' , 123400000 ) ).to.be( '123M' ) ;
+		expect( format( '%k' , 123400000000 ) ).to.be( '123G' ) ;
+		expect( format( '%k' , 123400000000000 ) ).to.be( '123T' ) ;
+		expect( format( '%k' , 123400000000000000 ) ).to.be( '123P' ) ;
+		expect( format( '%k' , 123400000000000000000 ) ).to.be( '123E' ) ;
+		expect( format( '%k' , -12.345 ) ).to.be( '-12.3' ) ;
+		expect( format( '%k' , -123400000 ) ).to.be( '-123M' ) ;
+		expect( format( '%k' , -0.00000000999 ) ).to.be( '-9.99n' ) ;
+	} ) ;
+
 	it( "%m degree minute seconds notation" , () => {
 		expect( format( '%m' , 0 ) ).to.be( '0°' ) ;
 		expect( format( '%m' , 10 ) ).to.be( '10°' ) ;
@@ -288,6 +293,39 @@ describe( "format()" , () => {
 		expect( format( '%m' , - ( 1 + 59 / 60 + 59 / 3600 ) ) ).to.be( '-1°59′59″' ) ;
 	} ) ;
 	
+	it( "%t should format time duration" , () => {
+		expect( format( '%t' , 1000 ) ).to.be( '1s' ) ;
+		expect( format( '%t' , 1234 ) ).to.be( '1s' ) ;
+		expect( format( '%t' , 56789 ) ).to.be( '56s' ) ;
+		expect( format( '%t' , 60000 ) ).to.be( '1min00s' ) ;
+		expect( format( '%t' , 123456 ) ).to.be( '2min03s' ) ;
+		expect( format( '%t' , 3600000 ) ).to.be( '1h00min00s' ) ;
+		expect( format( '%t' , 3599999 ) ).to.be( '59min59s' ) ;
+		expect( format( '%t' , 7890000 ) ).to.be( '2h11min30s' ) ;
+	} ) ;
+
+	it( "%z should format as base64" , () => {
+		expect( format( '%z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
+		expect( format( '%z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
+		expect( format( '%z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
+		expect( format( '%z' , Buffer.from( 'some longer text' ) ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA==' ) ;
+		expect( format( '%z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '+/c=' ) ;
+	} ) ;
+
+	it( "%Z should format as base64-url" , () => {
+		expect( format( '%Z' , 'some text' ) ).to.be( 'c29tZSB0ZXh0' ) ;
+		expect( format( '%Z' , Buffer.from( 'some text' ) ) ).to.be( 'c29tZSB0ZXh0' ) ;
+		expect( format( '%Z' , 'some longer text' ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
+		expect( format( '%Z' , Buffer.from( 'some longer text' ) ) ).to.be( 'c29tZSBsb25nZXIgdGV4dA' ) ;
+		expect( format( '%Z' , Buffer.from( '+/c=' , 'base64' ) ) ).to.be( '-_c' ) ;
+	} ) ;
+
+	it( "should perform well the argument's index feature" , () => {
+		expect( format( '%s%s%s' , 'A' , 'B' , 'C' ) ).to.be( 'ABC' ) ;
+		expect( format( '%+1s%-1s%s' , 'A' , 'B' , 'C' ) ).to.be( 'BAC' ) ;
+		expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
+	} ) ;
+
 	it( "%n natural" ) ;
 	it( "%N more natural" ) ;
 	
