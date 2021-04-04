@@ -1,4 +1,10 @@
 
+v0.12.3
+-------
+
+.format()'s new float mode: 'g' for group separator (thousands)
+
+
 v0.12.2
 -------
 

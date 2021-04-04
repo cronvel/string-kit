@@ -133,6 +133,27 @@ describe( "format()" , () => {
 		expect( format( '%f' , 0.00123456789 ) ).to.be( '0.00123456789' ) ;
 	} ) ;
 	
+	it( "%f group separator syntax" , () => {
+		expect( format( '%[g]f' , 12345.6789 ) ).to.be( '12 345.6789' ) ;
+		expect( format( '%[g ]f' , 12345.6789 ) ).to.be( '12 345.6789' ) ;
+		expect( format( '%[g,]f' , 12345.6789 ) ).to.be( '12,345.6789' ) ;
+		expect( format( "%[g']f" , 12345.6789 ) ).to.be( "12'345.6789" ) ;
+		expect( format( '%[g_]f' , 12345.6789 ) ).to.be( '12_345.6789' ) ;
+
+		expect( format( '%[g]f' , 1 ) ).to.be( '1' ) ;
+		expect( format( '%[g]f' , 12 ) ).to.be( '12' ) ;
+		expect( format( '%[g]f' , 123 ) ).to.be( '123' ) ;
+		expect( format( '%[g]f' , 1234 ) ).to.be( '1 234' ) ;
+		expect( format( '%[g]f' , 12345 ) ).to.be( '12 345' ) ;
+		expect( format( '%[g]f' , 123456 ) ).to.be( '123 456' ) ;
+		expect( format( '%[g]f' , 1234567 ) ).to.be( '1 234 567' ) ;
+		expect( format( '%[g]f' , 12345678 ) ).to.be( '12 345 678' ) ;
+		expect( format( '%[g]f' , 123456789 ) ).to.be( '123 456 789' ) ;
+		expect( format( '%[g]f' , 1234567891 ) ).to.be( '1 234 567 891' ) ;
+
+		expect( format( '%[g]f' , 0.1234 ) ).to.be( '0.1234' ) ;
+	} ) ;
+	
 	it( "%f precision syntax" , () => {
 		expect( format( '%[1]f' , 12345.6789 ) ).to.be( '10000' ) ;
 		expect( format( '%[2]f' , 12345.6789 ) ).to.be( '12000' ) ;
