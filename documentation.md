@@ -82,14 +82,14 @@ Specifiers:
 * `%x` to unsigned hexadecimal, force pairs of symbols (e.g. 'f' -> '0f')
 * `%o` to unsigned octal
 * `%b` to unsigned binary
-* `%X` string to hexadecimal: convert a string into hex charcode, force pair of symbols (e.g. 'f' -> '0f')
-* `%z` to base64
-* `%Z` to base64url
+* `%X` string/binary/buffer to hexadecimal: convert a string into hex charcodes, force pair of symbols (e.g. 'f' -> '0f' ; 'hello' -> '68656c6c6f')
+* `%z` string/binary/buffer to base64
+* `%Z` string/binary/buffer to base64url
 * `%O` for objects (call string-kit's inspect() with ultra-minimal options)
 * `%I` call string-kit's inspect()
 * `%Y` call string-kit's inspect(), but do not inspect non-enumerable
 * `%E` call string-kit's inspectError()
-* `%J` to JSON.stringify()
+* `%J` to JSON (call JSON.stringify()
 * `%D` drop, the argument does not produce anything but is eaten anyway
 * `%F` filter function existing in the *this* context, e.g. %[filter:%a%a]F
 * `%a` argument for a filter function
