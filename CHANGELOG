@@ -1,4 +1,10 @@
 
+v0.12.4
+-------
+
+.format(): new Scientific Notation (e.g. 1.23 × 10²)
+
+
 v0.12.3
 -------
 

@@ -225,16 +225,48 @@ describe( "format()" , () => {
 		expect( format( '%[z0]f' , 0.001234 ) ).to.be( '.001234' ) ;
 	} ) ;
 	
-	it( "%e scientific notation" , () => {
+	it( "%e exponential notation" , () => {
+		expect( format( '%e' , 0.001234 ) ).to.be( '1.234e-3' ) ;
+		expect( format( '%e' , 0.01234 ) ).to.be( '1.234e-2' ) ;
+		expect( format( '%e' , 0.1234 ) ).to.be( '1.234e-1' ) ;
 		expect( format( '%e' , 1.234 ) ).to.be( '1.234e+0' ) ;
 		expect( format( '%e' , 12.34 ) ).to.be( '1.234e+1' ) ;
 		expect( format( '%e' , 123.4 ) ).to.be( '1.234e+2' ) ;
+		expect( format( '%e' , 1234 ) ).to.be( '1.234e+3' ) ;
 
+		// Precision
 		expect( format( '%[2]e' , 123.4 ) ).to.be( '1.2e+2' ) ;
 		expect( format( '%[3]e' , 123.4 ) ).to.be( '1.23e+2' ) ;
 
 		// With padding
 		expect( format( '%[2L7]e' , 123.4 ) ).to.be( ' 1.2e+2' ) ;
+
+		// Rounding (make no sense with scientific notation, but it works)
+		expect( format( '%[.2]e' , 123.4567 ) ).to.be( '1.2346e+2' ) ;
+		expect( format( '%[.1]e' , 123.4567 ) ).to.be( '1.235e+2' ) ;
+		expect( format( '%[1.]e' , 123.4567 ) ).to.be( '1.2e+2' ) ;
+	} ) ;
+	
+	it( "%K scientific notation" , () => {
+		expect( format( '%K' , 0.001234 ) ).to.be( '1.234 × 10⁻³' ) ;
+		expect( format( '%K' , 0.01234 ) ).to.be( '1.234 × 10⁻²' ) ;
+		expect( format( '%K' , 0.1234 ) ).to.be( '1.234 × 10⁻¹' ) ;
+		expect( format( '%K' , 1.234 ) ).to.be( '1.234 × 10⁰' ) ;
+		expect( format( '%K' , 12.34 ) ).to.be( '1.234 × 10¹' ) ;
+		expect( format( '%K' , 123.4 ) ).to.be( '1.234 × 10²' ) ;
+		expect( format( '%K' , 1234 ) ).to.be( '1.234 × 10³' ) ;
+
+		// Precision
+		expect( format( '%[2]K' , 123.4 ) ).to.be( '1.2 × 10²' ) ;
+		expect( format( '%[3]K' , 123.4 ) ).to.be( '1.23 × 10²' ) ;
+
+		// With padding
+		expect( format( '%[2L11]K' , 123.4 ) ).to.be( '  1.2 × 10²' ) ;
+
+		// Rounding (make no sense with scientific notation, but it works)
+		expect( format( '%[.2]K' , 123.4567 ) ).to.be( '1.2346 × 10²' ) ;
+		expect( format( '%[.1]K' , 123.4567 ) ).to.be( '1.235 × 10²' ) ;
+		expect( format( '%[1.]K' , 123.4567 ) ).to.be( '1.2 × 10²' ) ;
 	} ) ;
 	
 	it( "%P should format with (absolute) percent" , () => {
@@ -250,6 +282,10 @@ describe( "format()" , () => {
 
 		expect( format( '%[.1]P' , 0.00345 ) ).to.be( '0.3%' ) ;
 		expect( format( '%[.1z0]P' , 0.00345 ) ).to.be( '.3%' ) ;
+
+		// Check that setting up precision bypass the default rounding
+		expect( format( '%[4]P' , 0.9975 ) ).to.be( '99.75%' ) ;
+		expect( format( '%[5]P' , 1.2345 ) ).to.be( '123.45%' ) ;
 	} ) ;
 
 	it( "%p should format with relative percent" , () => {
@@ -269,6 +305,10 @@ describe( "format()" , () => {
 		expect( format( '%[.1z0]p' , 1.00345 ) ).to.be( '+.3%' ) ;
 		expect( format( '%[.1]p' , 0.997 ) ).to.be( '-0.3%' ) ;
 		expect( format( '%[.1z0]p' , 0.997 ) ).to.be( '-.3%' ) ;
+
+		// Check that setting up precision bypass the default rounding
+		expect( format( '%[4]p' , 0.9975 ) ).to.be( '-0.25%' ) ;
+		expect( format( '%[5]p' , 1.2345 ) ).to.be( '+23.45%' ) ;
 	} ) ;
 
 	it( "%k should format with multipliers" , () => {
@@ -302,6 +342,9 @@ describe( "format()" , () => {
 		expect( format( '%k' , -12.345 ) ).to.be( '-12.3' ) ;
 		expect( format( '%k' , -123400000 ) ).to.be( '-123M' ) ;
 		expect( format( '%k' , -0.00000000999 ) ).to.be( '-9.99n' ) ;
+
+		// With modes
+		expect( format( '%[4]k' , 1234 ) ).to.be( '1.234k' ) ;
 	} ) ;
 
 	it( "%m degree minute seconds notation" , () => {

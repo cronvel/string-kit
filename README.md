@@ -66,18 +66,23 @@ Specifiers:
 * `%r` raw string, without sanitizer
 * `%n` natural: output the most natural representation for this type
 * `%N` even more natural: avoid type hinting marks like bracket for array
-* `%f` float
-* `%e` for scientific notation
-* `%d` *or* `%i` integer
+* `%f` float number
+* `%k` number to number with metric system prefixes (like k, M, G, and so on...)
+* `%e` number to exponential “E notation”
+* `%K` number to scientific notation
+* `%i` integer
+* `%d` alias of `%i` (*C*'s `printf` compatibility)
 * `%u` unsigned integer
 * `%U` unsigned positive integer (>0)
-* `%k` number with metric system prefixes (like k, M, G, and so on...)
-* `%m` degrees/minutes/seconds notation
+* `%P` number to (absolute) percent (e.g.: 0.75 -> 75%)
+* `%p` number to relative percent (e.g.: 1.25 -> +25% ; 0.75 -> -25%)
 * `%t` time duration, convert ms into H:min:s
+* `%m` degrees/minutes/seconds notation
 * `%h` unsigned hexadecimal
 * `%x` unsigned hexadecimal, force pairs of symbols (e.g. 'f' -> '0f')
 * `%o` unsigned octal
 * `%b` unsigned binary
+* `%X` string to hexadecimal: convert a string into hex charcode, force pair of symbols (e.g. 'f' -> '0f')
 * `%z` base64
 * `%Z` base64url
 * `%O` object (call string-kit's inspect() with ultra-minimal options)
