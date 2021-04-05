@@ -61,35 +61,35 @@ console.log( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ) ;
 
 Specifiers:
 * `%%` write a single %
-* `%s` string
-* `%S` string, interpret ^ formating
-* `%r` raw string, without sanitizer
-* `%n` natural: output the most natural representation for this type
-* `%N` even more natural: avoid type hinting marks like bracket for array
-* `%f` float number
-* `%k` number to number with metric system prefixes (like k, M, G, and so on...)
-* `%e` number to exponential “E notation”
-* `%K` number to scientific notation
-* `%i` integer
-* `%d` alias of `%i` (*C*'s `printf` compatibility)
-* `%u` unsigned integer
-* `%U` unsigned positive integer (>0)
-* `%P` number to (absolute) percent (e.g.: 0.75 -> 75%)
-* `%p` number to relative percent (e.g.: 1.25 -> +25% ; 0.75 -> -25%)
-* `%t` time duration, convert ms into H:min:s
-* `%m` degrees/minutes/seconds notation
-* `%h` unsigned hexadecimal
-* `%x` unsigned hexadecimal, force pairs of symbols (e.g. 'f' -> '0f')
-* `%o` unsigned octal
-* `%b` unsigned binary
+* `%s` to string, with sanitizer
+* `%S` to string, with `^` interpretation
+* `%r` to raw string, without any sanitizer
+* `%n` to natural: output the most natural representation for this type
+* `%N` to even more natural: avoid type hinting marks like bracket for array
+* `%f` to (float) number
+* `%k` to number with metric system prefixes (like k, M, G, and so on...)
+* `%e` to exponential “E notation” (e.g. 13 -> 1.23e+2)
+* `%K` to scientific notation (e.g. 123 -> 1.23 × 10²)
+* `%i` to integer
+* `%d` alias of `%i` (*C*'s `printf()` compatibility)
+* `%u` to unsigned integer
+* `%U` to unsigned positive integer (>0)
+* `%P` to (absolute) percent (e.g.: 1.25 -> 125% ; 0.75 -> 75%)
+* `%p` to relative percent (e.g.: 1.25 -> +25% ; 0.75 -> -25%)
+* `%t` to time duration, convert ms into H:min:s
+* `%m` to degrees/minutes/seconds notation
+* `%h` to unsigned hexadecimal
+* `%x` to unsigned hexadecimal, force pairs of symbols (e.g. 'f' -> '0f')
+* `%o` to unsigned octal
+* `%b` to unsigned binary
 * `%X` string to hexadecimal: convert a string into hex charcode, force pair of symbols (e.g. 'f' -> '0f')
-* `%z` base64
-* `%Z` base64url
-* `%O` object (call string-kit's inspect() with ultra-minimal options)
+* `%z` to base64
+* `%Z` to base64url
+* `%O` for objects (call string-kit's inspect() with ultra-minimal options)
 * `%I` call string-kit's inspect()
 * `%Y` call string-kit's inspect(), but do not inspect non-enumerable
 * `%E` call string-kit's inspectError()
-* `%J` JSON.stringify()
+* `%J` to JSON.stringify()
 * `%D` drop, the argument does not produce anything but is eaten anyway
 * `%F` filter function existing in the *this* context, e.g. %[filter:%a%a]F
 * `%a` argument for a filter function
@@ -167,7 +167,7 @@ console.log( format.call( filters , '%s%[fxy:%+1a%-1a]F' , 'f(x,y)=' , 5 , 3 ) )
 <a name="ref.format.parameters"></a>
 ##### Specifiers parameters
 
-A parameter consists in a letter, then exactly one character (letter or not letter), and eventually any number of non-letter characters.
+A parameter consists in a letter, then one character (letter or not letter), that could be followed by any number of non-letter characters.
 E.g. `%[L5]s`, the *L* parameter that produce left-padding to force a *5* characters-length.
 
 A special parameter (specific for that *specifier*) consists in any number of non-letter characters and must be the first parameter.
@@ -178,20 +178,22 @@ E.g.:
 
 When a parameter needs a boolean, `+` denotes true, while `-` denotes false.
 
-Generic parameters -- they almost always exists for any specifier and use an upper-case parameter name :
+Generic parameters -- they almost always exists for any specifier and use an upper-case parameter letter:
 * L *integer*: it produces left-padding (using space) and force the length to the value
 * R *integer*: same than *L* but produce right-padding instead
 
 *Specifier's* specific parameters :
-* %e:
-	* *integer*: the number of significative number for the scientific notation, e.g. `%[3]e`.
-* %f:
-	* *integer*: the number precision in *digits*, e.g. `%[3]f`
-	* *integer* .: rounds to this integer place, e.g. `%[3.]f`
-	* . *integer*: rounds to this decimal place, e.g. `%[.3]f`
-	* . *integer* !: rounds to this decimal place and force displaying 0 up to this decimal place, e.g. `%[.3!]f`
-	* . *integer* ?: rounds to this decimal place and force displaying 0 up to this decimal place **if** there is at least one non-zero in the decimal part, e.g. `%[.3?]f`
-	* z *integer*: it produces zero padding for the integer part, e.g. `%[z3]f`
+* %f %e %K %k %p %P:
+	* *integer*: the number precision in *digits*, e.g. `%[3]f` (12.345 -> 12.3)
+	* *integer* .: rounds to this integer place, e.g. `%[3.]f` (12345 -> 12000)
+	* . *integer*: rounds to this decimal place, e.g. `%[.2]f` (1.2345 -> 1.23)
+	* . *integer* !: rounds to this decimal place and force displaying 0 up to this decimal place,
+	  e.g. `%[.2!]f` (12.9 -> 12.90 ; 12 -> 12.00) (useful for prices)
+	* . *integer* ?: rounds to this decimal place and force displaying 0 up to this decimal place **if** there is at least one non-zero in the decimal part,
+	  e.g. `%[.2?]f` (12.9 -> 12.90 ; 12 -> 12)
+	* z *integer*: it produces zero padding for the integer part forcing at least *integer* digits, e.g. `%[z5]f` (12 -> 00012)
+	* g *char*: set a group separator character for thousands, e.g. `%[g,]f` (123456 -> 12,345)
+	* g: use the default group separator for thousands, e.g. `%[g]f` (123456 -> 12 345)
 * %O %I %Y %E:
 	* *integer*: the depth of nested object inspection
 	* c *boolean*: if true, can use ANSI color, if false, it will not use colors. E.g. `%[c+]I`.

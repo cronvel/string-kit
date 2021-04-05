@@ -390,10 +390,29 @@ describe( "format()" , () => {
 		expect( format( '%3s%s' , 'A' , 'B' , 'C' ) ).to.be( 'CBC' ) ;
 	} ) ;
 
-	it( "%n natural" ) ;
-	it( "%N more natural" ) ;
-	
-	it( "%N and object keys sorting" , () => {
+	it( "%n natural" , () => {
+		expect( format( '%n' , 12345 ) ).to.be( '12 345' ) ;
+		expect( format( '%n' , 1.23456789 ) ).to.be( '1.235' ) ;
+		expect( format( '%n' , true ) ).to.be( 'true' ) ;
+		expect( format( '%n' , false ) ).to.be( 'false' ) ;
+		expect( format( '%n' , null ) ).to.be( 'null' ) ;
+
+		expect( format( '%n' , [ 'one' , 'two' , 'three' ] ) ).to.be( '[one,two,three]' ) ;
+		
+		// Object and key sorting
+		expect( format( '%n' , { bob: 3 , alice: 4 , john: 2 , jack: 3 } ) ).to.be( '{alice: 4, bob: 3, jack: 3, john: 2}' ) ;
+	} ) ;
+
+	it( "%N more natural" , () => {
+		expect( format( '%N' , 12345 ) ).to.be( '12 345' ) ;
+		expect( format( '%N' , 1.23456789 ) ).to.be( '1.235' ) ;
+		expect( format( '%N' , true ) ).to.be( 'true' ) ;
+		expect( format( '%N' , false ) ).to.be( 'false' ) ;
+		expect( format( '%N' , null ) ).to.be( 'null' ) ;
+
+		expect( format( '%N' , [ 'one' , 'two' , 'three' ] ) ).to.be( 'one, two, three' ) ;
+
+		// Object and key sorting
 		expect( format( '%N' , { bob: 3 , alice: 4 , john: 2 , jack: 3 } ) ).to.be( 'alice: 4, bob: 3, jack: 3, john: 2' ) ;
 	} ) ;
 	
