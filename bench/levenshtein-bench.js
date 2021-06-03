@@ -1,4 +1,8 @@
 
+"use strict" ;
+
+
+
 /* global benchmark, competitor */
 
 const leven = require( './ext/leven.js' ) ;
@@ -13,7 +17,7 @@ benchmark( 'Levenshtein' , () => {
 		l4 = 'armorica' , r4 = 'america' ,
 		l5 = 'abcdef' , r5 = 'acdbeh' ,
 		l6 = 'some-random-text' , r6 = 'more-hazard' ;
-	
+
 	competitor( 'original leven module' , () => {
 		leven( l1 , r1 ) ;
 		leven( l2 , r2 ) ;
