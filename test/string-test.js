@@ -1063,18 +1063,43 @@ describe( "Fuzzy string matching" , () => {
 
 
 
+describe( "Natural sort" , () => {
+
+	it( "basic natural sort tests" , () => {
+		expect( [ 'one' , 'two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'one' , 'three' , 'two' ] ) ;
+		
+		// Case insensitive
+		expect( [ 'one' , 'two' , 'Three' ].sort( string.naturalSort ) ).to.equal( [ 'one' , 'Three' , 'two' ] ) ;
+		expect( [ 'One' , 'Two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'One' , 'three' , 'Two' ] ) ;
+		
+		// Uppercase first as a tie-breaker
+		expect( [ 'one' , 'One' , 'two' , 'Two' , 'Three' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'One' , 'one' , 'Three' , 'three' , 'Two' , 'two' ] ) ;
+		
+		// Lesser number first
+		expect( [ 'abc121' , 'abc17' , 'abc12' , 'abc134' ].sort( string.naturalSort ) ).to.equal( [ 'abc12' , 'abc17' , 'abc121' , 'abc134' ] ) ;
+		
+		// White space / word separator insensitive
+		expect( [ '  One  ' , '   Two   ' , 'three' ].sort( string.naturalSort ) ).to.equal( [ '  One  ' , 'three' , '   Two   ' ] ) ;
+		expect( [ 'abc   121' , 'abc 17' , 'abc  12' , 'abc    134' ].sort( string.naturalSort ) ).to.equal( [ 'abc  12' , 'abc 17' , 'abc   121' , 'abc    134' ] ) ;
+		expect( [ 'a-123-a' , 'a_12_a' , 'a 18 a' ].sort( string.naturalSort ) ).to.equal( [ 'a_12_a' , 'a 18 a' , 'a-123-a' ] ) ;
+		expect( [ 'a_123_a' , 'a-12-a' , 'a 18 a' ].sort( string.naturalSort ) ).to.equal( [ 'a-12-a' , 'a 18 a' , 'a_123_a' ] ) ;
+		
+		// Number with shorter char-width as a tie-breaker
+		expect( [ 'abc00012' , 'abc012' , 'abc017' , 'abc12' , 'abc134' ].sort( string.naturalSort ) ).to.equal( [ 'abc12' , 'abc012' , 'abc00012' , 'abc017' , 'abc134' ] ) ;
+		
+		// Symbols
+		expect( [ ';+$' , '!:;,' , '“”' ].sort( string.naturalSort ) ).to.equal( [ "!:;," , ";+$" , "“”" ] ) ;
+	} ) ;
+} ) ;
+
+
+
 describe( "Misc" , () => {
 
 	it( ".resize()" , () => {
 		expect( string.resize( 'bobby' , 3 ) ).to.be( 'bob' ) ;
 		expect( string.resize( 'bobby' , 5 ) ).to.be( 'bobby' ) ;
 		expect( string.resize( 'bobby' , 8 ) ).to.be( 'bobby   ' ) ;
-	} ) ;
-
-	it( ".naturalSort()" , () => {
-		expect( [ 'one' , 'two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'one' , 'three' , 'two' ] ) ;
-		expect( [ 'one' , 'two' , 'Three' ].sort( string.naturalSort ) ).to.equal( [ 'one' , 'Three' , 'two' ] ) ;
-		expect( [ 'One' , 'Two' , 'three' ].sort( string.naturalSort ) ).to.equal( [ 'One' , 'three' , 'Two' ] ) ;
 	} ) ;
 
 	it( ".occurrenceCount()" , () => {

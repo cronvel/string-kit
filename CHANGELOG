@@ -1,4 +1,10 @@
 
+v0.12.8
+-------
+
+Brand new .naturalSort() code, it was previously borrowed code that was slow and vulnerable to RegExp DoS, the new code is made by myself, has no RegExp, only matching forward, is more flexible and easiest to maintain (#3)
+
+
 v0.12.7
 -------
 
