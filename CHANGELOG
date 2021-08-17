@@ -1,4 +1,10 @@
 
+v0.12.6
+-------
+
+.format() and Babel-Tower interop, exposing stringKit.format.modes
+
+
 v0.12.5
 -------
 
