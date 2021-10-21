@@ -497,26 +497,19 @@ describe( "format()" , () => {
 			.to.be( 'this is ' + ansi.brightBlue + 'blue' + ansi.reset + ' this is not %d' + ansi.reset ) ;
 	} ) ;
 
-	it( "should expose a stand-alone markup only method" , () => {
+	it( "custom format and markup" , () => {
+		var markupReset = markupStack => {
+			var str = '</span>'.repeat( markupStack.length ) ;
+			markupStack.length = 0 ;
+			return str ;
+		} ;
+
 		var wwwFormatter = {
 			endingMarkupReset: true ,
-			markupReset: function( markupStack ) {
-				var str = '</span>'.repeat( markupStack.length ) ;
-				markupStack.length = 0 ;
-				return str ;
-			} ,
+			markupReset ,
 			markup: {
-				":": function( markupStack ) {
-					var str = '</span>'.repeat( markupStack.length ) ;
-					markupStack.length = 0 ;
-					return str ;
-				} ,
-				" ": function( markupStack ) {
-					var str = '</span>'.repeat( markupStack.length ) ;
-					markupStack.length = 0 ;
-					return str + ' ' ;
-				} ,
-
+				":": markupReset ,
+				" ": markupStack => markupReset( markupStack ) + ' ' ,
 				"+": '<span style="font-weight:bold">' ,
 				"b": '<span style="color:blue">'
 			}
@@ -537,6 +530,35 @@ describe( "format()" , () => {
 
 		expect( wwwFormat( 'this is ^b^+blue bold' ) )
 			.to.be( 'this is <span style="color:blue"><span style="font-weight:bold">blue bold</span></span>' ) ;
+	} ) ;
+
+	it( "zzz markup parser" , () => {
+		var markupReset = markupStack => {
+			var str = '</span>'.repeat( markupStack.length ) ;
+			markupStack.length = 0 ;
+			return str ;
+		} ;
+
+		var parserFormatter = {
+			parse: true ,
+			//endingMarkupReset: true ,
+			//markupReset ,
+			markup: {
+				//":": markupReset ,
+				//" ": markupStack => Object.assign( markupReset( markupStack ) , text: ' ' ) ,
+				"+": { bold: true } ,
+				"b": { color: "blue" }
+			}
+		} ;
+
+		var parserMarkup = string.markupMethod.bind( parserFormatter ) ;
+
+		expect( parserMarkup( 'this is ^^ a caret' ) ).to.equal( [ { text: 'this is ^ a caret' } ] ) ;
+		expect( parserMarkup( 'this is ^+bold^: this is not' ) )
+			.to.equal( [ { text: 'this is ' } , { text: 'bold' , bold: true } , { text: ' this is not' } ] ) ;
+		//expect( parserMarkup( 'this is ^+bold^ this is not' ) )
+		//expect( parserMarkup( 'this is ^+bold^:this is not' ) )
+		//expect( parserMarkup( 'this is ^b^+blue bold' ) )
 	} ) ;
 } ) ;
 
