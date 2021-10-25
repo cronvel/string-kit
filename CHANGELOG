@@ -1,4 +1,11 @@
 
+v0.13.0
+-------
+
+New: markup parser (output a structure instead of a string)
+BREAKING: node >= v14.15.0
+
+
 v0.12.8
 -------
 

@@ -532,7 +532,7 @@ describe( "format()" , () => {
 			.to.be( 'this is <span style="color:blue"><span style="font-weight:bold">blue bold</span></span>' ) ;
 	} ) ;
 
-	it( "zzz markup parser" , () => {
+	it( "markup parser" , () => {
 		var markupReset = markupStack => {
 			markupStack.length = 0 ;
 			return null ;
