@@ -1,4 +1,10 @@
 
+v0.13.2
+-------
+
+Modernize unicode methods, using ES unicode-aware features like Array.from() or for .. of loop
+
+
 v0.13.1
 -------
 

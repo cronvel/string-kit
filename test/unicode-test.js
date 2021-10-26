@@ -30,7 +30,7 @@
 
 
 
-var string = require( '../lib/string.js' ) ;
+const string = require( '../lib/string.js' ) ;
 
 
 
@@ -76,7 +76,7 @@ describe( "Unicode" , () => {
 		expect( string.unicode.firstCodePoint( '𝌆' ) ).to.be( 119558 ) ;
 		expect( string.unicode.firstCodePoint( '𝌆𝌆a𝌆' ) ).to.be( 119558 ) ;
 		expect( string.unicode.firstCodePoint( 'a𝌆𝌆a𝌆' ) ).to.be( 97 ) ;
-		expect( string.unicode.firstCodePoint( '' ) ).to.be( NaN ) ;
+		expect( string.unicode.firstCodePoint( '' ) ).to.be( undefined ) ;
 	} ) ;
 
 	it( "unicode.firstChar() should produce the first character codepoint" , () => {
@@ -189,6 +189,15 @@ describe( "Unicode" , () => {
 		expect( string.unicode.width( 'aé@à' ) ).to.be( 4 ) ;
 		expect( string.unicode.width( 'aé＠à' ) ).to.be( 5 ) ;
 		expect( string.unicode.width( 'aé汉字à' ) ).to.be( 7 ) ;
+	} ) ;
+
+	it( ".charWidth() should the width of a single character" , () => {
+		expect( string.unicode.charWidth( 'a' ) ).to.be( 1 ) ;
+		expect( string.unicode.charWidth( 'é' ) ).to.be( 1 ) ;
+		expect( string.unicode.charWidth( '䷆' ) ).to.equal( 1 ) ;
+		expect( string.unicode.charWidth( '備' ) ).to.equal( 2 ) ;
+		expect( string.unicode.charWidth( '汉' ) ).to.be( 2 ) ;
+		expect( string.unicode.charWidth( '字' ) ).to.be( 2 ) ;
 	} ) ;
 
 	it( ".arrayWidth() should return the width of an array of string when displayed on a terminal or a monospace font" , () => {
