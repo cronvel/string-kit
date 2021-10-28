@@ -556,7 +556,6 @@ describe( "format()" , () => {
 
 		var parserMarkup = string.markupMethod.bind( parserFormatter ) ;
 
-		/*
 		expect( parserMarkup( '^RRed.' ) ).to.equal( [ { text: "Red." , color: "brightRed" } ] ) ;
 		expect( parserMarkup( 'this is ^^ a caret' ) ).to.equal( [ { text: 'this is ^ a caret' } ] ) ;
 		expect( parserMarkup( 'this is ^+bold^: this is not' ) )
@@ -571,17 +570,14 @@ describe( "format()" , () => {
 			.to.equal( [ { text: 'this is ' } , { text: 'just blue and ' , color: 'blue' } , { text: 'blue+bold' , bold: true , color: 'blue' } , { text: ' this is not, this is ' } , { text: 'bold' , bold: true } ] ) ;
 		expect( parserMarkup( '^:this is ^+bold^: this is not' ) )
 			.to.equal( [ { text: 'this is ' } , { text: 'bold' , bold: true } , { text: ' this is not' } ] ) ;
-//*/
 		expect( parserMarkup( '^R^_ipsum^ Lorem ^/ipsum^ ^rLorem.' ) )
 			.to.equal(
 				[ { text: "ipsum" , underline: true , color: "brightRed" } , { text: " Lorem " } , { text: "ipsum" , italic: true } , { text: " " } , { text: "Lorem." , color: "red" } ]
 			) ;
-/*
 		expect( parserMarkup( 'Lorem ^_ipsum ^g^_Lorem ^R^_ipsum^ Lorem ^/ipsum^ ^rLorem.' ) )
 			.to.equal(
 				[ { text: "Lorem " } , { text: "ipsum " , underline: true } , { text: "Lorem " , underline: true , color: "green" } , { text: "ipsum" , underline: true , color: "brightRed" } , { text: " Lorem " } , { text: "ipsum" , italic: true } , { text: " " } , { text: "Lorem." , color: "red" } ]
 			) ;
-//*/
 	} ) ;
 } ) ;
 
