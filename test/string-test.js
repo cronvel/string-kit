@@ -511,7 +511,8 @@ describe( "format()" , () => {
 				":": markupReset ,
 				" ": markupStack => markupReset( markupStack ) + ' ' ,
 				"+": '<span style="font-weight:bold">' ,
-				"b": '<span style="color:blue">'
+				"b": '<span style="color:blue">' ,
+				"crimson": '<span style="color:crimson">'	// complex markup needed here
 			}
 		} ;
 
@@ -532,7 +533,36 @@ describe( "format()" , () => {
 			.to.be( 'this is <span style="color:blue"><span style="font-weight:bold">blue bold</span></span>' ) ;
 	} ) ;
 
-	it( "custom markup with catch-all" , () => {
+	it( "custom format featuring the complex markup ^[...]" , () => {
+		var markupReset = markupStack => {
+			var str = '</span>'.repeat( markupStack.length ) ;
+			markupStack.length = 0 ;
+			return str ;
+		} ;
+
+		var wwwFormatter = {
+			endingMarkupReset: true ,
+			markupReset ,
+			markup: {
+				":": markupReset ,
+				" ": markupStack => markupReset( markupStack ) + ' ' ,
+				"+": '<span style="font-weight:bold">' ,
+				"b": '<span style="color:blue">' ,
+				"crimson": '<span style="color:crimson">'	// complex markup needed here
+			}
+		} ;
+
+		var wwwMarkup = string.markupMethod.bind( wwwFormatter ) ;
+		var wwwFormat = string.formatMethod.bind( wwwFormatter ) ;
+
+		expect( wwwMarkup( 'this is ^[crimson]crimson' ) )
+			.to.be( 'this is <span style="color:crimson">crimson</span>' ) ;
+
+		expect( wwwFormat( 'this is ^[crimson]crimson' ) )
+			.to.be( 'this is <span style="color:crimson">crimson</span>' ) ;
+	} ) ;
+
+	it( "custom markup featuring data-markup" , () => {
 		var markupReset = markupStack => {
 			var str = '</span>'.repeat( markupStack.length ) ;
 			markupStack.length = 0 ;
@@ -548,17 +578,83 @@ describe( "format()" , () => {
 				"+": '<span style="font-weight:bold">' ,
 				"b": '<span style="color:blue">'
 			} ,
-			markupCatchAll: ( markupStack , markup ) => '<span style="color:' + markup + '">'
+			dataMarkup: {
+				color: ( markupStack , key , value ) => {
+					let str = '<span style="color:' + value + '">' ;
+					markupStack.push( str ) ;
+					return str ;
+				} ,
+				bgColor: ( markupStack , key , value ) => {
+					let str = '<span style="background-color:' + value + '">' ;
+					markupStack.push( str ) ;
+					return str ;
+				}
+			}
 		} ;
 
 		var wwwMarkup = string.markupMethod.bind( wwwFormatter ) ;
 		var wwwFormat = string.formatMethod.bind( wwwFormatter ) ;
 
-		expect( wwwMarkup( 'this is ^[#fee]custom color' ) )
-			.to.be( 'this is <span style="color:#fee>custom color</span>' ) ;
+		expect( wwwMarkup( 'this is ^[color:#fee]custom color' ) ).to.be( 'this is <span style="color:#fee">custom color</span>' ) ;
+		expect( wwwFormat( 'this is ^[color:#fee]custom color' ) ).to.be( 'this is <span style="color:#fee">custom color</span>' ) ;
+
+		expect( wwwMarkup( 'this is ^[bgColor:#fee]custom color' ) ).to.be( 'this is <span style="background-color:#fee">custom color</span>' ) ;
+		expect( wwwFormat( 'this is ^[bgColor:#fee]custom color' ) ).to.be( 'this is <span style="background-color:#fee">custom color</span>' ) ;
 	} ) ;
 
-	it( "xxx markup parser" , () => {
+	it( "custom markup featuring catch-all" , () => {
+		var markupReset = markupStack => {
+			var str = '</span>'.repeat( markupStack.length ) ;
+			markupStack.length = 0 ;
+			return str ;
+		} ;
+
+		var wwwFormatter = {
+			endingMarkupReset: true ,
+			markupReset ,
+			markup: {
+				":": markupReset ,
+				" ": markupStack => markupReset( markupStack ) + ' ' ,
+				"+": '<span style="font-weight:bold">' ,
+				"b": '<span style="color:blue">'
+			} ,
+			dataMarkup: {} ,
+			markupCatchAll: ( markupStack , key , value ) => {
+				var str = '' ;
+
+				if ( value !== undefined ) {
+					switch ( key ) {
+						case 'bgColor':
+							str = '<span style="background-color:' + value + '">' ;
+							break ;
+						case 'color':
+							str = '<span style="color:' + value + '">' ;
+							break ;
+					}
+				}
+				else {
+					str = '<span style="color:' + key + '">' ;
+				}
+
+				markupStack.push( str ) ;
+				return str ;
+			}
+		} ;
+
+		var wwwMarkup = string.markupMethod.bind( wwwFormatter ) ;
+		var wwwFormat = string.formatMethod.bind( wwwFormatter ) ;
+
+		expect( wwwMarkup( 'this is ^[#fee]custom color' ) ).to.be( 'this is <span style="color:#fee">custom color</span>' ) ;
+		expect( wwwFormat( 'this is ^[#fee]custom color' ) ).to.be( 'this is <span style="color:#fee">custom color</span>' ) ;
+
+		expect( wwwMarkup( 'this is ^[color:#fee]custom color' ) ).to.be( 'this is <span style="color:#fee">custom color</span>' ) ;
+		expect( wwwFormat( 'this is ^[color:#fee]custom color' ) ).to.be( 'this is <span style="color:#fee">custom color</span>' ) ;
+
+		expect( wwwMarkup( 'this is ^[bgColor:#fee]custom color' ) ).to.be( 'this is <span style="background-color:#fee">custom color</span>' ) ;
+		expect( wwwFormat( 'this is ^[bgColor:#fee]custom color' ) ).to.be( 'this is <span style="background-color:#fee">custom color</span>' ) ;
+	} ) ;
+
+	it( "markup parser" , () => {
 		var parserFormatter = {
 			parse: true ,
 			markup: {
@@ -616,7 +712,7 @@ describe( "format()" , () => {
 		expect( parserMarkup( 'Some ^[#fee]custom color^ markup' ) ).to.equal( [ { text: "Some " } , { text: "custom color" , color: "#fee" } , { text: " markup" } ] ) ;
 	} ) ;
 
-	it( "zzz markup parser featuring data markup" , () => {
+	it( "markup parser featuring data markup" , () => {
 		var parserFormatter = {
 			parse: true ,
 			markup: {
