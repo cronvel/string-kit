@@ -532,8 +532,33 @@ describe( "format()" , () => {
 			.to.be( 'this is <span style="color:blue"><span style="font-weight:bold">blue bold</span></span>' ) ;
 	} ) ;
 
-	it( "markup parser" , () => {
+	it( "custom markup with catch-all" , () => {
+		var markupReset = markupStack => {
+			var str = '</span>'.repeat( markupStack.length ) ;
+			markupStack.length = 0 ;
+			return str ;
+		} ;
 
+		var wwwFormatter = {
+			endingMarkupReset: true ,
+			markupReset ,
+			markup: {
+				":": markupReset ,
+				" ": markupStack => markupReset( markupStack ) + ' ' ,
+				"+": '<span style="font-weight:bold">' ,
+				"b": '<span style="color:blue">'
+			} ,
+			markupCatchAll: ( markupStack , markup ) => '<span style="color:' + markup + '">'
+		} ;
+
+		var wwwMarkup = string.markupMethod.bind( wwwFormatter ) ;
+		var wwwFormat = string.formatMethod.bind( wwwFormatter ) ;
+
+		expect( wwwMarkup( 'this is ^[#fee]custom color' ) )
+			.to.be( 'this is <span style="color:#fee>custom color</span>' ) ;
+	} ) ;
+
+	it( "xxx markup parser" , () => {
 		var parserFormatter = {
 			parse: true ,
 			markup: {
@@ -551,6 +576,7 @@ describe( "format()" , () => {
 				"g": { color: "green" } ,
 				"r": { color: "red" } ,
 				"R": { color: "brightRed" } ,
+				"crimson": { color: "crimson" } ,	// complex markup needed here
 			}
 		} ;
 
@@ -578,6 +604,56 @@ describe( "format()" , () => {
 			.to.equal(
 				[ { text: "Lorem " } , { text: "ipsum " , underline: true } , { text: "Lorem " , underline: true , color: "green" } , { text: "ipsum" , underline: true , color: "brightRed" } , { text: " Lorem " } , { text: "ipsum" , italic: true } , { text: " " } , { text: "Lorem." , color: "red" } ]
 			) ;
+
+		expect( parserMarkup( 'Some ^[crimson]complex^ markup' ) ).to.equal( [ { text: "Some " } , { text: "complex" , color: "crimson" } , { text: " markup" } ] ) ;
+
+		// Catch-all
+		parserFormatter.markupCatchAll = ( markupStack , markup ) => { 
+			let object = { color: markup } ;
+			markupStack.push( object ) ;
+			return object ;
+		} ;
+		expect( parserMarkup( 'Some ^[#fee]custom color^ markup' ) ).to.equal( [ { text: "Some " } , { text: "custom color" , color: "#fee" } , { text: " markup" } ] ) ;
+	} ) ;
+
+	it( "zzz markup parser featuring data markup" , () => {
+		var parserFormatter = {
+			parse: true ,
+			markup: {
+				":": null ,
+				// Not possible because the space would be stacked, and we don't want that... we have to use the method
+				//" ": [ null , ' ' ] ,
+				" ": markupStack => {
+					markupStack.length = 0 ;
+					return [ null , ' ' ] ;
+				} ,
+				"+": { bold: true } ,
+				"_": { underline: true } ,
+				"/": { italic: true } ,
+				"b": { color: "blue" } ,
+				"g": { color: "green" } ,
+				"r": { color: "red" } ,
+				"R": { color: "brightRed" } ,
+				"crimson": { color: "crimson" } ,	// complex markup needed here
+			} ,
+			dataMarkup: {
+				tooltip: "tooltip"
+			}
+		} ;
+
+		var parserMarkup = string.markupMethod.bind( parserFormatter ) ;
+
+		expect( parserMarkup( 'Some ^[tooltip:this is a tooltip!]complex^ markup' ) ).to.equal( [ { text: "Some " } , { text: "complex" , tooltip: "this is a tooltip!" } , { text: " markup" } ] ) ;
+		expect( parserMarkup( 'Some ^[unexistant:data markup]complex^ markup' ) ).to.equal( [ { text: "Some complex markup" } ] ) ;
+
+		// Catch-all
+		parserFormatter.markupCatchAll = ( markupStack , key , value ) => { 
+			let object = { [ key ]: value } ;
+			markupStack.push( object ) ;
+			return object ;
+		} ;
+		expect( parserMarkup( 'Some ^[color:#fee]custom color^ markup' ) ).to.equal( [ { text: "Some " } , { text: "custom color" , color: "#fee" } , { text: " markup" } ] ) ;
+		expect( parserMarkup( 'Some ^[bgColor:#fee]custom color^ markup' ) ).to.equal( [ { text: "Some " } , { text: "custom color" , bgColor: "#fee" } , { text: " markup" } ] ) ;
 	} ) ;
 } ) ;
 
