@@ -1,6 +1,6 @@
 {
   "name": "string-kit",
-  "version": "0.13.3",
+  "version": "0.14.0",
   "engines": {
     "node": ">=14.15.0"
   },

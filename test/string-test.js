@@ -418,7 +418,7 @@ describe( "format()" , () => {
 		expect( format( '%N' , { bob: 3 , alice: 4 , john: 2 , jack: 3 } ) ).to.be( 'alice: 4, bob: 3, jack: 3, john: 2' ) ;
 	} ) ;
 	
-	it( "format.count() should count the number of arguments found" , () => {
+	it( "format.count() should count the number of arguments needed for a format's string" , () => {
 		expect( format.count( 'blah blih blah' ) ).to.be( 0 ) ;
 		expect( format.count( 'blah blih %% blah' ) ).to.be( 0 ) ;
 		expect( format.count( '%i %s' ) ).to.be( 2 ) ;
@@ -426,6 +426,13 @@ describe( "format()" , () => {
 		expect( format.count( '%5i' ) ).to.be( 5 ) ;
 		expect( format.count( '%[unexistant]F' ) ).to.be( 0 ) ;
 		expect( format.count( '%[unexistant:%a%a]F' ) ).to.be( 2 ) ;
+
+		// Mixing with markup
+		expect( format.count( 'Hello ^+mister^ %s!' ) ).to.be( 1 ) ;
+		expect( format.count( 'Hello ^%mister^ %s!' ) ).to.be( 1 ) ;
+		expect( format.count( 'Hello ^%mister^ %s!' , true ) ).to.be( 2 ) ;
+		expect( format.count( 'Hello ^[complexwithpercent%s]mister^ %s!' ) ).to.be( 1 ) ;
+		expect( format.count( 'Hello ^[complexwithpercent%s]mister^ %s!' , true ) ).to.be( 2 ) ;
 	} ) ;
 
 	it( "format.hasFormatting() should return true if the string has formatting and thus need to be interpreted, or false otherwise" , () => {

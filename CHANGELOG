@@ -1,4 +1,10 @@
 
+v0.14.0
+-------
+
+New: .format() and .markup() now supports complex markup with the ^[] syntax, default formatter supports true color for both foreground and background (e.g. ^[#aa55ee] or ^[fg:#aa55ee] and for background ^[bg:#aa55ee])
+
+
 v0.13.3
 -------
 
