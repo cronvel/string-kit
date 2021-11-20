@@ -459,7 +459,7 @@ describe( "format()" , () => {
 		expect( customFormat( '%[unexistant]F' ) ).to.be( '' ) ;
 	} ) ;
 
-	it( "'^' should add markup, defaulting to ansi markup" , () => {
+	it( "'^' should add markup, defaulting to ANSI markup" , () => {
 		expect( format( 'this is ^^ a caret' ) ).to.be( 'this is ^ a caret' ) ;
 		expect( format( 'this is ^_underlined^: this is not' ) )
 			.to.be( 'this is ' + ansi.underline + 'underlined' + ansi.reset + ' this is not' + ansi.reset ) ;
@@ -757,6 +757,13 @@ describe( "format()" , () => {
 		} ;
 		expect( parserMarkup( 'Some ^[color:#fee]custom color^ markup' ) ).to.equal( [ { text: "Some " } , { text: "custom color" , color: "#fee" } , { text: " markup" } ] ) ;
 		expect( parserMarkup( 'Some ^[bgColor:#fee]custom color^ markup' ) ).to.equal( [ { text: "Some " } , { text: "custom color" , bgColor: "#fee" } , { text: " markup" } ] ) ;
+	} ) ;
+
+	it( "ANSI parser should be compatible with markup parser" , () => {
+		expect( ansi.parse( 'Some \x1b[31mred\x1b[0m char' ) ).to.equal( [ { text: "Some " } , { color: 1 , text: "red" } , { text: " char" } ] ) ;
+		expect( ansi.parse( 'Some \x1b[31;1mred+bold\x1b[0m char' ) ).to.equal( [ { text: "Some " } , { color: 1 , text: "red+bold" , bold: true } , { text: " char" } ] ) ;
+		expect( ansi.parse( 'Some \x1b[31m\x1b[1mred+bold\x1b[0m char' ) ).to.equal( [ { text: "Some " } , { color: 1 , text: "red+bold" , bold: true } , { text: " char" } ] ) ;
+		expect( ansi.parse( 'Some \x1b[31mred \x1b[1mred+bold\x1b[0m char' ) ).to.equal( [ { text: "Some " } , { color: 1 , text: "red " } , { color: 1 , text: "red+bold" , bold: true } , { text: " char" } ] ) ;
 	} ) ;
 } ) ;
 

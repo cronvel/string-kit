@@ -1,4 +1,10 @@
 
+v0.14.1
+-------
+
+New: .ansi.parse() parse ANSI string, compatible with markup parser
+
+
 v0.14.0
 -------
 
