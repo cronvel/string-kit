@@ -759,6 +759,12 @@ describe( "format()" , () => {
 		expect( parserMarkup( 'Some ^[bgColor:#fee]custom color^ markup' ) ).to.equal( [ { text: "Some " } , { text: "custom color" , bgColor: "#fee" } , { text: " markup" } ] ) ;
 	} ) ;
 
+	it( "strip markup" , () => {
+		expect( string.stripMarkup( 'Some ^[color:#fee]custom color^ markup' ) ).to.equal( 'Some custom color markup' ) ;
+		expect( string.stripMarkup( 'Some ^[color:#fee]^[bg:green]custom color^ markup' ) ).to.equal( 'Some custom color markup' ) ;
+		expect( string.stripMarkup( 'Some ^Rred text^:!' ) ).to.equal( 'Some red text!' ) ;
+	} ) ;
+
 	it( "ANSI parser should be compatible with markup parser" , () => {
 		expect( ansi.parse( 'Some \x1b[31mred\x1b[0m char' ) ).to.equal( [ { text: "Some " } , { color: 1 , text: "red" } , { text: " char" } ] ) ;
 		expect( ansi.parse( 'Some \x1b[31;1mred+bold\x1b[0m char' ) ).to.equal( [ { text: "Some " } , { color: 1 , text: "red+bold" , bold: true } , { text: " char" } ] ) ;
