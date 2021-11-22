@@ -206,11 +206,11 @@ Generic parameters -- they almost always exists for any specifier and use an upp
 Since *v0.3.x* we can add styles (color, bold, italic, and so on...) using the `^` caret:
 ```js
 var format = require( 'string-kit' ).format ;
-console.log( format( 'This is ^rred^ and ^bblue^:!' , 'Joe' , 'Doe' ) ) ;
+console.log( format( 'This is ^rred^ and ^bblue^:!' ) ) ;
 // Output: 'This is red and blue!' with 'red' written in red and 'blue' written in blue.
 ```
 
-Style markup:
+Style markups:
 * `^^` write a single caret `^`
 * `^b` switch to blue
 * `^B` switch to bright blue
@@ -242,6 +242,34 @@ Style markup:
 
 
 
+##### **New:** Complex Markup
+
+The complex markup syntax starts with `^[` follows with the markup keyword or `key:value`, and ends with a `]`.
+
+
+
+#### Complex markup in the *key:value* format
+
+* `fg` (or aliases: `fgColor`, `color`, `c`) set the foreground color, the value can be one of the ANSI color (*red*, *brightRed*, etc),
+	it can also be any color declared in a *Palette* for methods of object supporting `Palette`, it can be a color-code (e.g.: `#aa5577`)
+	if both the terminal and the method support *true-color*.
+* `bg` (or alias: `bgColor`) set the background color, the supported values are exactly the same than for *foreground color*.
+
+E.g: This output “This is pink!” with the word *pink* written in pink color: `console.log( format( 'This is: ^[fg:#f9b]pink^:!' ) )`
+
+
+
+#### Complex markup **NOT** in the *key:value* format
+
+* Any ANSI color (*red*, *brightRed*, etc) or color code (e.g.: `#aa5577`) will be considered as the value for the *foreground color*.
+* Named *background color* should be prefixed by `bg` and followed by camel-case (e.g. *red* becomes *bgRed*), for color code
+	you have to use the *key:value* syntax (see above, e.g.: `bg:#aa5577`).
+* Other styles like *bold*, *italic*, *underline*, *inverse*, *dim* are also supported.
+
+E.g: This output “This is pink!” with the word *pink* written in pink color: `console.log( format( 'This is: ^[#f9b]pink^:!' ) )`
+
+
+
 <a name="ref.format.count"></a>
 ### .format.count( formatString )
 
@@ -255,27 +283,28 @@ It just counts the number of *format specifier* in the `formatString`.
 ### .inspect( [options] , variable )
 
 * options `Object` display options, the following key are possible:
-	* style `String` this is the style to use, the value can be:
+	* style `string` this is the style to use, the value can be:
 		* 'none': (default) normal output suitable for console.log() or writing into a file
 		* 'inline': like 'none', but without newlines
 		* 'color': colorful output suitable for terminal
 		* 'html': html output
-	* depth: depth limit, default: 3
-	* maxLength: length limit for strings, default: 250
-	* outputMaxLength:  length limit for the inspect output string, default: 5000
-	* noFunc: do not display functions
-	* noDescriptor: do not display descriptor information
-	* noArrayProperty: do not display array properties
-	* noType: do not display type and constructor
-	* enumOnly: only display enumerable properties
-	* funcDetails: display function's details
-	* proto: display object's prototype
-	* sort: sort the keys
-	* minimal: imply noFunc: true, noDescriptor: true, noType: true, enumOnly: true, proto: false and funcDetails: false.
+	* tab: `string` override the default tab string of the *style*
+	* depth: `number` depth limit, default: 3
+	* maxLength: `number` length limit for strings, default: 250
+	* outputMaxLength: `number` length limit for the inspect output string, default: 5000
+	* noFunc: `boolean` do not display functions
+	* noDescriptor: `boolean` do not display descriptor information
+	* noArrayProperty: `boolean` do not display array properties
+	* noType: `boolean` do not display type and constructor
+	* enumOnly: `boolean` only display enumerable properties
+	* funcDetails: `boolean` display function's details
+	* proto: `boolean` display object's prototype
+	* sort: `boolean` sort the keys
+	* minimal: `boolean` imply noFunc: true, noDescriptor: true, noType: true, enumOnly: true, proto: false and funcDetails: false.
 	  Display a minimal JSON-like output.
 	* protoBlackList: `Set` of blacklisted object prototype (will not recurse inside it)
 	* propertyBlackList: `Set` of blacklisted property names (will not even display it)
-	* useInspect: use .inspect() method when available on an object (default to false)
+	* useInspect: `boolean` use .inspect() method when available on an object (default to false)
 * variable `mixed` anything we want to inspect/debug
 
 It inspect a variable, and return a string ready to be displayed with console.log(), or even as HTML output.

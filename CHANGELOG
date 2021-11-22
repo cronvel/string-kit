@@ -1,4 +1,12 @@
 
+v0.14.3
+-------
+
+Support for custom 'tab' option for .inspect() (#4)
+Markup (complex syntax) now supports more keyword, and true-color is fixed
+Documentation on new markup features, and .inspect() 'tab' option.
+
+
 v0.14.2
 -------
 
