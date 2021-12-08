@@ -1,6 +1,6 @@
 {
   "name": "string-kit",
-  "version": "0.14.3",
+  "version": "0.15.0",
   "engines": {
     "node": ">=14.15.0"
   },
@@ -10,9 +10,16 @@
     "test": "test",
     "bench": "bench"
   },
-  "dependencies": {},
+  "exports": {
+    "require": "./lib/string.js",
+    "import": "./esm/wrapper.js"
+  },
+  "devDependencies": {
+    "gen-esm-wrapper": "^1.1.3"
+  },
   "scripts": {
-    "test": "tea-time -R dot"
+    "test": "tea-time -R dot",
+    "updateesm": "gen-esm-wrapper . ./esm/wrapper.js"
   },
   "repository": {
     "type": "git",
