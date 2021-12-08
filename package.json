@@ -14,11 +14,12 @@
     "require": "./lib/string.js",
     "import": "./esm/wrapper.js"
   },
-  "dependencies": {
+  "devDependencies": {
     "gen-esm-wrapper": "^1.1.3"
   },
   "scripts": {
-    "test": "tea-time -R dot"
+    "test": "tea-time -R dot",
+    "updateesm": "gen-esm-wrapper . ./esm/wrapper.js"
   },
   "repository": {
     "type": "git",
