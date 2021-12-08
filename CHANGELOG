@@ -1,4 +1,10 @@
 
+v0.15.0
+-------
+
+Support for unicode Emoji (.unicode.isEmoji() and friends), improving the width computing of a string
+
+
 v0.14.3
 -------
 

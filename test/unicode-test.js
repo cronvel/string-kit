@@ -168,16 +168,29 @@ describe( "Unicode" , () => {
 	} ) ;
 
 	it( "unicode.isFullWidth() should return true if the char is full-width" , () => {
+		expect( string.unicode.isFullWidth( '…' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( 'a' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( 'aa' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( '𝌆' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '備' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( '䷆' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '🔴' ) ).to.be( true ) ;
+		expect( string.unicode.isFullWidth( '😀' ) ).to.be( true ) ;
 
 		expect( string.unicode.isFullWidth( '＠＠' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( 'a＠' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠a' ) ).to.be( true ) ;
+	} ) ;
+
+	it( "unicode.isEmoji() should return true if the char is an emoji" , () => {
+		expect( string.unicode.isEmoji( 'a' ) ).to.be( false ) ;
+		expect( string.unicode.isEmoji( '＠' ) ).to.be( false ) ;
+		expect( string.unicode.isEmoji( '𝌆' ) ).to.be( false ) ;
+		expect( string.unicode.isEmoji( '備' ) ).to.be( false ) ;
+		expect( string.unicode.isEmoji( '䷆' ) ).to.be( false ) ;
+		expect( string.unicode.isEmoji( '🔴' ) ).to.be( true ) ;
+		expect( string.unicode.isEmoji( '😀' ) ).to.be( true ) ;
 	} ) ;
 
 	it( ".toFullWidth() should transform a character to its full-width variant, if it exist" , () => {
