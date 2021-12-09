@@ -1,8 +1,14 @@
 
+v0.16.0
+-------
+
+Breaking change: unicode.toCells()/unicode.fromCells() changed, now it requires that the Cell class have an new second argument (inserted before extra arguments) which contains a special number (positive or 0: it's the width of the char, negative: it's a filler or an anti-filler)
+
+
 v0.15.0
 -------
 
-Support for unicode Emoji (.unicode.isEmoji() and friends), improving the width computing of a string
+Support for unicode Emoji (.unicode.isEmoji() and friends), improving the computing of the width of a string
 
 
 v0.14.3
