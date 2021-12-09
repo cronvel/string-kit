@@ -41,8 +41,8 @@ const string = require( '../lib/string.js' ) ;
 
 
 function Cell( char ) {
-	this.char = char || ' ' ;
-	this.filler = char === null ;
+	this.char = char ?? ' ' ;
+	this.filler = char === null || char === '' ;
 }
 
 
@@ -131,8 +131,12 @@ describe( "Unicode" , () => {
 		expect( string.unicode.toCells( Cell , '備備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '備' , null ] ) ;
 		expect( string.unicode.toCells( Cell , '備-備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '-' , '備' , null ] ) ;
 
+		expect( string.unicode.toCells( Cell , '🔴' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '🔴' , null ] ) ;
+		expect( string.unicode.toCells( Cell , '🔴' ).map( cell => cell.char ) ).to.be.like( [ '🔴' , '' ] ) ;
+
 		// Tabs
 		expect( string.unicode.toCells( Cell , '\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
+		expect( string.unicode.toCells( Cell , '\ta' ).map( cell => cell.char ) ).to.be.like( [ '\t' , ' ' , ' ' , ' ' , 'a' ] ) ;
 		expect( string.unicode.toCells( Cell , '\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
 		expect( string.unicode.toCells( Cell , 'a\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , '\t' , null , null , 'a' ] ) ;
 		expect( string.unicode.toCells( Cell , 'aa\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' , 'a' , '\t' , null , 'a' ] ) ;
@@ -150,6 +154,7 @@ describe( "Unicode" , () => {
 
 	it( "unicode.fromCells() should be the inverse of the unicode.toCells()" , () => {
 		expect( string.unicode.fromCells( string.unicode.toCells( Cell , '備\ta' ) ) ).to.be( '備\ta' ) ;
+		expect( string.unicode.fromCells( string.unicode.toCells( Cell , '🔴' ) ) ).to.be( '🔴' ) ;
 	} ) ;
 
 	it( "unicode.surrogatePair() should return 0 for single char, 1 for leading surrogate, -1 for trailing surrogate" , () => {
