@@ -40,9 +40,9 @@ const string = require( '../lib/string.js' ) ;
 
 
 
-function Cell( char ) {
-	this.char = char ?? ' ' ;
-	this.filler = char === null || char === '' ;
+function Cell( char , special ) {
+	this.char = char ;
+	this.filler = special < 0 ;
 }
 
 
@@ -132,7 +132,7 @@ describe( "Unicode" , () => {
 		expect( string.unicode.toCells( Cell , '備-備' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '備' , null , '-' , '備' , null ] ) ;
 
 		expect( string.unicode.toCells( Cell , '🔴' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '🔴' , null ] ) ;
-		expect( string.unicode.toCells( Cell , '🔴' ).map( cell => cell.char ) ).to.be.like( [ '🔴' , '' ] ) ;
+		expect( string.unicode.toCells( Cell , '🔴' ).map( cell => cell.char ) ).to.be.like( [ '🔴' , ' ' ] ) ;
 
 		// Tabs
 		expect( string.unicode.toCells( Cell , '\ta' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ '\t' , null , null , null , 'a' ] ) ;
