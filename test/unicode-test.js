@@ -117,10 +117,6 @@ describe( "Unicode" , () => {
 		expect( string.unicode.toArray( '備-備' ) ).to.equal( [ '備' , '-' , '備' ] ) ;
 	} ) ;
 
-	it.opt( "Thai support" , () => {
-		expect( string.unicode.toArray( 'อักษรไทย' ) ).to.equal( ['อั','ก','ษ','ร','ไ','ท','ย'] ) ;
-	} ) ;
-
 	it( "unicode.toCells() should produce an array of characters with filler chars following wide chars and tab" , () => {
 		expect( string.unicode.toCells( Cell , '' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [] ) ;
 		expect( string.unicode.toCells( Cell , 'a' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' ] ) ;
@@ -190,6 +186,12 @@ describe( "Unicode" , () => {
 		expect( string.unicode.isFullWidth( '＠＠' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( 'a＠' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠a' ) ).to.be( true ) ;
+	} ) ;
+
+	it( "unicode.isDiacritic()" , () => {
+		expect( string.unicode.isZeroWidthDiacritic( 'a' ) ).to.be( false ) ;
+		expect( string.unicode.isZeroWidthDiacritic( 'อั' ) ).to.be( false ) ;
+		expect( string.unicode.isZeroWidthDiacritic( 'อั'[1] ) ).to.be( true ) ;
 	} ) ;
 
 	it( "unicode.isEmoji() should return true if the char is an emoji" , () => {
@@ -276,6 +278,10 @@ describe( "Unicode" , () => {
 		expect( string.unicode.getLastTruncateWidth() ).to.be( 6 ) ;
 		expect( string.unicode.truncateWidth( 'aé汉字' , 7 ) ).to.be( 'aé汉字' ) ;
 		expect( string.unicode.getLastTruncateWidth() ).to.be( 6 ) ;
+	} ) ;
+
+	it.skip( "Thai support" , () => {
+		expect( string.unicode.toArray( 'อักษรไทย' ) ).to.equal( ['อั','ก','ษ','ร','ไ','ท','ย'] ) ;
 	} ) ;
 } ) ;
 
