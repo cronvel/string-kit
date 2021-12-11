@@ -117,6 +117,10 @@ describe( "Unicode" , () => {
 		expect( string.unicode.toArray( '備-備' ) ).to.equal( [ '備' , '-' , '備' ] ) ;
 	} ) ;
 
+	it.opt( "Thai support" , () => {
+		expect( string.unicode.toArray( 'อักษรไทย' ) ).to.equal( ['อั','ก','ษ','ร','ไ','ท','ย'] ) ;
+	} ) ;
+
 	it( "unicode.toCells() should produce an array of characters with filler chars following wide chars and tab" , () => {
 		expect( string.unicode.toCells( Cell , '' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [] ) ;
 		expect( string.unicode.toCells( Cell , 'a' ).map( cell => cell.filler ? null : cell.char ) ).to.be.like( [ 'a' ] ) ;
