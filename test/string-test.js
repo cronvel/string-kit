@@ -873,6 +873,14 @@ describe( "Camel case" , () => {
 		expect( string.toCamelCase( 'a-b-c' , true ) ).to.be( 'aBC' ) ;
 	} ) ;
 
+	it( ".toCamelCase() with initial uppercase on" , () => {
+		expect( string.toCamelCase( 'one-two-three' , false , true ) ).to.be( 'OneTwoThree' ) ;
+		expect( string.toCamelCase( 'one_two_three' , false , true ) ).to.be( 'OneTwoThree' ) ;
+		expect( string.toCamelCase( 'OnE-tWo_tHree' , false , true ) ).to.be( 'OneTwoThree' ) ;
+		expect( string.toCamelCase( 'ONE-TWO-THREE' , false , true ) ).to.be( 'OneTwoThree' ) ;
+		expect( string.toCamelCase( 'a-b-c' , false , true ) ).to.be( 'ABC' ) ;
+	} ) ;
+
 	it( ".toCamelCase() edge cases" , () => {
 		expect( string.toCamelCase( '' ) ).to.be( '' ) ;
 		expect( string.toCamelCase() ).to.be( '' ) ;

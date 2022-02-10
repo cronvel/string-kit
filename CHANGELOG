@@ -1,4 +1,10 @@
 
+v0.16.1
+-------
+
+New .toCamelCase() argument: initial uppercase
+
+
 v0.16.0
 -------
 
