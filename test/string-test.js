@@ -1095,6 +1095,9 @@ describe( "Title case" , () => {
 			.to.be( 'Bob Bill Booo Électron Hétérogénéité Allcaps Mcdowell Jean-Michel' ) ;
 		expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' , { zealous: true , preserveAllCaps: true } ) )
 			.to.be( 'Bob Bill Booo Électron Hétérogénéité ALLCAPS Mcdowell Jean-Michel' ) ;
+
+		expect( string.toTitleCase( 'the king of fighters' ) )
+			.to.be( 'The King of Fighters' ) ;
 	} ) ;
 } ) ;
 
