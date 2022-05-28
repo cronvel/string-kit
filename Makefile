@@ -5,10 +5,16 @@
 
 # The first rule is the default rule, when invoking "make" without argument...
 # Build every buildable things
-all: install doc
+all: install doc browser
 
 # Just install things so it works, basicaly: it just performs a "npm install --production" ATM
 install: log/npm-install.log
+
+# Build
+build: browser
+
+# Build the browser lib
+browser: browser/string-kit.js browser/string-kit.min.js
 
 # Just install things so it works, basicaly: it just performs a "npm install" ATM
 dev-install: log/npm-dev-install.log
@@ -35,12 +41,22 @@ clean: clean-all
 
 # Variables
 
+BROWSERIFY=browserify
+UGLIFY=uglifyjs
 MOCHA=./node_modules/mocha/bin/mocha -c
 JSHINT=./node_modules/jshint/bin/jshint --verbose
 
 
 
 # Files rules
+
+# Build the browser lib
+browser/string-kit.js: lib/*.js
+	${BROWSERIFY} lib/string.js -i buffer -s stringKit -o browser/string-kit.js
+
+# Build the browser minified lib
+browser/string-kit.min.js: browser/string-kit.js
+	${UGLIFY} browser/string-kit.js -o browser/string-kit.min.js -m
 
 # JsHint STDOUT test
 log/jshint.log: log/npm-dev-install.log lib/*.js test/*.js
