@@ -414,6 +414,12 @@ describe( "format()" , () => {
 		expect( format( '%T' , 3600000 ) ).to.be( '1:00:00' ) ;
 		expect( format( '%T' , 3599999 ) ).to.be( '59:59' ) ;
 		expect( format( '%T' , 7890000 ) ).to.be( '2:11:30' ) ;
+
+		expect( format( '%[c]T' , 120000 ) ).to.be( '2:00' ) ;
+		expect( format( '%[c]T' , 119900 ) ).to.be( '2:00' ) ;
+
+		expect( format( '%T' , -120000 ) ).to.be( '-2:00' ) ;
+		expect( format( '%T' , -119900 ) ).to.be( '-2:00' ) ;
 	} ) ;
 
 	it( "%z should format as base64" , () => {

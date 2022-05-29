@@ -60,6 +60,12 @@ StringNumber.prototype.set = function( number ) {
 
 	number = + number ;
 
+	// Reset anything, if it was already used...
+	this.sign = 1 ;
+	this.digits.length = 0 ;
+	this.exposant = 0 ;
+	this.special = null ;
+
 	if ( ! Number.isFinite( number ) ) {
 		this.special = number ;
 		return null ;
@@ -300,6 +306,8 @@ StringNumber.prototype.precision = function( n , type = 0 ) {
 	if ( this.special !== null || n >= this.digits.length ) { return this ; }
 
 	if ( n < 0 ) { this.digits.length = 0 ; return this ; }
+
+	type *= this.sign ;
 
 	if ( type < 0 ) {
 		roundUp =
@@ -1664,32 +1672,61 @@ modes.t = ( arg , modeArg , useLetters = true ) => {
 	if ( typeof arg !== 'number' ) { return '(NaN)' ; }
 
 	var h , min , s , sn , sStr ,
+		sign = '' ,
 		subModes = timeModeArg( modeArg ) ,
+		roundingType = subModes.roundingType ,
 		hSeparator = useLetters ? 'h' : ':' ,
 		minSeparator = useLetters ? 'min' : ':' ,
 		sSeparator = useLetters ? 's' : '.' ,
 		forceDecimalSeparator = useLetters ;
 
 	s = arg / 1000 ;
+
+	if ( s < 0 ) {
+		s = -s ;
+		roundingType *= -1 ;
+		sign = '-' ;
+	}
+
 	if ( s < 60 && ! subModes.forceMinutes ) {
 		sn = new StringNumber( s , sSeparator , undefined , forceDecimalSeparator ) ;
-		sn.round( subModes.rounding , subModes.roundingType ) ;
-		sStr = sn.toString( 1 , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
-		return sStr ;
+		sn.round( subModes.rounding , roundingType ) ;
+
+		// Check if rounding has made it reach 60
+		if ( sn.toNumber() < 60 ) {
+			sStr = sn.toString( 1 , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
+			return sign + sStr ;
+		}
+
+		s = 60 ;
+
 	}
 
 	min = Math.floor( s / 60 ) ;
 	s = s % 60 ;
 
 	sn = new StringNumber( s , sSeparator , undefined , forceDecimalSeparator ) ;
-	sn.round( subModes.rounding , subModes.roundingType ) ;
-	sStr = sn.toString( 2 , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
+	sn.round( subModes.rounding , roundingType ) ;
 
-	if ( min < 60 && ! subModes.forceHours ) { return min + minSeparator + sStr ; }
+	// Check if rounding has made it reach 60
+	if ( sn.toNumber() < 60 ) {
+		sStr = sn.toString( 2 , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
+	}
+	else {
+		min ++ ;
+		s = 0 ;
+		sn.set( s ) ;
+		sStr = sn.toString( 2 , subModes.rightPadding , subModes.rightPaddingOnlyIfDecimal ) ;
+	}
+
+	if ( min < 60 && ! subModes.forceHours ) {
+		return sign + min + minSeparator + sStr ;
+	}
 
 	h = Math.floor( min / 60 ) ;
 	min = min % 60 ;
-	return h + hSeparator + ( '' + min ).padStart( 2 , '0' ) + minSeparator + sStr ;
+
+	return sign + h + hSeparator + ( '' + min ).padStart( 2 , '0' ) + minSeparator + sStr ;
 } ;
 
 modes.t.noSanitize = true ;

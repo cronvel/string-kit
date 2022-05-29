@@ -1,4 +1,10 @@
 
+v0.16.6
+-------
+
+Format %t and %T: fix rounding error making it possible to display 60s instead of the incremented minute, fix sign
+
+
 v0.16.5
 -------
 
