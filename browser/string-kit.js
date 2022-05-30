@@ -924,8 +924,7 @@ const StringNumber = require( './StringNumber.js' ) ;
 	%U		unsigned positive integer (>0)
 	%P		number to (absolute) percent (e.g.: 0.75 -> 75%)
 	%p		number to relative percent (e.g.: 1.25 -> +25% ; 0.75 -> -25%)
-	%t		time duration, convert ms into h min s, e.g.: 2h14min52s
-	%T		time duration, convert ms into H:min:s, e.g.: 2:14:52
+	%t		time duration, convert ms into h min s, e.g.: 2h14min52s or 2:14:52
 	%m		convert degree into degree, minutes and seconds
 	%h		hexadecimal (input is a number)
 	%x		hexadecimal (input is a number), force pair of symbols (e.g. 'f' -> '0f')
@@ -1667,7 +1666,7 @@ modes.m.noSanitize = true ;
 // time duration, transform ms into H:min:s
 // Later it should format Date as well: number=duration, date object=date
 // Note that it would not replace moment.js, but it could uses it.
-modes.t = ( arg , modeArg , useLetters = true ) => {
+modes.t = ( arg , modeArg ) => {
 	if ( typeof arg === 'string' ) { arg = parseFloat( arg ) ; }
 	if ( typeof arg !== 'number' ) { return '(NaN)' ; }
 
@@ -1675,10 +1674,10 @@ modes.t = ( arg , modeArg , useLetters = true ) => {
 		sign = '' ,
 		subModes = timeModeArg( modeArg ) ,
 		roundingType = subModes.roundingType ,
-		hSeparator = useLetters ? 'h' : ':' ,
-		minSeparator = useLetters ? 'min' : ':' ,
-		sSeparator = useLetters ? 's' : '.' ,
-		forceDecimalSeparator = useLetters ;
+		hSeparator = subModes.useAbbreviation ? 'h' : ':' ,
+		minSeparator = subModes.useAbbreviation ? 'min' : ':' ,
+		sSeparator = subModes.useAbbreviation ? 's' : '.' ,
+		forceDecimalSeparator = subModes.useAbbreviation ;
 
 	s = arg / 1000 ;
 
@@ -1730,9 +1729,6 @@ modes.t = ( arg , modeArg , useLetters = true ) => {
 } ;
 
 modes.t.noSanitize = true ;
-
-modes.T = ( arg , modeArg ) => modes.t( arg , modeArg , false ) ;
-modes.T.noSanitize = true ;
 
 
 
@@ -1866,20 +1862,14 @@ modes.D.noSanitize = true ;
 const COMMON_MODE_ARG_FORMAT_REGEX = /([a-zA-Z])(.[^a-zA-Z]*)/g ;
 
 // The format for specific mode arg
-const MODE_ARG_FORMAT_REGEX = /([a-zA-Z]|^)(.[^a-zA-Z]*)/g ;
+const MODE_ARG_FORMAT_REGEX = /([a-zA-Z]|^)([^a-zA-Z]*)/g ;
 
 
 
 // Called when there is a modeArg and the mode allow common mode arg
 // CONVENTION: reserve upper-cased letters for common mode arg
 function commonModeArg( str , modeArg ) {
-	var match , k , v ;
-
-	COMMON_MODE_ARG_FORMAT_REGEX.lastIndex = 0 ;
-
-	while ( ( match = COMMON_MODE_ARG_FORMAT_REGEX.exec( modeArg ) ) ) {
-		[ , k , v ] = match ;
-
+	for ( let [ , k , v ] of modeArg.matchAll( COMMON_MODE_ARG_FORMAT_REGEX ) ) {
 		if ( k === 'L' ) {
 			let width = unicode.width( str ) ;
 			v = + v || 1 ;
@@ -1920,8 +1910,6 @@ const FLOAT_MODES = {
 
 // Generic number modes
 function floatModeArg( modeArg ) {
-	var match , k , v , lv ;
-
 	FLOAT_MODES.leftPadding = 1 ;
 	FLOAT_MODES.rightPadding = 0 ;
 	FLOAT_MODES.rightPaddingOnlyIfDecimal = false ;
@@ -1930,11 +1918,7 @@ function floatModeArg( modeArg ) {
 	FLOAT_MODES.groupSeparator = '' ;
 
 	if ( modeArg ) {
-		MODE_ARG_FORMAT_REGEX.lastIndex = 0 ;
-
-		while ( ( match = MODE_ARG_FORMAT_REGEX.exec( modeArg ) ) ) {
-			[ , k , v ] = match ;
-
+		for ( let [ , k , v ] of modeArg.matchAll( MODE_ARG_FORMAT_REGEX ) ) {
 			if ( k === 'z' ) {
 				// Zero-left padding
 				FLOAT_MODES.leftPadding = + v ;
@@ -1944,13 +1928,9 @@ function floatModeArg( modeArg ) {
 				FLOAT_MODES.groupSeparator = v || ' ' ;
 			}
 			else if ( ! k ) {
-				if ( v === 'g' ) {
-					// Group separator
-					FLOAT_MODES.groupSeparator = ' ' ;
-				}
-				else if ( v[ 0 ] === '.' ) {
+				if ( v[ 0 ] === '.' ) {
 					// Rounding after the decimal
-					lv = v[ v.length - 1 ] ;
+					let lv = v[ v.length - 1 ] ;
 
 					// Zero-right padding?
 					if ( lv === '!' ) {
@@ -1982,6 +1962,7 @@ function floatModeArg( modeArg ) {
 
 
 const TIME_MODES = {
+	useAbbreviation: false ,
 	rightPadding: 0 ,
 	rightPaddingOnlyIfDecimal: false ,
 	rounding: 0 ,
@@ -1990,24 +1971,16 @@ const TIME_MODES = {
 	forceMinutes: false
 } ;
 
-const TIME_MODE_ARG_FORMAT_REGEX = /([a-zA-Z]|^)([^a-zA-Z]*)/g ;
-
 // Generic number modes
 function timeModeArg( modeArg ) {
-	var match , k , v , lv ;
-
 	TIME_MODES.rightPadding = 0 ;
 	TIME_MODES.rightPaddingOnlyIfDecimal = false ;
 	TIME_MODES.rounding = 0 ;
 	TIME_MODES.roundingType = -1 ;
-	TIME_MODES.forceHours = TIME_MODES.forceMinutes = false ;
+	TIME_MODES.useAbbreviation = TIME_MODES.forceHours = TIME_MODES.forceMinutes = false ;
 
 	if ( modeArg ) {
-		TIME_MODE_ARG_FORMAT_REGEX.lastIndex = 0 ;
-
-		while ( ( match = TIME_MODE_ARG_FORMAT_REGEX.exec( modeArg ) ) ) {
-			[ , k , v ] = match ;
-
+		for ( let [ , k , v ] of modeArg.matchAll( MODE_ARG_FORMAT_REGEX ) ) {
 			if ( k === 'h' ) {
 				TIME_MODES.forceHours = TIME_MODES.forceMinutes = true ;
 			}
@@ -2023,10 +1996,13 @@ function timeModeArg( modeArg ) {
 			else if ( k === 'c' ) {
 				TIME_MODES.roundingType = 1 ;
 			}
+			else if ( k === 'a' ) {
+				TIME_MODES.useAbbreviation = true ;
+			}
 			else if ( ! k ) {
 				if ( v[ 0 ] === '.' ) {
 					// Rounding after the decimal
-					lv = v[ v.length - 1 ] ;
+					let lv = v[ v.length - 1 ] ;
 
 					// Zero-right padding?
 					if ( lv === '!' ) {
@@ -2051,18 +2027,13 @@ function timeModeArg( modeArg ) {
 
 // Generic inspect
 function genericInspectMode( arg , modeArg , options , modeOptions , isInspectError = false ) {
-	var match , k , v ,
-		outputMaxLength ,
+	var outputMaxLength ,
 		maxLength ,
 		depth = 3 ,
 		style = options && options.color ? 'color' : 'none' ;
 
 	if ( modeArg ) {
-		MODE_ARG_FORMAT_REGEX.lastIndex = 0 ;
-
-		while ( ( match = MODE_ARG_FORMAT_REGEX.exec( modeArg ) ) ) {
-			[ , k , v ] = match ;
-
+		for ( let [ , k , v ] of modeArg.matchAll( MODE_ARG_FORMAT_REGEX ) ) {
 			if ( k === 'c' ) {
 				if ( v === '+' ) { style = 'color' ; }
 				else if ( v === '-' ) { style = 'none' ; }

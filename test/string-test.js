@@ -360,66 +360,66 @@ describe( "format()" , () => {
 	} ) ;
 	
 	it( "%t should format time duration" , () => {
-		expect( format( '%t' , 1000 ) ).to.be( '1s' ) ;
-		expect( format( '%t' , 1234 ) ).to.be( '1s' ) ;
-		expect( format( '%t' , 60000 ) ).to.be( '1min00s' ) ;
-		expect( format( '%t' , 123456 ) ).to.be( '2min03s' ) ;
-		expect( format( '%t' , 3600000 ) ).to.be( '1h00min00s' ) ;
-		expect( format( '%t' , 3599999 ) ).to.be( '59min59s' ) ;
-		expect( format( '%t' , 7890000 ) ).to.be( '2h11min30s' ) ;
+		expect( format( '%t' , 1000 ) ).to.be( '1' ) ;
+		expect( format( '%t' , 1234 ) ).to.be( '1' ) ;
+		expect( format( '%[m]t' , 1234 ) ).to.be( '0:01' ) ;
+		expect( format( '%[.1m]t' , 1234 ) ).to.be( '0:01.2' ) ;
+		expect( format( '%[.2m]t' , 1234 ) ).to.be( '0:01.23' ) ;
+		expect( format( '%[.3m]t' , 1234 ) ).to.be( '0:01.234' ) ;
+		expect( format( '%[.3m]t' , 1200 ) ).to.be( '0:01.2' ) ;
+		expect( format( '%[.3!m]t' , 1200 ) ).to.be( '0:01.200' ) ;
+		expect( format( '%t' , 60000 ) ).to.be( '1:00' ) ;
+		expect( format( '%t' , 123456 ) ).to.be( '2:03' ) ;
+		expect( format( '%t' , 3600000 ) ).to.be( '1:00:00' ) ;
+		expect( format( '%t' , 3599999 ) ).to.be( '59:59' ) ;
+		expect( format( '%t' , 7890000 ) ).to.be( '2:11:30' ) ;
+
+		expect( format( '%[c]t' , 120000 ) ).to.be( '2:00' ) ;
+		expect( format( '%[c]t' , 119900 ) ).to.be( '2:00' ) ;
+
+		expect( format( '%t' , -120000 ) ).to.be( '-2:00' ) ;
+		expect( format( '%t' , -119900 ) ).to.be( '-2:00' ) ;
+
+		// With abbreviations
+		
+		expect( format( '%[a]t' , 1000 ) ).to.be( '1s' ) ;
+		expect( format( '%[a]t' , 1234 ) ).to.be( '1s' ) ;
+		expect( format( '%[a]t' , 60000 ) ).to.be( '1min00s' ) ;
+		expect( format( '%[a]t' , 123456 ) ).to.be( '2min03s' ) ;
+		expect( format( '%[a]t' , 3600000 ) ).to.be( '1h00min00s' ) ;
+		expect( format( '%[a]t' , 3599999 ) ).to.be( '59min59s' ) ;
+		expect( format( '%[a]t' , 7890000 ) ).to.be( '2h11min30s' ) ;
 
 		// Rounding
-		expect( format( '%t' , 56789 ) ).to.be( '56s' ) ;
-		expect( format( '%[r]t' , 56789 ) ).to.be( '57s' ) ;
-		expect( format( '%[f]t' , 56789 ) ).to.be( '56s' ) ;
-		expect( format( '%[c]t' , 56789 ) ).to.be( '57s' ) ;
+		expect( format( '%[a]t' , 56789 ) ).to.be( '56s' ) ;
+		expect( format( '%[ar]t' , 56789 ) ).to.be( '57s' ) ;
+		expect( format( '%[af]t' , 56789 ) ).to.be( '56s' ) ;
+		expect( format( '%[ac]t' , 56789 ) ).to.be( '57s' ) ;
 
-		expect( format( '%t' , 56389 ) ).to.be( '56s' ) ;
-		expect( format( '%[r]t' , 56389 ) ).to.be( '56s' ) ;
-		expect( format( '%[f]t' , 56389 ) ).to.be( '56s' ) ;
-		expect( format( '%[c]t' , 56389 ) ).to.be( '57s' ) ;
+		expect( format( '%[a]t' , 56389 ) ).to.be( '56s' ) ;
+		expect( format( '%[ar]t' , 56389 ) ).to.be( '56s' ) ;
+		expect( format( '%[af]t' , 56389 ) ).to.be( '56s' ) ;
+		expect( format( '%[ac]t' , 56389 ) ).to.be( '57s' ) ;
 
-		expect( format( '%t' , 56000.01 ) ).to.be( '56s' ) ;
-		expect( format( '%[r]t' , 56000.01 ) ).to.be( '56s' ) ;
-		expect( format( '%[f]t' , 56000.01 ) ).to.be( '56s' ) ;
-		expect( format( '%[c]t' , 56000.01 ) ).to.be( '57s' ) ;
+		expect( format( '%[a]t' , 56000.01 ) ).to.be( '56s' ) ;
+		expect( format( '%[ar]t' , 56000.01 ) ).to.be( '56s' ) ;
+		expect( format( '%[af]t' , 56000.01 ) ).to.be( '56s' ) ;
+		expect( format( '%[ac]t' , 56000.01 ) ).to.be( '57s' ) ;
 
-		expect( format( '%t' , 56000.001 ) ).to.be( '56s' ) ;
-		expect( format( '%[r]t' , 56000.001 ) ).to.be( '56s' ) ;
-		expect( format( '%[f]t' , 56000.001 ) ).to.be( '56s' ) ;
-		expect( format( '%[c]t' , 56000.001 ) ).to.be( '56s' ) ;
+		expect( format( '%[a]t' , 56000.001 ) ).to.be( '56s' ) ;
+		expect( format( '%[ar]t' , 56000.001 ) ).to.be( '56s' ) ;
+		expect( format( '%[af]t' , 56000.001 ) ).to.be( '56s' ) ;
+		expect( format( '%[ac]t' , 56000.001 ) ).to.be( '56s' ) ;
 
-		expect( format( '%t' , 56999.99 ) ).to.be( '57s' ) ;
-		expect( format( '%[r]t' , 56999.99 ) ).to.be( '57s' ) ;
-		expect( format( '%[f]t' , 56999.99 ) ).to.be( '57s' ) ;
-		expect( format( '%[c]t' , 56999.99 ) ).to.be( '57s' ) ;
+		expect( format( '%[a]t' , 56999.99 ) ).to.be( '57s' ) ;
+		expect( format( '%[ar]t' , 56999.99 ) ).to.be( '57s' ) ;
+		expect( format( '%[af]t' , 56999.99 ) ).to.be( '57s' ) ;
+		expect( format( '%[ac]t' , 56999.99 ) ).to.be( '57s' ) ;
 
-		expect( format( '%t' , 56999.98 ) ).to.be( '56s' ) ;
-		expect( format( '%[r]t' , 56999.98 ) ).to.be( '57s' ) ;
-		expect( format( '%[f]t' , 56999.98 ) ).to.be( '56s' ) ;
-		expect( format( '%[c]t' , 56999.98 ) ).to.be( '57s' ) ;
-	} ) ;
-	
-	it( "%T should format time duration" , () => {
-		expect( format( '%T' , 1000 ) ).to.be( '1' ) ;
-		expect( format( '%T' , 1234 ) ).to.be( '1' ) ;
-		expect( format( '%[m]T' , 1234 ) ).to.be( '0:01' ) ;
-		expect( format( '%[.1m]T' , 1234 ) ).to.be( '0:01.2' ) ;
-		expect( format( '%[.2m]T' , 1234 ) ).to.be( '0:01.23' ) ;
-		expect( format( '%[.3m]T' , 1234 ) ).to.be( '0:01.234' ) ;
-		expect( format( '%[.3m]T' , 1200 ) ).to.be( '0:01.2' ) ;
-		expect( format( '%[.3!m]T' , 1200 ) ).to.be( '0:01.200' ) ;
-		expect( format( '%T' , 60000 ) ).to.be( '1:00' ) ;
-		expect( format( '%T' , 123456 ) ).to.be( '2:03' ) ;
-		expect( format( '%T' , 3600000 ) ).to.be( '1:00:00' ) ;
-		expect( format( '%T' , 3599999 ) ).to.be( '59:59' ) ;
-		expect( format( '%T' , 7890000 ) ).to.be( '2:11:30' ) ;
-
-		expect( format( '%[c]T' , 120000 ) ).to.be( '2:00' ) ;
-		expect( format( '%[c]T' , 119900 ) ).to.be( '2:00' ) ;
-
-		expect( format( '%T' , -120000 ) ).to.be( '-2:00' ) ;
-		expect( format( '%T' , -119900 ) ).to.be( '-2:00' ) ;
+		expect( format( '%[a]t' , 56999.98 ) ).to.be( '56s' ) ;
+		expect( format( '%[ar]t' , 56999.98 ) ).to.be( '57s' ) ;
+		expect( format( '%[af]t' , 56999.98 ) ).to.be( '56s' ) ;
+		expect( format( '%[ac]t' , 56999.98 ) ).to.be( '57s' ) ;
 	} ) ;
 
 	it( "%z should format as base64" , () => {

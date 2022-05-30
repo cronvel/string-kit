@@ -1,4 +1,11 @@
 
+v0.17.0
+-------
+
+BREAKING CHANGE -- .format(): rationalize the %t format, remove the %T format, now %t have the same behaviour of the (recently added now removed) %T format, to have time expressed with h min and s separators instead of the colon, pass the 'a' mode (a for abbreviation), e.g.: %[a]t
+modes parser changed to support single letter modes with no values
+
+
 v0.16.6
 -------
 
