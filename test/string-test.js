@@ -1042,7 +1042,6 @@ describe( "Wordwrap" , () => {
 
 
 describe( "inspect()" , () => {
-
 	it( "should inspect a variable with default options accordingly" , () => {
 		var MyClass = function MyClass() {
 			this.variable = 1 ;
@@ -1133,13 +1132,32 @@ describe( "inspect()" , () => {
 		expect( string.inspect( { useInspectPropertyBlackList: true } , new Obj() ) ).to.be( '<Obj> <object> {\n    name: "bob" <string>(3)\n}\n' ) ;
 	} ) ;
 
+
 	it( "special objects tests (ES6 Set & Map, MongoDB ObjectID)" ) ;
 } ) ;
 
 
 
-describe( "Title case" , () => {
+describe( "inspectError()" , () => {
+	it( "should inspect error" , () => {
+		var e1 = new Error( 'Error1!' ) ,
+			e2 = new Error( 'Error2!' ) ,
+			e3 = new Error( 'Error3!' ) ,
+			ae = new AggregateError( [e1,e2,e3] , 'Aggregated Error!' ) ;
 
+		// /!\ Assert should support startsWith and endsWith
+		expect( string.inspectError( e1 ).startsWith( "Error [Error]: Error1!\n" ) ).to.be.true() ;
+		expect( string.inspectError( ae ).startsWith( "AggregateError [AggregateError]: Aggregated Error!\n" ) ).to.be.true() ;
+
+		expect( string.inspectError( 'string error!' ) ).to.be( "[not an Error] string error!\n" ) ;
+		expect( string.inspectError( { name: 'Err' , message: 'Wooops!' } ) ).to.be( "[not an Error] Object [Err]: Wooops!\n" ) ;
+		expect( string.inspectError( { a: 1 , b: 2 } ) ).to.be( "[not an Error] <Object> <object> {\n    a: 1 <number>\n    b: 2 <number>\n}\n" ) ;
+	} ) ;
+} ) ;
+
+
+
+describe( "Title case" , () => {
 	it( "Basic .toTitleCase() usages" , () => {
 		expect( string.toTitleCase( 'bob bill booo électron hétérogénéité ALLCAPS McDowell jean-michel' ) )
 			.to.be( 'Bob Bill Booo Électron Hétérogénéité ALLCAPS McDowell Jean-Michel' ) ;

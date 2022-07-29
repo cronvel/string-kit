@@ -1,4 +1,10 @@
 
+v0.17.1
+-------
+
+.inspectError(): Better fallback for non-Error inspection
+
+
 v0.17.0
 -------
 
