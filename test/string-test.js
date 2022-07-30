@@ -1146,8 +1146,8 @@ describe( "inspectError()" , () => {
 			ae = new AggregateError( [e1,e2,e3] , 'Aggregated Error!' ) ;
 
 		// /!\ Assert should support startsWith and endsWith
-		expect( string.inspectError( e1 ).startsWith( "Error [Error]: Error1!\n" ) ).to.be.true() ;
-		expect( string.inspectError( ae ).startsWith( "AggregateError [AggregateError]: Aggregated Error!\n" ) ).to.be.true() ;
+		expect( string.inspectError( e1 ) ).to.start.with( "Error [Error]: Error1!\n" ) ;
+		expect( string.inspectError( ae ) ).to.start.with( "AggregateError [AggregateError]: Aggregated Error!\n" ) ;
 
 		expect( string.inspectError( 'string error!' ) ).to.be( "[not an Error] string error!\n" ) ;
 		expect( string.inspectError( { name: 'Err' , message: 'Wooops!' } ) ).to.be( "[not an Error] Object [Err]: Wooops!\n" ) ;
