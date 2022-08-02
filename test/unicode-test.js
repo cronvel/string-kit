@@ -182,10 +182,15 @@ describe( "Unicode" , () => {
 		expect( string.unicode.isFullWidth( '䷆' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '🔴' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( '😀' ) ).to.be( true ) ;
-
+		
 		expect( string.unicode.isFullWidth( '＠＠' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( 'a＠' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠a' ) ).to.be( true ) ;
+	} ) ;
+
+	it.optional( "unicode.isFullWidth() and emojis that are normal-size (UNDETECTED YET)" , () => {
+		expect( string.unicode.isFullWidth( '♡' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '♥️' ) ).to.be( false ) ;
 	} ) ;
 
 	it( "unicode.isDiacritic()" , () => {
@@ -202,6 +207,8 @@ describe( "Unicode" , () => {
 		expect( string.unicode.isEmoji( '䷆' ) ).to.be( false ) ;
 		expect( string.unicode.isEmoji( '🔴' ) ).to.be( true ) ;
 		expect( string.unicode.isEmoji( '😀' ) ).to.be( true ) ;
+		expect( string.unicode.isEmoji( '♡' ) ).to.be( true ) ;
+		expect( string.unicode.isEmoji( '♥️' ) ).to.be( true ) ;
 	} ) ;
 
 	it( ".toFullWidth() should transform a character to its full-width variant, if it exist" , () => {
