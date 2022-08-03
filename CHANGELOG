@@ -1,4 +1,10 @@
 
+v0.17.2
+-------
+
+The lib is now using a lookup table for emoji width (created by a Terminal-Kit script)
+
+
 v0.17.1
 -------
 

@@ -180,17 +180,22 @@ describe( "Unicode" , () => {
 		expect( string.unicode.isFullWidth( '𝌆' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '備' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( '䷆' ) ).to.be( false ) ;
-		expect( string.unicode.isFullWidth( '🔴' ) ).to.be( true ) ;
-		expect( string.unicode.isFullWidth( '😀' ) ).to.be( true ) ;
 		
 		expect( string.unicode.isFullWidth( '＠＠' ) ).to.be( true ) ;
 		expect( string.unicode.isFullWidth( 'a＠' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '＠a' ) ).to.be( true ) ;
 	} ) ;
 
-	it.optional( "unicode.isFullWidth() and emojis that are normal-size (UNDETECTED YET)" , () => {
+	it( "unicode.isFullWidth() and emojis" , () => {
+		expect( string.unicode.isFullWidth( '●' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '║' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '▲' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '⡓' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '♥' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '♡' ) ).to.be( false ) ;
 		expect( string.unicode.isFullWidth( '♥️' ) ).to.be( false ) ;
+		expect( string.unicode.isFullWidth( '🔴' ) ).to.be( true ) ;
+		expect( string.unicode.isFullWidth( '😀' ) ).to.be( true ) ;
 	} ) ;
 
 	it( "unicode.isDiacritic()" , () => {
