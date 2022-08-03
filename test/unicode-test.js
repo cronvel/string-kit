@@ -225,6 +225,10 @@ describe( "Unicode" , () => {
 		expect( string.unicode.width( 'aé@à' ) ).to.be( 4 ) ;
 		expect( string.unicode.width( 'aé＠à' ) ).to.be( 5 ) ;
 		expect( string.unicode.width( 'aé汉字à' ) ).to.be( 7 ) ;
+
+		expect( string.unicode.width( '😀️' ) ).to.be( 2 ) ;
+		expect( string.unicode.width( '♥' ) ).to.be( 1 ) ;
+		expect( string.unicode.width( '♥️' ) ).to.be( 1 ) ;
 	} ) ;
 
 	it( ".charWidth() should the width of a single character" , () => {

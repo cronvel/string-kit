@@ -1,4 +1,10 @@
 
+v0.17.3
+-------
+
+Unicode: add 0xfe0f codepoint as a zero-width
+
+
 v0.17.2
 -------
 

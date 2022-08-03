@@ -3911,6 +3911,13 @@ unicode.codePointWidth = code => {
 		return 2 ;
 	}
 
+	if (
+		unicode.isEmojiModifierCodePoint( code ) ||
+		unicode.isZeroWidthDiacriticCodePoint( code )
+	) {
+		return 0 ;
+	}
+
 	return 1 ;
 } ;
 
@@ -3970,9 +3977,11 @@ unicode.isEmojiCodePoint = code =>
 	( 0x1f300 <= code && code <= 0x1f3fa ) ||
 	( 0x1f400 <= code && code <= 0x1faff ) ;
 
-// Emoji modifier (Fitzpatrick): https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Pictographs#Emoji_modifiers
+// Emoji modifier
 unicode.isEmojiModifier = char => unicode.isEmojiModifierCodePoint( char.codePointAt( 0 ) ) ;
-unicode.isEmojiModifierCodePoint = code => 0x1f3fb <= code && code <= 0x1f3ff ;
+unicode.isEmojiModifierCodePoint = code =>
+	( 0x1f3fb <= code && code <= 0x1f3ff ) ||	// (Fitzpatrick): https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Pictographs#Emoji_modifiers
+	code === 0xfe0f ;	// VARIATION SELECTOR-16 [VS16] {emoji variation selector}
 
 
 },{"./unicode-emoji-width-ranges.json":15}],17:[function(require,module,exports){
