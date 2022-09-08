@@ -1008,6 +1008,7 @@ exports.formatMethod = function( ... args ) {
 			if ( modes[ mode ] ) {
 				replacement = modes[ mode ]( arg , modeArg , this ) ;
 				if ( this.argumentSanitizer && ! modes[ mode ].noSanitize ) { replacement = this.argumentSanitizer( replacement ) ; }
+				if ( this.escapeMarkup && ! modes[ mode ].noEscapeMarkup ) { replacement = exports.escapeMarkup( replacement ) ; }
 				if ( modeArg && ! modes[ mode ].noCommonModeArg ) { replacement = commonModeArg( replacement , modeArg ) ; }
 				return replacement ;
 			}
@@ -1239,6 +1240,8 @@ exports.stripMarkup = str => str.replace( /\^\[[^\]]*]?|\^./g , match =>
 	''
 ) ;
 
+exports.escapeMarkup = str => str.replace( /\^/g , '^^' ) ;
+
 
 
 const DEFAULT_FORMATTER = {
@@ -1246,6 +1249,7 @@ const DEFAULT_FORMATTER = {
 	extraArguments: true ,
 	color: false ,
 	noMarkup: false ,
+	escapeMarkup: false ,
 	endingMarkupReset: true ,
 	startingMarkupReset: false ,
 	markupReset: ansi.reset ,
@@ -1339,8 +1343,11 @@ DEFAULT_FORMATTER.dataMarkup.bgColor = DEFAULT_FORMATTER.dataMarkup.bg ;
 
 exports.createFormatter = ( options ) => exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , options ) ) ;
 exports.format = exports.formatMethod.bind( DEFAULT_FORMATTER ) ;
-exports.formatNoMarkup = exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , { noMarkup: true } ) ) ;
 exports.format.default = DEFAULT_FORMATTER ;
+
+exports.formatNoMarkup = exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , { noMarkup: true } ) ) ;
+// For passing string to Terminal-Kit, it will interpret markup on its own
+exports.formatThirdPartyMarkup = exports.formatMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , { noMarkup: true , escapeMarkup: true } ) ) ;
 
 exports.createMarkup = ( options ) => exports.markupMethod.bind( Object.assign( {} , DEFAULT_FORMATTER , options ) ) ;
 exports.markup = exports.markupMethod.bind( DEFAULT_FORMATTER ) ;
@@ -1416,7 +1423,8 @@ modes.r.noSanitize = true ;
 // string, interpret ^ formatting
 modes.S = ( arg , modeArg , options ) => {
 	// We do the sanitizing part on our own
-	var interpret = str => exports.markupMethod.call( options , options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) ;
+	var interpret = options.escapeMarkup ? str => ( options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) :
+		str => exports.markupMethod.call( options , options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) ;
 
 	if ( typeof arg === 'string' ) { return interpret( arg ) ; }
 	if ( arg === null || arg === undefined || arg === true || arg === false ) { return '(' + arg + ')' ; }
@@ -1426,6 +1434,7 @@ modes.S = ( arg , modeArg , options ) => {
 } ;
 
 modes.S.noSanitize = true ;
+modes.S.noEscapeMarkup = true ;
 modes.S.noCommonModeArg = true ;
 
 
