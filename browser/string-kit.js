@@ -2048,6 +2048,9 @@ function genericInspectMode( arg , modeArg , options , modeOptions , isInspectEr
 				if ( v === '+' ) { style = 'color' ; }
 				else if ( v === '-' ) { style = 'none' ; }
 			}
+			else if ( k === 'i' ) {
+				style = 'inline' ;
+			}
 			else if ( k === 'l' ) {
 				// total output max length
 				outputMaxLength = parseInt( v , 10 ) || undefined ;
