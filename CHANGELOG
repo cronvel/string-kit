@@ -1,4 +1,10 @@
 
+v0.17.7
+-------
+
+.camelCaseToSeparated(): Fix acronyms issues, there are now detected and still kept uppercased
+
+
 v0.17.6
 -------
 

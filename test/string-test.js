@@ -950,6 +950,23 @@ describe( "Camel case" , () => {
 	} ) ;
 
 	//it( ".camelCaseToDashed() edge cases" , function() {} ) ;
+
+	it( ".camelCaseToSeparated() should transform a string composed of alphanum - minus - underscore to a camelCase string" , () => {
+		expect( string.camelCaseToSeparated( 'oneTwoThree' ) ).to.be( 'one two three' ) ;
+		expect( string.camelCaseToSeparated( 'OneTwoThree' ) ).to.be( 'one two three' ) ;
+		expect( string.camelCaseToSeparated( 'aDog' ) ).to.be( 'a dog' ) ;
+		expect( string.camelCaseToSeparated( 'ADog' ) ).to.be( 'a dog' ) ;
+		expect( string.camelCaseToSeparated( 'USA' ) ).to.be( 'USA' ) ;
+		expect( string.camelCaseToSeparated( 'ADogInTheUSA' ) ).to.be( 'a dog in the USA' ) ;
+		expect( string.camelCaseToSeparated( 'USAIsReady' ) ).to.be( 'USA is ready' ) ;
+		expect( string.camelCaseToSeparated( 'ADogInTheUSAIsReady' ) ).to.be( 'a dog in the USA is ready' ) ;
+
+		// No acronym mode
+		expect( string.camelCaseToSeparated( 'ADogInTheUSA' , undefined , false ) ).to.be( 'a dog in the u s a' ) ;
+		expect( string.camelCaseToSeparated( 'USAIsReady' , undefined , false ) ).to.be( 'u s a is ready' ) ;
+		expect( string.camelCaseToSeparated( 'ADogInTheUSAIsReady' , undefined , false ) ).to.be( 'a dog in the u s a is ready' ) ;
+	} ) ;
+
 } ) ;
 
 
