@@ -960,6 +960,10 @@ describe( "Camel case" , () => {
 		expect( string.camelCaseToSeparated( 'ADogInTheUSA' ) ).to.be( 'a dog in the USA' ) ;
 		expect( string.camelCaseToSeparated( 'USAIsReady' ) ).to.be( 'USA is ready' ) ;
 		expect( string.camelCaseToSeparated( 'ADogInTheUSAIsReady' ) ).to.be( 'a dog in the USA is ready' ) ;
+		expect( string.camelCaseToSeparated( 'US' ) ).to.be( 'US' ) ;
+		expect( string.camelCaseToSeparated( 'ADogInTheUS' ) ).to.be( 'a dog in the US' ) ;
+		expect( string.camelCaseToSeparated( 'USIsReady' ) ).to.be( 'US is ready' ) ;
+		expect( string.camelCaseToSeparated( 'ADogInTheUSIsReady' ) ).to.be( 'a dog in the US is ready' ) ;
 
 		// No acronym mode
 		expect( string.camelCaseToSeparated( 'ADogInTheUSA' , undefined , false ) ).to.be( 'a dog in the u s a' ) ;
