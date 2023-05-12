@@ -2779,7 +2779,14 @@ function inspect_( runtime , options , variable ) {
 				else {
 					try {
 						descriptor = Object.getOwnPropertyDescriptor( variable , propertyList[ i ] ) ;
-						if ( ! descriptor.enumerable && options.enumOnly ) { continue ; }
+
+						if ( ! descriptor ) {
+							// This could happens when the object is a Proxy with a bad implementation:
+							// it reports that key (Object.keys()) but doesn't give the descriptor for it.
+							str += ' ' + options.style.errorType( '[Bad Proxy Descriptor]' ) ;
+						}
+
+						if ( descriptor && ! descriptor.enumerable && options.enumOnly ) { continue ; }
 						keyIsProperty = ! isArray || ! descriptor.enumerable || isNaN( propertyList[ i ] ) ;
 
 						if ( ! options.noDescriptor && descriptor && ( descriptor.get || descriptor.set ) ) {

@@ -1,4 +1,10 @@
 
+v0.17.9
+-------
+
+.inspect(): fix a bug when inspecting a Proxy having a bad descriptor handler (it reports a key, but returns no descriptor for it)
+
+
 v0.17.8
 -------
 
