@@ -2583,16 +2583,21 @@ function inspect_( runtime , options , variable ) {
 		if ( runtime.descriptor ) {
 			descriptorStr = [] ;
 
-			if ( ! runtime.descriptor.configurable ) { descriptorStr.push( '-conf' ) ; }
-			if ( ! runtime.descriptor.enumerable ) { descriptorStr.push( '-enum' ) ; }
+			if ( runtime.descriptor.error ) {
+				descriptorStr = '[' + runtime.descriptor.error + ']' ;
+			}
+			else {
+				if ( ! runtime.descriptor.configurable ) { descriptorStr.push( '-conf' ) ; }
+				if ( ! runtime.descriptor.enumerable ) { descriptorStr.push( '-enum' ) ; }
 
-			// Already displayed by runtime.forceType
-			//if ( runtime.descriptor.get || runtime.descriptor.set ) { descriptorStr.push( 'getter/setter' ) ; } else
-			if ( ! runtime.descriptor.writable ) { descriptorStr.push( '-w' ) ; }
+				// Already displayed by runtime.forceType
+				//if ( runtime.descriptor.get || runtime.descriptor.set ) { descriptorStr.push( 'getter/setter' ) ; } else
+				if ( ! runtime.descriptor.writable ) { descriptorStr.push( '-w' ) ; }
 
-			//if ( descriptorStr.length ) { descriptorStr = '(' + descriptorStr.join( ' ' ) + ')' ; }
-			if ( descriptorStr.length ) { descriptorStr = descriptorStr.join( ' ' ) ; }
-			else { descriptorStr = '' ; }
+				//if ( descriptorStr.length ) { descriptorStr = '(' + descriptorStr.join( ' ' ) + ')' ; }
+				if ( descriptorStr.length ) { descriptorStr = descriptorStr.join( ' ' ) ; }
+				else { descriptorStr = '' ; }
+			}
 		}
 
 		if ( runtime.keyIsProperty ) {
@@ -2779,12 +2784,8 @@ function inspect_( runtime , options , variable ) {
 				else {
 					try {
 						descriptor = Object.getOwnPropertyDescriptor( variable , propertyList[ i ] ) ;
-
-						if ( ! descriptor ) {
-							// This could happens when the object is a Proxy with a bad implementation:
-							// it reports that key (Object.keys()) but doesn't give the descriptor for it.
-							str += ' ' + options.style.errorType( '[Bad Proxy Descriptor]' ) ;
-						}
+						// Note: descriptor can be undefined, this happens when the object is a Proxy with a bad implementation:
+						// it reports that key (Object.keys()) but doesn't give the descriptor for it.
 
 						if ( descriptor && ! descriptor.enumerable && options.enumOnly ) { continue ; }
 						keyIsProperty = ! isArray || ! descriptor.enumerable || isNaN( propertyList[ i ] ) ;
@@ -2810,7 +2811,7 @@ function inspect_( runtime , options , variable ) {
 									ancestors: nextAncestors ,
 									key: propertyList[ i ] ,
 									keyIsProperty: keyIsProperty ,
-									descriptor: options.noDescriptor ? undefined : descriptor
+									descriptor: options.noDescriptor ? undefined : descriptor || { error: "Bad Proxy Descriptor" }
 								} ,
 								options ,
 								variable[ propertyList[ i ] ]
