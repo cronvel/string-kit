@@ -1436,6 +1436,35 @@ describe( "Natural sort" , () => {
 
 
 
+describe( "Emoji" , () => {
+
+	it( ".get()" , () => {
+		expect( string.emoji.get( 'smile sunglasses' ) ).to.be( '😎' ) ;
+		expect( string.emoji.get( 'cat-grin' ) ).to.be( '😺' ) ;
+		expect( string.emoji.get( 'flag england' ) ).to.be( '🏴󠁧󠁢󠁥󠁮󠁧󠁿' ) ;
+		expect( string.emoji.get( 'dog face' ) ).to.be( '🐶' ) ;
+	} ) ;
+
+	it( "... more extensive tests..." ) ;
+} ) ;
+
+
+
+describe( "English" , () => {
+
+	it( ".undoPresentParticiple()" , () => {
+		expect( string.english.undoPresentParticiple( 'smiling' ) ).to.be( 'smile' ) ;
+		expect( string.english.undoPresentParticiple( 'raising' ) ).to.be( 'raise' ) ;
+		expect( string.english.undoPresentParticiple( 'running' ) ).to.be( 'run' ) ;
+		expect( string.english.undoPresentParticiple( 'lightning' ) ).to.be( 'lightning' ) ;
+		expect( string.english.undoPresentParticiple( 'lighting' ) ).to.be( 'light' ) ;
+	} ) ;
+
+	it( "... more extensive tests..." ) ;
+} ) ;
+
+
+
 describe( "Misc" , () => {
 
 	it( ".resize()" , () => {

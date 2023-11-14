@@ -1,4 +1,11 @@
 
+v0.18.0
+-------
+
+New: string.english namespace with .undoPresentParticiple() method
+New: string.emoji namespace with .search(), .get() and more methods
+
+
 v0.17.9
 -------
 
