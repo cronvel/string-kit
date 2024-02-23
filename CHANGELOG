@@ -1,4 +1,10 @@
 
+v0.18.1
+-------
+
+Format %n and %N now manage depth limits
+
+
 v0.18.0
 -------
 

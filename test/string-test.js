@@ -445,6 +445,7 @@ describe( "format()" , () => {
 	} ) ;
 
 	it( "%n natural" , () => {
+		expect( format( '%n' , "a string" ) ).to.be( 'a string' ) ;
 		expect( format( '%n' , 12345 ) ).to.be( '12 345' ) ;
 		expect( format( '%n' , 1.23456789 ) ).to.be( '1.235' ) ;
 		expect( format( '%n' , true ) ).to.be( 'true' ) ;
@@ -455,9 +456,18 @@ describe( "format()" , () => {
 		
 		// Object and key sorting
 		expect( format( '%n' , { bob: 3 , alice: 4 , john: 2 , jack: 3 } ) ).to.be( '{alice: 4, bob: 3, jack: 3, john: 2}' ) ;
+		expect( format( '%n' , { bob: "one" , alice: "two" } ) ).to.be( '{alice: two, bob: one}' ) ;
+
+		expect( format( '%n' , { bob: 3 , sub: { alice: 4 , jack: 3 } } ) ).to.be( '{bob: 3, sub: {alice: 4, jack: 3}}' ) ;
+		expect( format( '%n' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: { john: 2 } } } ) ).to.be( '{bob: 3, sub: {alice: 4, jack: 3, sub: {...}}}' ) ;
+		expect( format( '%[1]n' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: { john: 2 } } } ) ).to.be( '{bob: 3, sub: {...}}' ) ;
+		expect( format( '%n' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: [ 2 ] } } ) ).to.be( '{bob: 3, sub: {alice: 4, jack: 3, sub: [...]}}' ) ;
+		expect( format( '%[3]n' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: { john: 2 } } } ) ).to.be( '{bob: 3, sub: {alice: 4, jack: 3, sub: {john: 2}}}' ) ;
+		expect( format( '%[3]n' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: [ 2 ] } } ) ).to.be( '{bob: 3, sub: {alice: 4, jack: 3, sub: [2]}}' ) ;
 	} ) ;
 
 	it( "%N more natural" , () => {
+		expect( format( '%N' , "a string" ) ).to.be( 'a string' ) ;
 		expect( format( '%N' , 12345 ) ).to.be( '12 345' ) ;
 		expect( format( '%N' , 1.23456789 ) ).to.be( '1.235' ) ;
 		expect( format( '%N' , true ) ).to.be( 'true' ) ;
@@ -468,6 +478,14 @@ describe( "format()" , () => {
 
 		// Object and key sorting
 		expect( format( '%N' , { bob: 3 , alice: 4 , john: 2 , jack: 3 } ) ).to.be( 'alice: 4, bob: 3, jack: 3, john: 2' ) ;
+		expect( format( '%N' , { bob: "one" , alice: "two" } ) ).to.be( 'alice: two, bob: one' ) ;
+
+		expect( format( '%N' , { bob: 3 , sub: { alice: 4 , jack: 3 } } ) ).to.be( 'bob: 3, sub: {alice: 4, jack: 3}' ) ;
+		expect( format( '%N' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: { john: 2 } } } ) ).to.be( 'bob: 3, sub: {alice: 4, jack: 3, sub: {...}}' ) ;
+		expect( format( '%[1]N' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: { john: 2 } } } ) ).to.be( 'bob: 3, sub: {...}' ) ;
+		expect( format( '%N' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: [ 2 ] } } ) ).to.be( 'bob: 3, sub: {alice: 4, jack: 3, sub: [...]}' ) ;
+		expect( format( '%[3]N' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: { john: 2 } } } ) ).to.be( 'bob: 3, sub: {alice: 4, jack: 3, sub: {john: 2}}' ) ;
+		expect( format( '%[3]N' , { bob: 3 , sub: { alice: 4 , jack: 3 , sub: [ 2 ] } } ) ).to.be( 'bob: 3, sub: {alice: 4, jack: 3, sub: [2]}' ) ;
 	} ) ;
 	
 	it( "format.count() should count the number of arguments needed for a format's string" , () => {
