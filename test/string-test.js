@@ -359,6 +359,14 @@ describe( "format()" , () => {
 		expect( format( '%m' , - ( 1 + 59 / 60 + 59 / 3600 ) ) ).to.be( '-1°59′59″' ) ;
 	} ) ;
 	
+	it( "%T should format date/time (only minimal ISO-like format at the moment)" , () => {
+		var d = new Date( "2024-03-11 13:27:38.736" ) ;
+		expect( format( '%T' , d ) ).to.be( '2024-03-11 13:27:38' ) ;
+		expect( format( '%[D]T' , d ) ).to.be( '2024-03-11' ) ;
+		expect( format( '%[T]T' , d ) ).to.be( '13:27:38' ) ;
+		expect( format( '%1[d]T/%1[M]T/%1[Y]T' , d ) ).to.be( '11/03/2024' ) ;
+	} ) ;
+
 	it( "%t should format time duration" , () => {
 		expect( format( '%t' , 1000 ) ).to.be( '1' ) ;
 		expect( format( '%t' , 1234 ) ).to.be( '1' ) ;
