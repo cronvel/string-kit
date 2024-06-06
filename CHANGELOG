@@ -1,4 +1,10 @@
 
+v0.18.3
+-------
+
+New: .unicode.truncateLength() (alias: .unicode.truncate()), truncate a string to a character count limit (while .unicode.truncateWidth() is wide-char aware)
+
+
 v0.18.2
 -------
 

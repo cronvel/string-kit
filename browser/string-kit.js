@@ -4242,6 +4242,22 @@ unicode.length = str => {
 
 
 
+// Return a string that does not exceed the character limit
+unicode.truncateLength = unicode.truncate = ( str , limit ) => {
+	var position = 0 , length = 0 ;
+
+	for ( let char of str ) {
+		if ( length === limit ) { return str.slice( 0 , position ) ; }
+		length ++ ;
+		position += char.length ;
+	}
+
+	// The string remains unchanged
+	return str ;
+} ;
+
+
+
 // Return the width of a string in a terminal/monospace font
 unicode.width = str => {
 	// for ... of is unicode-aware
@@ -4272,9 +4288,7 @@ unicode.arrayWidth = ( array , limit ) => {
 var lastTruncateWidth = 0 ;
 unicode.getLastTruncateWidth = () => lastTruncateWidth ;
 
-
-
-// Return a string that does not exceed the limit.
+// Return a string that does not exceed the width limit (taking wide-char into considerations)
 unicode.widthLimit =	// DEPRECATED
 unicode.truncateWidth = ( str , limit ) => {
 	var char , charWidth , position = 0 ;
