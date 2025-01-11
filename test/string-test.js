@@ -249,6 +249,26 @@ describe( "format()" , () => {
 		expect( format( '%[1.]e' , 123.4567 ) ).to.be( '1.2e+2' ) ;
 	} ) ;
 	
+	it( "%V roman numeral notation" , () => {
+		expect( format( '%V' , 3 ) ).to.be( 'III' ) ;
+		expect( format( '%V' , 4 ) ).to.be( 'IV' ) ;
+		expect( format( '%V' , 6 ) ).to.be( 'VI' ) ;
+		expect( format( '%V' , 9 ) ).to.be( 'IX' ) ;
+		expect( format( '%V' , 12 ) ).to.be( 'XII' ) ;
+		expect( format( '%V' , 42 ) ).to.be( 'XLII' ) ;
+		expect( format( '%V' , 126 ) ).to.be( 'CXXVI' ) ;
+	} ) ;
+	
+	it( "%v roman numeral notation, with additive variant" , () => {
+		expect( format( '%v' , 3 ) ).to.be( 'III' ) ;
+		expect( format( '%v' , 4 ) ).to.be( 'IIII' ) ;
+		expect( format( '%v' , 6 ) ).to.be( 'VI' ) ;
+		expect( format( '%v' , 9 ) ).to.be( 'VIIII' ) ;
+		expect( format( '%v' , 12 ) ).to.be( 'XII' ) ;
+		expect( format( '%v' , 42 ) ).to.be( 'XXXXII' ) ;
+		expect( format( '%v' , 126 ) ).to.be( 'CXXVI' ) ;
+	} ) ;
+	
 	it( "%K scientific notation" , () => {
 		expect( format( '%K' , 0.001234 ) ).to.be( '1.234 × 10⁻³' ) ;
 		expect( format( '%K' , 0.01234 ) ).to.be( '1.234 × 10⁻²' ) ;

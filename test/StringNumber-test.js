@@ -360,36 +360,43 @@ describe( "StringNumber" , () => {
 	} ) ;
 
 	it( "roman numerals" , () => {
-		const ROMAN_OPTIONS = {
-			numeralZero: 'N' ,
-			placeNumerals: [
-				[ '' , 'I' , 'II' , 'III' , 'IV' , 'V' , 'VI' , 'VII' , 'VIII' , 'IX' ] ,
-				[ '' , 'X' , 'XX' , 'XXX' , 'XL' , 'L' , 'LX' , 'LXX' , 'LXXX' , 'XC' ] ,
-				[ '' , 'C' , 'CC' , 'CCC' , 'CD' , 'D' , 'DC' , 'DCC' , 'DCCC' , 'CM' ] ,
-				//[ '' , 'M' , 'MM' , 'MMM' , 'MMMM' , 'IↃↃ' , 'IↃↃCIↃ' , 'IↃↃCIↃCIↃ' , 'IↃↃCIↃCIↃCIↃ' , 'IↃↃCIↃCIↃCIↃCIↃ' ] ,
-				[ '' , 'M' , 'MM' , 'MMM' , 'MMMM' , 'ↁ' , 'ↁↀ' , 'ↁↀↀ' , 'ↁↀↀↀ' , 'ↁↀↀↀↀ' ] ,
-				//[ '' , 'CCIↃↃ' , 'CCIↃↃCCIↃↃ' , 'CCIↃↃCCIↃↃCCIↃↃ' , 'CCIↃↃCCIↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃ' , 'IↃↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃCCIↃↃCCIↃↃ' ] ,
-				//[ '' , 'CCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' ] ,
-			]
-		} ;
+		expect( StringNumber.roman( 0 ).toString() ).to.be( 'N' ) ;
+		expect( StringNumber.roman( 1 ).toString() ).to.be( 'I' ) ;
+		expect( StringNumber.roman( 2 ).toString() ).to.be( 'II' ) ;
+		expect( StringNumber.roman( 3 ).toString() ).to.be( 'III' ) ;
+		expect( StringNumber.roman( 4 ).toString() ).to.be( 'IV' ) ;
+		expect( StringNumber.roman( 5 ).toString() ).to.be( 'V' ) ;
+		expect( StringNumber.roman( 14 ).toString() ).to.be( 'XIV' ) ;
+		expect( StringNumber.roman( 16 ).toString() ).to.be( 'XVI' ) ;
+		expect( StringNumber.roman( 30 ).toString() ).to.be( 'XXX' ) ;
+		expect( StringNumber.roman( 59 ).toString() ).to.be( 'LIX' ) ;
+		expect( StringNumber.roman( 78 ).toString() ).to.be( 'LXXVIII' ) ;
+		expect( StringNumber.roman( 96 ).toString() ).to.be( 'XCVI' ) ;
+		expect( StringNumber.roman( 300 ).toString() ).to.be( 'CCC' ) ;
+		expect( StringNumber.roman( 3000 ).toString() ).to.be( 'MMM' ) ;
+		expect( StringNumber.roman( 4578 ).toString() ).to.be( 'MMMMDLXXVIII' ) ;
+		expect( StringNumber.roman( 5200 ).toString() ).to.be( 'ↁCC' ) ;
+		expect( StringNumber.roman( 8700 ).toString() ).to.be( 'ↁↀↀↀDCC' ) ;
+	} ) ;
 
-		expect( new StringNumber( 0 , ROMAN_OPTIONS ).toString() ).to.be( 'N' ) ;
-		expect( new StringNumber( 1 , ROMAN_OPTIONS ).toString() ).to.be( 'I' ) ;
-		expect( new StringNumber( 2 , ROMAN_OPTIONS ).toString() ).to.be( 'II' ) ;
-		expect( new StringNumber( 3 , ROMAN_OPTIONS ).toString() ).to.be( 'III' ) ;
-		expect( new StringNumber( 4 , ROMAN_OPTIONS ).toString() ).to.be( 'IV' ) ;
-		expect( new StringNumber( 5 , ROMAN_OPTIONS ).toString() ).to.be( 'V' ) ;
-		expect( new StringNumber( 14 , ROMAN_OPTIONS ).toString() ).to.be( 'XIV' ) ;
-		expect( new StringNumber( 16 , ROMAN_OPTIONS ).toString() ).to.be( 'XVI' ) ;
-		expect( new StringNumber( 30 , ROMAN_OPTIONS ).toString() ).to.be( 'XXX' ) ;
-		expect( new StringNumber( 59 , ROMAN_OPTIONS ).toString() ).to.be( 'LIX' ) ;
-		expect( new StringNumber( 78 , ROMAN_OPTIONS ).toString() ).to.be( 'LXXVIII' ) ;
-		expect( new StringNumber( 96 , ROMAN_OPTIONS ).toString() ).to.be( 'XCVI' ) ;
-		expect( new StringNumber( 300 , ROMAN_OPTIONS ).toString() ).to.be( 'CCC' ) ;
-		expect( new StringNumber( 3000 , ROMAN_OPTIONS ).toString() ).to.be( 'MMM' ) ;
-		expect( new StringNumber( 4578 , ROMAN_OPTIONS ).toString() ).to.be( 'MMMMDLXXVIII' ) ;
-		expect( new StringNumber( 5200 , ROMAN_OPTIONS ).toString() ).to.be( 'ↁCC' ) ;
-		expect( new StringNumber( 8700 , ROMAN_OPTIONS ).toString() ).to.be( 'ↁↀↀↀDCC' ) ;
+	it( "additive roman numerals" , () => {
+		expect( StringNumber.additiveRoman( 0 ).toString() ).to.be( 'N' ) ;
+		expect( StringNumber.additiveRoman( 1 ).toString() ).to.be( 'I' ) ;
+		expect( StringNumber.additiveRoman( 2 ).toString() ).to.be( 'II' ) ;
+		expect( StringNumber.additiveRoman( 3 ).toString() ).to.be( 'III' ) ;
+		expect( StringNumber.additiveRoman( 4 ).toString() ).to.be( 'IIII' ) ;
+		expect( StringNumber.additiveRoman( 5 ).toString() ).to.be( 'V' ) ;
+		expect( StringNumber.additiveRoman( 14 ).toString() ).to.be( 'XIIII' ) ;
+		expect( StringNumber.additiveRoman( 16 ).toString() ).to.be( 'XVI' ) ;
+		expect( StringNumber.additiveRoman( 30 ).toString() ).to.be( 'XXX' ) ;
+		expect( StringNumber.additiveRoman( 59 ).toString() ).to.be( 'LVIIII' ) ;
+		expect( StringNumber.additiveRoman( 78 ).toString() ).to.be( 'LXXVIII' ) ;
+		expect( StringNumber.additiveRoman( 96 ).toString() ).to.be( 'LXXXXVI' ) ;
+		expect( StringNumber.additiveRoman( 300 ).toString() ).to.be( 'CCC' ) ;
+		expect( StringNumber.additiveRoman( 3000 ).toString() ).to.be( 'MMM' ) ;
+		expect( StringNumber.additiveRoman( 4578 ).toString() ).to.be( 'MMMMDLXXVIII' ) ;
+		expect( StringNumber.additiveRoman( 5200 ).toString() ).to.be( 'ↁCC' ) ;
+		expect( StringNumber.additiveRoman( 8700 ).toString() ).to.be( 'ↁↀↀↀDCC' ) ;
 	} ) ;
 } ) ;
 
