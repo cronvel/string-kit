@@ -253,8 +253,11 @@ describe( "StringNumber" , () => {
 		// No leading
 		expect( new StringNumber( 0.3 ).toString( 0 ) ).to.be( '.3' ) ;
 		expect( new StringNumber( 0.03 ).toString( 0 ) ).to.be( '.03' ) ;
-		// Bug ???
-		expect( new StringNumber( 0 ).toString( 0 ) ).to.be( '' ) ;
+		expect( new StringNumber( 0.001 ).toString( 0 ) ).to.be( '.001' ) ;
+		expect( new StringNumber( 0.999 ).toString( 0 ) ).to.be( '.999' ) ;
+		expect( new StringNumber( 0 ).toString( 0 ) ).to.be( '0' ) ;
+		expect( new StringNumber( 1.3 ).toString( 0 ) ).to.be( '1.3' ) ;
+		expect( new StringNumber( 10.3 ).toString( 0 ) ).to.be( '10.3' ) ;
 	} ) ;
 
 	it( ".round()" , () => {
@@ -363,15 +366,30 @@ describe( "StringNumber" , () => {
 				[ '' , 'I' , 'II' , 'III' , 'IV' , 'V' , 'VI' , 'VII' , 'VIII' , 'IX' ] ,
 				[ '' , 'X' , 'XX' , 'XXX' , 'XL' , 'L' , 'LX' , 'LXX' , 'LXXX' , 'XC' ] ,
 				[ '' , 'C' , 'CC' , 'CCC' , 'CD' , 'D' , 'DC' , 'DCC' , 'DCCC' , 'CM' ] ,
-				[ '' , 'M' , 'MM' , 'MMM' , 'MMMM' , 'MMMMM' , 'DC' , 'DCC' , 'DCCC' , 'CM' ] ,
+				//[ '' , 'M' , 'MM' , 'MMM' , 'MMMM' , 'IↃↃ' , 'IↃↃCIↃ' , 'IↃↃCIↃCIↃ' , 'IↃↃCIↃCIↃCIↃ' , 'IↃↃCIↃCIↃCIↃCIↃ' ] ,
+				[ '' , 'M' , 'MM' , 'MMM' , 'MMMM' , 'ↁ' , 'ↁↀ' , 'ↁↀↀ' , 'ↁↀↀↀ' , 'ↁↀↀↀↀ' ] ,
+				//[ '' , 'CCIↃↃ' , 'CCIↃↃCCIↃↃ' , 'CCIↃↃCCIↃↃCCIↃↃ' , 'CCIↃↃCCIↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃ' , 'IↃↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃCCIↃↃ' , 'IↃↃↃCCIↃↃCCIↃↃCCIↃↃCCIↃↃ' ] ,
+				//[ '' , 'CCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'CCCIↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' , 'IↃↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃCCCIↃↃↃ' ] ,
 			]
 		} ;
 
 		expect( new StringNumber( 0 , ROMAN_OPTIONS ).toString() ).to.be( 'N' ) ;
+		expect( new StringNumber( 1 , ROMAN_OPTIONS ).toString() ).to.be( 'I' ) ;
+		expect( new StringNumber( 2 , ROMAN_OPTIONS ).toString() ).to.be( 'II' ) ;
 		expect( new StringNumber( 3 , ROMAN_OPTIONS ).toString() ).to.be( 'III' ) ;
+		expect( new StringNumber( 4 , ROMAN_OPTIONS ).toString() ).to.be( 'IV' ) ;
+		expect( new StringNumber( 5 , ROMAN_OPTIONS ).toString() ).to.be( 'V' ) ;
+		expect( new StringNumber( 14 , ROMAN_OPTIONS ).toString() ).to.be( 'XIV' ) ;
+		expect( new StringNumber( 16 , ROMAN_OPTIONS ).toString() ).to.be( 'XVI' ) ;
 		expect( new StringNumber( 30 , ROMAN_OPTIONS ).toString() ).to.be( 'XXX' ) ;
+		expect( new StringNumber( 59 , ROMAN_OPTIONS ).toString() ).to.be( 'LIX' ) ;
+		expect( new StringNumber( 78 , ROMAN_OPTIONS ).toString() ).to.be( 'LXXVIII' ) ;
+		expect( new StringNumber( 96 , ROMAN_OPTIONS ).toString() ).to.be( 'XCVI' ) ;
 		expect( new StringNumber( 300 , ROMAN_OPTIONS ).toString() ).to.be( 'CCC' ) ;
 		expect( new StringNumber( 3000 , ROMAN_OPTIONS ).toString() ).to.be( 'MMM' ) ;
+		expect( new StringNumber( 4578 , ROMAN_OPTIONS ).toString() ).to.be( 'MMMMDLXXVIII' ) ;
+		expect( new StringNumber( 5200 , ROMAN_OPTIONS ).toString() ).to.be( 'ↁCC' ) ;
+		expect( new StringNumber( 8700 , ROMAN_OPTIONS ).toString() ).to.be( 'ↁↀↀↀDCC' ) ;
 	} ) ;
 } ) ;
 
