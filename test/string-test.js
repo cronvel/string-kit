@@ -55,6 +55,7 @@ describe( "format()" , () => {
 		//expect( format( 'Inspect %E' , new Error( 'Some error' ) ) ).to.be( '' ) ;
 	} ) ;
 
+
 	it( "%s should format string" , () => {
 		expect( format( 'Hello %s' , 'world' ) ).to.be( 'Hello world' ) ;
 		expect( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ).to.be( 'Hello Joe Doe, how are you?' ) ;
@@ -849,6 +850,17 @@ describe( "format()" , () => {
 		expect( ansi.parse( 'Some \x1b[31m\x1b[1mred+bold\x1b[0m char' ) ).to.equal( [ { text: "Some " } , { color: 1 , text: "red+bold" , bold: true } , { text: " char" } ] ) ;
 		expect( ansi.parse( 'Some \x1b[31mred \x1b[1mred+bold\x1b[0m char' ) ).to.equal( [ { text: "Some " } , { color: 1 , text: "red " } , { color: 1 , text: "red+bold" , bold: true } , { text: " char" } ] ) ;
 	} ) ;
+
+	it( "%I and Set" , () => {
+		var object = new Set( [ "string" , 1 , 2 , 3 ] ) ;
+		expect( format( "Inspect Set: %I" , object ) ).to.be( 'Inspect Set: <Set> <object> => <Array>(4) <object> [\n    [0] "string" <string>(6)\n    [1] 1 <number>\n    [2] 2 <number>\n    [3] 3 <number>\n    length: 4 <number> <-conf -enum>\n]\n' ) ;
+	} ) ;
+
+	it( "%n/%N and Set" , () => {
+		var object = new Set( [ "apple" , "pear" , "cherry" ] ) ;
+		expect( format( "Fruits: %n" , object ) ).to.be( 'Fruits: [apple,pear,cherry]' ) ;
+		expect( format( "Fruits: %N" , object ) ).to.be( 'Fruits: apple, pear, cherry' ) ;
+	} ) ;
 } ) ;
 
 
@@ -1179,6 +1191,14 @@ describe( "inspect()" , () => {
 		expect( string.inspect( { useInspectPropertyBlackList: true } , new Obj() ) ).to.be( '<Obj> <object> {\n    name: "bob" <string>(3)\n}\n' ) ;
 	} ) ;
 
+	it( "should display Set" , () => {
+		var object = {
+			set: new Set( [ "string" , 1 , 2 , 3 ] )
+		} ;
+
+		expect( string.inspect( object ) ).to.be( '<Object> <object> {\n    set: <Set> <object> => <Array>(4) <object> [\n        [0] "string" <string>(6)\n        [1] 1 <number>\n        [2] 2 <number>\n        [3] 3 <number>\n        length: 4 <number> <-conf -enum>\n    ]\n}\n' ) ;
+		expect( string.inspect( object.set ) ).to.be( '<Set> <object> => <Array>(4) <object> [\n    [0] "string" <string>(6)\n    [1] 1 <number>\n    [2] 2 <number>\n    [3] 3 <number>\n    length: 4 <number> <-conf -enum>\n]\n' ) ;
+	} ) ;
 
 	it( "special objects tests (ES6 Set & Map, MongoDB ObjectID)" ) ;
 } ) ;
