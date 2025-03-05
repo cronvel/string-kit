@@ -55,7 +55,6 @@ describe( "format()" , () => {
 		//expect( format( 'Inspect %E' , new Error( 'Some error' ) ) ).to.be( '' ) ;
 	} ) ;
 
-
 	it( "%s should format string" , () => {
 		expect( format( 'Hello %s' , 'world' ) ).to.be( 'Hello world' ) ;
 		expect( format( 'Hello %s %s, how are you?' , 'Joe' , 'Doe' ) ).to.be( 'Hello Joe Doe, how are you?' ) ;
@@ -63,6 +62,33 @@ describe( "format()" , () => {
 		// Should ignore formatting: taking it as literal
 		expect( format( 'Hello %s' , 'w^bor^:ld' ) ).to.be( 'Hello w^bor^:ld' ) ;
 		expect( format( 'Hello %s %s, how are you?' , '^rJ^go^be' , '^rD^go^be' ) ).to.be( 'Hello ^rJ^go^be ^rD^go^be, how are you?' ) ;
+	} ) ;
+
+	it( "%s (and %S) empty syntax should replace falsy values (undefined, null, false) by an empty string" , () => {
+		expect( format( 'Hello %s %s, how are you?' , undefined , 'Doe' ) ).to.be( 'Hello (undefined) Doe, how are you?' ) ;
+		expect( format( 'Hello %s %s, how are you?' , 'Joe' , undefined ) ).to.be( 'Hello Joe (undefined), how are you?' ) ;
+		expect( format( 'Hello %s %s, how are you?' , undefined , undefined ) ).to.be( 'Hello (undefined) (undefined), how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , undefined , 'Doe' ) ).to.be( 'Hello  Doe, how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , 'Joe' , undefined ) ).to.be( 'Hello Joe , how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , undefined , undefined ) ).to.be( 'Hello  , how are you?' ) ;
+
+		expect( format( 'Hello %s %s, how are you?' , null , 'Doe' ) ).to.be( 'Hello (null) Doe, how are you?' ) ;
+		expect( format( 'Hello %s %s, how are you?' , 'Joe' , null ) ).to.be( 'Hello Joe (null), how are you?' ) ;
+		expect( format( 'Hello %s %s, how are you?' , null , null ) ).to.be( 'Hello (null) (null), how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , null , 'Doe' ) ).to.be( 'Hello  Doe, how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , 'Joe' , null ) ).to.be( 'Hello Joe , how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , null , null ) ).to.be( 'Hello  , how are you?' ) ;
+
+		expect( format( 'Hello %s %s, how are you?' , false , 'Doe' ) ).to.be( 'Hello (false) Doe, how are you?' ) ;
+		expect( format( 'Hello %s %s, how are you?' , 'Joe' , false ) ).to.be( 'Hello Joe (false), how are you?' ) ;
+		expect( format( 'Hello %s %s, how are you?' , false , false ) ).to.be( 'Hello (false) (false), how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , false , 'Doe' ) ).to.be( 'Hello  Doe, how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , 'Joe' , false ) ).to.be( 'Hello Joe , how are you?' ) ;
+		expect( format( 'Hello %[e]s %[e]s, how are you?' , false , false ) ).to.be( 'Hello  , how are you?' ) ;
+
+		expect( format( 'Hello %[e]S %[e]S, how are you?' , undefined , undefined ) ).to.be( 'Hello  , how are you?' ) ;
+		expect( format( 'Hello %[e]S %[e]S, how are you?' , null , null ) ).to.be( 'Hello  , how are you?' ) ;
+		expect( format( 'Hello %[e]S %[e]S, how are you?' , false , false ) ).to.be( 'Hello  , how are you?' ) ;
 	} ) ;
 
 	it( "%s padding syntax" , () => {

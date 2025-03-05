@@ -1743,9 +1743,12 @@ exports.format.modes = modes ;	// <-- expose modes, used by Babel-Tower for Stri
 
 
 // string
-modes.s = arg => {
+modes.s = ( arg , modeArg ) => {
+	var subModes = stringModeArg( modeArg ) ;
+
 	if ( typeof arg === 'string' ) { return arg ; }
-	if ( arg === null || arg === undefined || arg === true || arg === false ) { return '(' + arg + ')' ; }
+	if ( arg === null || arg === undefined || arg === false ) { return subModes.empty ? '' : '(' + arg + ')' ; }
+	if ( arg === true ) { return '(' + arg + ')' ; }
 	if ( typeof arg === 'number' ) { return '' + arg ; }
 	if ( typeof arg.toString === 'function' ) { return arg.toString() ; }
 	return '(' + arg + ')' ;
@@ -1758,12 +1761,15 @@ modes.r.noSanitize = true ;
 
 // string, interpret ^ formatting
 modes.S = ( arg , modeArg , options ) => {
+	var subModes = stringModeArg( modeArg ) ;
+
 	// We do the sanitizing part on our own
 	var interpret = options.escapeMarkup ? str => ( options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) :
 		str => exports.markupMethod.call( options , options.argumentSanitizer ? options.argumentSanitizer( str ) : str ) ;
 
 	if ( typeof arg === 'string' ) { return interpret( arg ) ; }
-	if ( arg === null || arg === undefined || arg === true || arg === false ) { return '(' + arg + ')' ; }
+	if ( arg === null || arg === undefined || arg === false ) { return subModes.empty ? '' : '(' + arg + ')' ; }
+	if ( arg === true ) { return '(' + arg + ')' ; }
 	if ( typeof arg === 'number' ) { return '' + arg ; }
 	if ( typeof arg.toString === 'function' ) { return interpret( arg.toString() ) ; }
 	return interpret( '(' + arg + ')' ) ;
@@ -2363,6 +2369,28 @@ function floatModeArg( modeArg ) {
 	}
 
 	return FLOAT_MODES ;
+}
+
+
+
+const STRING_MODES = {
+	empty: false
+} ;
+
+// Generic number modes
+function stringModeArg( modeArg ) {
+	STRING_MODES.empty = false ;
+
+	if ( modeArg ) {
+		for ( let [ , k , v ] of modeArg.matchAll( MODE_ARG_FORMAT_REGEX ) ) {
+			if ( k === 'e' ) {
+				// Empty mode:
+				STRING_MODES.empty = true ;
+			}
+		}
+	}
+
+	return STRING_MODES ;
 }
 
 

@@ -1,4 +1,10 @@
 
+v0.19.2
+-------
+
+New submode for specifier %s/%S: [e] for Empty, convert falsy value to empty string instead of the type name in parens, e.g.: '(null)' -> ''
+
+
 v0.19.1
 -------
 
