@@ -1,4 +1,10 @@
 
+v0.19.3
+-------
+
+Fix missing files in .npmignore, making the package lighter (#7)
+
+
 v0.19.2
 -------
 

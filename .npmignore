@@ -51,11 +51,16 @@ Thumbs.db
 
 
 # --- .gitignore
-log
-wfm.json
 test/
 doc/
 sample/
 builder/
-test
-sample
+bench/
+log/
+Makefile
+wfm.json
+documentation.md
+bdd-spec.md
+SECURITY.md
+.eslintrc.js
+.jshintrc
