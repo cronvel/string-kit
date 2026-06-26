@@ -64,3 +64,5 @@ bdd-spec.md
 SECURITY.md
 .eslintrc.js
 .jshintrc
+eslint.config.js
+esbuild.config.js

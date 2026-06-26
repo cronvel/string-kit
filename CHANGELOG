@@ -1,4 +1,10 @@
 
+v0.19.5
+-------
+
+New: format()'s specifier %f, %k, %K and %e now support '+' mode that forces a plus sign
+
+
 v0.19.3
 -------
 

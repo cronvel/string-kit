@@ -396,6 +396,23 @@ describe( "format()" , () => {
 		expect( format( '%[4]k' , 1234 ) ).to.be( '1.234k' ) ;
 	} ) ;
 
+	it( "force '+' sign (%f, %k, %K, %e)" , () => {
+		expect( format( '%[+]f' , 12.34 ) ).to.be( '+12.34' ) ;
+		expect( format( '%[+]f' , -12.34 ) ).to.be( '-12.34' ) ;
+
+		expect( format( '%[+]f' , 12.3456789 ) ).to.be( '+12.3456789' ) ;
+		expect( format( '%[+.2]f' , 12.3456789 ) ).to.be( '+12.35' ) ;
+
+		expect( format( '%[+]f' , 123456.789 ) ).to.be( '+123456.789' ) ;
+		expect( format( '%[+3.]f' , 123456.789 ) ).to.be( '+123000' ) ;
+
+		expect( format( '%[+3]f' , 12.3456789 ) ).to.be( '+12.3' ) ;
+
+		expect( format( '%[+]k' , 12345 ) ).to.be( '+12.3k' ) ;
+		expect( format( '%[+]K' , 12345 ) ).to.be( '+1.2345 × 10⁴' ) ;
+		expect( format( '%[+]e' , 12345 ) ).to.be( '+1.2345e+4' ) ;
+	} ) ;
+	
 	it( "%m degree minute seconds notation" , () => {
 		expect( format( '%m' , 0 ) ).to.be( '0°' ) ;
 		expect( format( '%m' , 10 ) ).to.be( '10°' ) ;
